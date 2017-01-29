@@ -1,12 +1,14 @@
 'use strict';
 
-//first we import our dependencies...
 var express = require('express');
-var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
+mongoose.Promise = require('bluebird');
 
 var User = require('./model/user');
 var Incident = require('./model/incident');
+
+var isAlphabeticOrSpace = require('./validations').isAlphabeticOrSpace;
 
 //and create our instances
 var app = express();
@@ -48,7 +50,7 @@ router.route('/user').get(function(req, res) {
 			res.send(err);
 		}
 
-		res.json(results)
+		res.json(results);
 	});
 });
 
@@ -58,7 +60,25 @@ router.route('/user/:userId').get(function(req, res) {
 			res.send(err);
 		}
 
-		res.json(results)
+		res.json(results);
+	});
+});
+
+router.route('/user/find/:field/:constraint').get(function(req, res) {
+	if (!isAlphabeticOrSpace(req.params.constraint)) {
+		res.status(400).send('"Constraint" constains non alphabetic characters');
+	}
+	if (!isAlphabeticOrSpace(req.params.field)) {
+		res.status(400).send('"Field" constains non alphabetic characters');
+	}
+	var opts = {};
+	opts[req.params.field] = new RegExp(req.params.constraint, "i");
+	User.find(opts, function (err, results) {
+		if (err) {
+			res.send(err);
+		}
+
+		res.json(results);
 	});
 });
 
@@ -236,6 +256,32 @@ router.route('/incident/:incidentId').delete(function(req, res) {
 				res.json({message: 'Sucessfully deleted'});
 			});
 		});
+});
+
+router.route('/incident/:incidentId').put(function(req, res) {
+	Incident.findById(req.params.incidentId, function(err, incident) {
+		if (err) {
+			res.send(err);
+		}
+
+		(req.body.insurance) ? incident.insurance = req.body.insurance : null;
+		(req.body.insurancePolicy) ? incident.insurancePolicy = req.body.insurancePolicy : null;
+		(req.body.pathology) ? incident.pathology = req.body.pathology : null;
+		(req.body.physiotherapist) ? incident.physiotherapist = req.body.physiotherapist : null;
+		(req.body.doctor) ? incident.doctor = req.body.doctor : null;
+		(req.body.startDate) ? incident.startDate = req.body.startDate : null;
+		(req.body.endDate) ? incident.endDate = req.body.endDate : null;
+		(req.body.privateNotes) ? incident.privateNotes = req.body.privateNotes : null;
+		(req.body.publicNotes) ? incident.publicNotes = req.body.publicNotes : null;
+
+		incident.save(function(err) {
+			if (err) {
+				res.send(err);
+			}
+
+			res.json({ message: 'Incident has been updated' });
+		});
+	});
 });
 
 //Use our router configuration when we call /api

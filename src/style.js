@@ -9,16 +9,17 @@ const style = {
 		textTransform:'uppercase'
 	},
 	commentList: {
-		border:'1px solid #f1f1f1',
+		border:'1px solid #e1e1e1',
 		padding:'0 12px',
 		maxHeight:'70vh',
 		overflow:'scroll'
 	},
 	comment: {
-		backgroundColor:'#fafafa',
+		display: 'block',
 		margin:'10px',
 		padding:'3px 10px',
-		fontSize:'.85rem'
+		fontSize:'.9rem',
+		fontFamily:'Helvetica, sans-serif'
 	},
 	commentForm: {
 		margin:'10px',
@@ -47,8 +48,8 @@ const style = {
 		flex:'1',
 		height:'40px',
 		margin:'5px 3px',
-		fontSize:'1rem',
-		backgroundColor:'#A3CDFD',
+		fontSize:'0.6rem',
+		backgroundColor:'#03a9f4',
 		borderRadius:'3px',
 		color:'#fff',
 		textTransform:'uppercase',
