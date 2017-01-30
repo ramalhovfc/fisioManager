@@ -1,4 +1,10 @@
 const style = {
+	mainLogo: {
+		maxWidth: '70%',
+		maxHeight: '70%',
+		display: 'block',
+		margin: '0 auto'
+	},
 	commentBox: {
 		width:'80vw',
 		margin:'0 auto',
@@ -37,7 +43,6 @@ const style = {
 	},
 	commentFormText: {
 		flex:'4',
-		minWidth:'400px',
 		margin:'3px',
 		padding:'0 10px',
 		height:'40px',

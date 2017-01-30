@@ -8,7 +8,7 @@ class UserList extends React.Component {
 	render() {
 		let userNodes = this.props.data.map(user => {
 			return (
-				<UserFoundElement key={ user['_id'] } data={ user } onClick={ this.props.onUserClick }/>
+				<UserFoundElement key={ user['_id'] } data={ user } />
 			)
 		});
 

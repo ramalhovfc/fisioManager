@@ -11,15 +11,12 @@ class UserFoundElement extends React.Component {
 
 	render() {
 		return (
-			<div className="hvr-fade" style={ style.comment } onClick={ this.onClick }>
+			<div className="hvr-fade" style={ style.comment } >
 				<b>Nome:</b> { this.props.data.name } ({ this.props.data.taxNumber })
 			</div>
 		);
 	};
 
-	onClick() {
-		this.props.onClick(this.props.data["_id"]);
-	}
 }
 
 export default UserFoundElement;

@@ -1,7 +1,9 @@
 import React from 'react';
 import axios from 'axios';
+
 import UserForm from './UserForm';
 import UserList from './UserList';
+import style from './style';
 
 class UserBrowser extends React.Component {
 	constructor() {
@@ -16,8 +18,9 @@ class UserBrowser extends React.Component {
 	render() {
 		return (
 			<div>
+				<img src="fisioeste-logo.jpg" alt="Fisioeste" style={ style.mainLogo } />
 				<UserForm onUserSubmit={ this.handleUserSubmit } onTooBroadSearch={ this.onTooBroadSearch } />
-				<UserList data={ this.state.users } onUserClick={ this.handleUserClick }/>
+				<UserList data={ this.state.users } />
 			</div>
 		);
 	}
@@ -26,12 +29,8 @@ class UserBrowser extends React.Component {
 		this.setState({ users: [] });
 	}
 
-	handleUserClick(e,f) {
-		console.log('clicked',arguments)
-	}
-
 	handleUserSubmit(search) {
-		axios.get(`${this.props.userFindUrl}/${search.field}/${search.constraint}`)
+		axios.get(`${this.props.route.userFindUrl}/${search.field}/${search.constraint}`)
 			.then(res => {
 				this.setState({ users: res.data });
 			})
