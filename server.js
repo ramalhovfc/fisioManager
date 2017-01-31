@@ -68,10 +68,12 @@ router.route('/user/:userId').get(function(req, res) {
 
 router.route('/user/find/:field/:constraint').get(function(req, res) {
 	if (!isAlphabeticOrSpace(req.params.constraint)) {
+		// res.send([]);
 		res.status(400).send('"Constraint" constains non alphabetic characters');
 		return;
 	}
 	if (!isAlphabeticOrSpace(req.params.field)) {
+		// res.send([]);
 		res.status(400).send('"Field" constains non alphabetic characters');
 		return;
 	}
@@ -171,7 +173,7 @@ router.route('/user/:userId').put(function(req, res) {
 		(req.body.telephone) ? user.telephone = req.body.telephone : null;
 		(req.body.taxNumber) ? user.taxNumber = req.body.taxNumber : null;
 		(req.body.genre) ? user.genre = req.body.genre : null;
-		(req.body.address) ? user.address = req.body.address : null;
+		(req.body.postalAddress) ? user.postalAddress = req.body.postalAddress : null;
 		(req.body.job) ? user.job = req.body.job : null;
 
 		user.save(function(err) {

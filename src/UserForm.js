@@ -6,6 +6,7 @@ class UserForm extends React.Component {
 		super(props);
 		this.state = { name: '' };
 		this.onInputChange = this.onInputChange.bind(this);
+		this.onEnter = this.onEnter.bind(this);
 	}
 
 	onInputChange(e) {
@@ -18,9 +19,13 @@ class UserForm extends React.Component {
 		this.props.onUserSubmit({ field: 'name', constraint: name });
 	}
 
+	onEnter(e) {
+		e.preventDefault();
+	}
+
 	render() {
 		return (
-			<form style={ style.commentForm } onSubmit={ this.onInputChange } >
+			<form style={ style.commentForm } onSubmit={ this.onEnter } >
 				<input
 					type='text'
 					placeholder='Inserir pelo menos 3 caracteres...'

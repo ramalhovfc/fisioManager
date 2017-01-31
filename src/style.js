@@ -6,10 +6,19 @@ const style = {
 		margin: '0 auto'
 	},
 	userDetailsContainer: {
-		margin:'10px',
+		margin: '10px',
+	},
+	incidentListContainer: {
+		marginTop: '40px',
 	},
 	usernameInUserDetails: {
 		textTransform:'uppercase'
+	},
+	incidentDetailsContainer: {
+		margin: '20px',
+	},
+	noIncidentsIncidentList: {
+		fontStyle: 'italic'
 	},
 	commentBox: {
 		width:'80vw',
@@ -58,13 +67,19 @@ const style = {
 		height:'40px',
 		borderRadius:'3px'
 	},
+	userAddButton: {
+		textTransform:'uppercase',
+		margin:'5px 3px',
+		fontSize:'1rem',
+		borderRadius:'3px',
+	},
 	commentFormPost: {
 		minWidth:'75px',
 		flex:'1',
 		height:'40px',
 		margin:'5px 3px',
 		fontSize:'1rem',
-		backgroundColor:'#03a9f4',
+		backgroundColor:'#244DB9',
 		borderRadius:'3px',
 		color:'#fff',
 		textTransform:'uppercase',

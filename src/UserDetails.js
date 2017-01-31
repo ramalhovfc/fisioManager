@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import style from './style';
+import IncidentList from './IncidentList';
 
 class UserDetails extends React.Component {
 	constructor() {
@@ -40,6 +41,8 @@ class UserDetails extends React.Component {
 						<dt>Profissão</dt>
 						<dd>{ this.state.user.job }</dd>
 					</dl>
+
+					<IncidentList />
 				</div>
 			);
 		}
