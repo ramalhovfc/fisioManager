@@ -5,6 +5,12 @@ const style = {
 		display: 'block',
 		margin: '0 auto'
 	},
+	userDetailsContainer: {
+		margin:'10px',
+	},
+	usernameInUserDetails: {
+		textTransform:'uppercase'
+	},
 	commentBox: {
 		width:'80vw',
 		margin:'0 auto',
@@ -20,12 +26,16 @@ const style = {
 		maxHeight:'70vh',
 		overflow:'scroll'
 	},
-	comment: {
+	userFoundElement: {
 		display: 'block',
 		margin:'10px',
 		padding:'3px 10px',
-		fontSize:'.9rem',
-		fontFamily:'Helvetica, sans-serif'
+	},
+	userFoundElementLink: {
+		textDecoration: 'none',
+	},
+	userBrowserError: {
+		padding: '15px'
 	},
 	commentForm: {
 		margin:'10px',
@@ -53,7 +63,7 @@ const style = {
 		flex:'1',
 		height:'40px',
 		margin:'5px 3px',
-		fontSize:'0.6rem',
+		fontSize:'1rem',
 		backgroundColor:'#03a9f4',
 		borderRadius:'3px',
 		color:'#fff',

@@ -48,6 +48,7 @@ router.route('/user').get(function(req, res) {
 	User.find(function (err, results) {
 		if (err) {
 			res.send(err);
+			return;
 		}
 
 		res.json(results);
@@ -58,6 +59,7 @@ router.route('/user/:userId').get(function(req, res) {
 	User.findById(req.params.userId, function(err, results) {
 		if (err) {
 			res.send(err);
+			return;
 		}
 
 		res.json(results);
@@ -67,15 +69,18 @@ router.route('/user/:userId').get(function(req, res) {
 router.route('/user/find/:field/:constraint').get(function(req, res) {
 	if (!isAlphabeticOrSpace(req.params.constraint)) {
 		res.status(400).send('"Constraint" constains non alphabetic characters');
+		return;
 	}
 	if (!isAlphabeticOrSpace(req.params.field)) {
 		res.status(400).send('"Field" constains non alphabetic characters');
+		return;
 	}
 	var opts = {};
 	opts[req.params.field] = new RegExp(req.params.constraint, "i");
 	User.find(opts, function (err, results) {
 		if (err) {
 			res.send(err);
+			return;
 		}
 
 		res.json(results);
@@ -88,6 +93,7 @@ router.route('/user_incidents').get(function(req, res) {
 		.exec(function(err, results) {
 			if (err) {
 				res.send(err);
+				return;
 			}
 
 			res.json(results);
@@ -100,6 +106,7 @@ router.route('/user_incidents/:userId').get(function(req, res) {
 		.exec(function(err, results) {
 			if (err) {
 				res.send(err);
+				return;
 			}
 
 			res.json(results);
@@ -135,6 +142,7 @@ router.route('/user').post(function(req, res) {
 	user.save(function(err, user) {
 		if (err) {
 			res.send(err);
+			return;
 		}
 
 		if (!user.incidents.length) {
@@ -143,6 +151,7 @@ router.route('/user').post(function(req, res) {
 			incident.save(function (err, incident) {
 				if (err) {
 					res.send(err);
+					return;
 				}
 
 				res.json({message: 'Successfully added!'});
@@ -155,6 +164,7 @@ router.route('/user/:userId').put(function(req, res) {
 	User.findById(req.params.userId, function(err, user) {
 		if (err) {
 			res.send(err);
+			return;
 		}
 
 		(req.body.name) ? user.name = req.body.name : null;
@@ -167,6 +177,7 @@ router.route('/user/:userId').put(function(req, res) {
 		user.save(function(err) {
 			if (err) {
 				res.send(err);
+				return;
 			}
 
 			res.json({ message: 'User has been updated' });
@@ -178,12 +189,14 @@ router.route('/user/:userId').delete(function(req, res) {
 	Incident.remove({ _user: req.params.userId }, function (err) {
 		if (err) {
 			res.send(err);
+			return;
 		}
 	});
 
 	User.remove({ _id: req.params.userId }, function(err, user) {
 		if (err) {
 			res.send(err);
+			return;
 		}
 
 		res.json({ message: 'User has been deleted' })
@@ -239,10 +252,12 @@ router.route('/incident/:incidentId').delete(function(req, res) {
 		.exec(function(err, incident) {
 			if (err) {
 				res.send(err);
+				return;
 			}
 
 			if (!incident) {
 				res.status(400).send('Incident not found');
+				return;
 			}
 
 			incident._user.incidents.remove(req.params.incidentId);
@@ -262,6 +277,7 @@ router.route('/incident/:incidentId').put(function(req, res) {
 	Incident.findById(req.params.incidentId, function(err, incident) {
 		if (err) {
 			res.send(err);
+			return;
 		}
 
 		(req.body.insurance) ? incident.insurance = req.body.insurance : null;
@@ -277,6 +293,7 @@ router.route('/incident/:incidentId').put(function(req, res) {
 		incident.save(function(err) {
 			if (err) {
 				res.send(err);
+				return;
 			}
 
 			res.json({ message: 'Incident has been updated' });

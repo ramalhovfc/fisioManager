@@ -1,17 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Router, Route, hashHistory} from 'react-router';
+import {Router, Route, browserHistory} from 'react-router';
+import Main from './main';
 import UserBrowser from './UserBrowser';
 import UserDetails from './UserDetails';
+import Backup from './Backup';
+import About from './About';
 
-// const userUrl='http://localhost:3001/api/user';
+const userUrl='http://localhost:3001/api/user';
+const userFindUrl='http://localhost:3001/api/user/find';
 // const incidentUrl='http://localhost:3001/api/incident';
-// const userFindUrl='http://localhost:3001/api/user/find';
 
 ReactDOM.render(
-	<Router history={hashHistory}>
-		<Route path="/" component={UserBrowser} userFindUrl="http://localhost:3001/api/user/find"/>
-		<Route path="/user" component={UserDetails} />
+	<Router history={browserHistory}>
+		<Route component={Main} >
+			<Route path="/" component={UserBrowser} userFindUrl={ userFindUrl } />
+			<Route path="/user/:user_id" component={ UserDetails } userUrl={ userUrl } />
+			<Route path="/backup" component={ Backup } />
+			<Route path="/about" component={ About } />
+		</Route>
 	</Router>,
 	document.getElementById('root')
 );
