@@ -8,8 +8,12 @@ class UserDetails extends React.Component {
 		super();
 
 		this.state = {
-			user: null
+			user: null,
+			incidents: null
 		};
+
+		this.onIncidentSave = this.onIncidentSave.bind(this);
+		this.onIncidentDetailsFieldChange = this.onIncidentDetailsFieldChange.bind(this);
 	}
 
 	componentWillMount() {
@@ -20,8 +24,24 @@ class UserDetails extends React.Component {
 	getUserDetails(userId) {
 		axios.get(`${this.props.route.userAndIncidentsFindUrl}/${userId}`)
 			.then(res => {
-				this.setState({ user: res.data });
-			})
+				this.setState({
+					user: res.data.user,
+					incidents: res.data.incidents
+				});
+			});
+	}
+
+	onIncidentSave(incident, incidentIndex) {
+		axios.put(`${this.props.route.incidentUrl}/${incident["_id"]}`, incident)
+			.then(res => {
+				var incidents = this.state.user.incidents.slice();
+				incidents[incidentIndex] = res.data;
+				this.setState({ incidents: incidents });
+			});
+	}
+
+	onIncidentDetailsFieldChange() {
+
 	}
 
 	render() {
@@ -42,7 +62,7 @@ class UserDetails extends React.Component {
 						<dd>{ this.state.user.job }</dd>
 					</dl>
 
-					<IncidentList data={ this.state.user.incidents } />
+					<IncidentList data={ this.state.incidents } onIncidentSave={ this.onIncidentSave } onIncidentDetailsFieldChange={ this.onIncidentDetailsFieldChange } />
 				</div>
 			);
 		}

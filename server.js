@@ -9,6 +9,7 @@ var User = require('./model/user');
 var Incident = require('./model/incident');
 
 var isAlphabeticOrSpace = require('./validations').isAlphabeticOrSpace;
+var isAlphabeticOrSpaceOrUnderscore = require('./validations').isAlphabeticOrSpaceOrUnderscore;
 
 //and create our instances
 var app = express();
@@ -78,7 +79,7 @@ router.route('/user/find/:field/:constraint').get(function(req, res) {
 		return;
 	}
 	var opts = {};
-	opts[req.params.field] = new RegExp(req.params.constraint, "i");
+	opts[req.params.field] = new RegExp(req.params.constraint, 'i');
 	User.find(opts, function (err, results) {
 		if (err) {
 			res.send(err);
@@ -103,15 +104,30 @@ router.route('/user_incidents').get(function(req, res) {
 });
 
 router.route('/user_incidents/:userId').get(function(req, res) {
+	var out = {
+		user: null,
+		incidents: null
+	};
+
 	User.findById(req.params.userId)
-		.populate('incidents')
 		.exec(function(err, results) {
 			if (err) {
 				res.send(err);
 				return;
 			}
 
-			res.json(results);
+			out.user = results;
+
+			var opts = { '_user': req.params.userId};
+			Incident.find(opts, function (err, results) {
+				if (err) {
+					res.send(err);
+					return;
+				}
+
+				out.incidents = results;
+				res.send(out);
+			});
 		});
 });
 
@@ -205,6 +221,32 @@ router.route('/user/:userId').delete(function(req, res) {
 	})
 });
 
+router.route('/incident/find/:field/:constraint').get(function(req, res) {
+	if (!isAlphabeticOrSpace(req.params.constraint)) {
+		res.status(400).send('"Constraint" constains non alphabetic characters');
+		return;
+	}
+	if (!isAlphabeticOrSpaceOrUnderscore(req.params.field)) {
+		res.status(400).send('"Field" constains non alphabetic characters');
+		return;
+	}
+	var opts = {};
+	if (req.params.field === '_user') {
+		// do not search by regex if we are searching by an ObjectId
+		opts[req.params.field] = req.params.constraint;
+	} else {
+		opts[req.params.field] = new RegExp(req.params.constraint, 'i');
+	}
+	Incident.find(opts, function (err, results) {
+		if (err) {
+			res.send(err);
+			return;
+		}
+
+		res.json(results);
+	});
+});
+
 router.route('/incident').post(function(req, res) {
 	if (!req.body._user) {
 		res.status(400).send('_user required');
@@ -292,13 +334,13 @@ router.route('/incident/:incidentId').put(function(req, res) {
 		(req.body.privateNotes) ? incident.privateNotes = req.body.privateNotes : null;
 		(req.body.publicNotes) ? incident.publicNotes = req.body.publicNotes : null;
 
-		incident.save(function(err) {
+		incident.save(function(err, incident) {
 			if (err) {
 				res.send(err);
 				return;
 			}
 
-			res.json({ message: 'Incident has been updated' });
+			res.json(incident);
 		});
 	});
 });
