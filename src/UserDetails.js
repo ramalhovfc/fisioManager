@@ -18,7 +18,7 @@ class UserDetails extends React.Component {
 	}
 
 	getUserDetails(userId) {
-		axios.get(`${this.props.route.userUrl}/${userId}`)
+		axios.get(`${this.props.route.userAndIncidentsFindUrl}/${userId}`)
 			.then(res => {
 				this.setState({ user: res.data });
 			})
@@ -42,7 +42,7 @@ class UserDetails extends React.Component {
 						<dd>{ this.state.user.job }</dd>
 					</dl>
 
-					<IncidentList />
+					<IncidentList data={ this.state.user.incidents } />
 				</div>
 			);
 		}

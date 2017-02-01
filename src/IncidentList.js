@@ -5,31 +5,33 @@ import IncidentDetails from './IncidentDetails';
 
 class IncidentList extends React.Component {
 	render() {
-		let incidentList;
-		if (false) {
-			incidentList = (
+		let incidentElements = this.props.data.map((incident, index) => {
+			return (
+				<Tab key={ incident['_id'] } eventKey={ index + 1 } title={ "Ficha " + (index + 1) }>
+					<IncidentDetails data={ incident } />
+				</Tab>
+			)
+		});
+
+		let incidentsComponent;
+		if (incidentElements.length) {
+			incidentsComponent = (
 				<Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
-					<Tab eventKey={1} title="Ficha 1">
-						<IncidentDetails/>
-					</Tab>
-					<Tab eventKey={2} title="Ficha 2">
-						<IncidentDetails/>
-					</Tab>
+					{ incidentElements }
 				</Tabs>
 			);
 		} else {
-			incidentList = (
+			incidentsComponent = (
 				<div style={ style.noIncidentsIncidentList }>
 					Não existem fichas
 				</div>
 			);
 		}
 
-
 		return (
 			<div style={ style.incidentListContainer }>
 				<h4>Incidentes</h4>
-				{ incidentList }
+				{ incidentsComponent }
 			</div>
 		);
 	}
