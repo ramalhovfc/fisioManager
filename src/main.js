@@ -1,6 +1,9 @@
 import React from 'react';
 import {Link} from 'react-router';
 
+// numero de sessoes
+// menu fichas abertas
+
 class Main extends React.Component {
 	render() {
 		return (

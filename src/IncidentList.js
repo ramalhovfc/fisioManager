@@ -8,7 +8,7 @@ class IncidentList extends React.Component {
 		let incidentElements = this.props.data.map((incident, index) => {
 			return (
 				<Tab key={ incident['_id'] } eventKey={ index + 1 } title={ "Ficha " + (index + 1) }>
-					<IncidentDetails data={ incident } incidentIndex={ index } onIncidentSave={ this.props.onIncidentSave } />
+					<IncidentDetails data={ incident } onIncidentSave={ this.props.onIncidentSave } onIncidentDetailsFieldChange={ this.props.onIncidentDetailsFieldChange } />
 				</Tab>
 			)
 		});
@@ -30,7 +30,6 @@ class IncidentList extends React.Component {
 
 		return (
 			<div style={ style.incidentListContainer }>
-				<h4>Incidentes</h4>
 				{ incidentsComponent }
 			</div>
 		);

@@ -1,5 +1,16 @@
 'use strict';
 
+var winston = require('winston');
+winston.add(winston.transports.File, {
+	filename: 'server.log',
+	json: false,
+	maxsize: '10000000',
+	maxFiles: '10',
+	timestamp: true,
+	level: 'debug'
+});
+winston.info('Logger initialized');
+
 var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
@@ -19,10 +30,12 @@ var router = express.Router();
 var port = process.env.API_PORT || 3001;
 
 //db config
-mongoose.connect('mongodb://localhost:27017/fisio');
+const mongoUrl = 'mongodb://127.0.0.1:27017/fisio';
+winston.info('Connecting to db', mongoUrl);
+mongoose.connect(mongoUrl);
 
 mongoose.connection.on('error', function (err) {
-	console.error('Could connect to db', err);
+	winston.error('Could connect to db', err);
 });
 
 //now we should configure the API to use bodyParser and look for JSON data in the request body
@@ -69,12 +82,10 @@ router.route('/user/:userId').get(function(req, res) {
 
 router.route('/user/find/:field/:constraint').get(function(req, res) {
 	if (!isAlphabeticOrSpace(req.params.constraint)) {
-		// res.send([]);
 		res.status(400).send('"Constraint" constains non alphabetic characters');
 		return;
 	}
 	if (!isAlphabeticOrSpace(req.params.field)) {
-		// res.send([]);
 		res.status(400).send('"Field" constains non alphabetic characters');
 		return;
 	}
