@@ -35,11 +35,8 @@ class UserDetails extends React.Component {
 		axios.put(`${this.props.route.incidentUrl}/${incident["_id"]}`, incident)
 			.then(res => {
 				var incidents = this.state.user.incidents.slice();
-				console.log('got mail',res);
 				for (let i = 0; i < incidents.length; i++) {
-					console.log('searching',incident["_id"], res.data["_id"])
 					if (incidents[i]["_id"] === res.data["_id"]) {
-						console.log('found')
 						incidents[i] = res.data;
 						this.setState({ incidents: incidents });
 						break;
@@ -48,10 +45,11 @@ class UserDetails extends React.Component {
 			});
 	}
 
-	onIncidentDetailsFieldChange(incidentId) {
+	onIncidentDetailsFieldChange(incidentProperty, value, incidentId) {
 		var incidents = this.state.incidents.slice();
 		for (let incident of incidents) {
 			if (incident["_id"] === incidentId) {
+				incident[incidentProperty] = value;
 				incident.needsSaving = true;
 				this.setState({
 					incidents: incidents

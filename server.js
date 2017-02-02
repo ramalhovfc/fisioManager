@@ -55,12 +55,14 @@ app.use(function(req, res, next) {
 });
 
 router.get('/', function(req, res) {
-	winston.debug('Get request to /', req.params, req.body);
+	winston.info('Get request to /');
+	winston.debug(req.params, req.body);
 	res.json({ message: 'API Initialized!'});
 });
 
 router.route('/user').get(function(req, res) {
-	winston.debug('Get request to /user', req.params, req.body);
+	winston.info('Get request to /user');
+	winston.debug(req.params, req.body);
 	User.find(function (err, results) {
 		if (err) {
 			res.send(err);
@@ -72,7 +74,8 @@ router.route('/user').get(function(req, res) {
 });
 
 router.route('/user/:userId').get(function(req, res) {
-	winston.debug('Get request to /user/:userId', req.params, req.body);
+	winston.info('Get request to /user/:userId');
+	winston.debug(req.params, req.body);
 	User.findById(req.params.userId, function(err, results) {
 		if (err) {
 			res.send(err);
@@ -84,7 +87,8 @@ router.route('/user/:userId').get(function(req, res) {
 });
 
 router.route('/user/find/:field/:constraint').get(function(req, res) {
-	winston.debug('Get request to /user/find/:field/:constraint', req.params, req.body);
+	winston.info('Get request to /user/find/:field/:constraint');
+	winston.debug(req.params, req.body);
 	if (!isAlphabeticOrSpace(req.params.constraint)) {
 		res.status(400).send('"Constraint" constains non alphabetic characters');
 		return;
@@ -106,7 +110,8 @@ router.route('/user/find/:field/:constraint').get(function(req, res) {
 });
 
 router.route('/user_incidents').get(function(req, res) {
-	winston.debug('Get request to /user_incidents', req.params, req.body);
+	winston.info('Get request to /user_incidents');
+	winston.debug(req.params, req.body);
 	User.find()
 		.populate('incidents')
 		.exec(function(err, results) {
@@ -120,7 +125,8 @@ router.route('/user_incidents').get(function(req, res) {
 });
 
 router.route('/user_incidents/:userId').get(function(req, res) {
-	winston.debug('Get request to /user_incidents/:userId', req.params, req.body);
+	winston.info('Get request to /user_incidents/:userId');
+	winston.debug(req.params, req.body);
 	var out = {
 		user: null,
 		incidents: null
@@ -149,7 +155,8 @@ router.route('/user_incidents/:userId').get(function(req, res) {
 });
 
 router.route('/user').post(function(req, res) {
-	winston.debug('Post request to /user', req.params, req.body);
+	winston.info('Post request to /user');
+	winston.debug(req.params, req.body);
 	var user = new User();
 	var incident = new Incident();
 
@@ -197,7 +204,8 @@ router.route('/user').post(function(req, res) {
 });
 
 router.route('/user/:userId').put(function(req, res) {
-	winston.debug('Put request to /user/:userId', req.params, req.body);
+	winston.info('Put request to /user/:userId');
+	winston.debug(req.params, req.body);
 	User.findById(req.params.userId, function(err, user) {
 		if (err) {
 			res.send(err);
@@ -223,7 +231,8 @@ router.route('/user/:userId').put(function(req, res) {
 });
 
 router.route('/user/:userId').delete(function(req, res) {
-	winston.debug('Delete request to /user_incidents', req.params, req.body);
+	winston.info('Delete request to /user_incidents');
+	winston.debug(req.params, req.body);
 	Incident.remove({ _user: req.params.userId }, function (err) {
 		if (err) {
 			res.send(err);
@@ -242,7 +251,8 @@ router.route('/user/:userId').delete(function(req, res) {
 });
 
 router.route('/incident/find/:field/:constraint').get(function(req, res) {
-	winston.debug('Get request to /incident/find/:field/:constraint', req.params, req.body);
+	winston.info('Get request to /incident/find/:field/:constraint');
+	winston.debug(req.params, req.body);
 	if (!isAlphabeticOrSpace(req.params.constraint)) {
 		res.status(400).send('"Constraint" constains non alphabetic characters');
 		return;
@@ -269,7 +279,8 @@ router.route('/incident/find/:field/:constraint').get(function(req, res) {
 });
 
 router.route('/incident').post(function(req, res) {
-	winston.debug('Post request to /incident', req.params, req.body);
+	winston.info('Post request to /incident');
+	winston.debug(req.params, req.body);
 	if (!req.body._user) {
 		res.status(400).send('_user required');
 		return;
@@ -313,7 +324,8 @@ router.route('/incident').post(function(req, res) {
 });
 
 router.route('/incident/:incidentId').delete(function(req, res) {
-	winston.debug('Delete request to /incident/:incidentId', req.params, req.body);
+	winston.info('Delete request to /incident/:incidentId');
+	winston.debug(req.params, req.body);
 	Incident.findById(req.params.incidentId)
 		.populate('_user')
 		.exec(function(err, incident) {
@@ -341,7 +353,8 @@ router.route('/incident/:incidentId').delete(function(req, res) {
 });
 
 router.route('/incident/:incidentId').put(function(req, res) {
-	winston.debug('Put request to /incident/:incidentId', req.params, req.body);
+	winston.info('Put request to /incident/:incidentId');
+	winston.debug(req.params, req.body);
 	Incident.findById(req.params.incidentId, function(err, incident) {
 		if (err) {
 			res.send(err);
