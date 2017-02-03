@@ -10,6 +10,7 @@ const PHYSIOTHERAPIST = 'physiotherapist';
 const DOCTOR = 'doctor';
 const STARTDATE = 'startDate';
 const ENDDATE = 'endDate';
+const NUMBEROFSESSIONS = 'numberOfSessions';
 const PRIVATENOTES = 'privateNotes';
 const PUBLICNOTES = 'publicNotes';
 
@@ -25,6 +26,7 @@ class IncidentDetails extends React.Component {
 		this.onIncidentDetailsDoctorChange = this.onIncidentDetailsDoctorChange.bind(this);
 		this.onIncidentDetailsStartDateChange = this.onIncidentDetailsStartDateChange.bind(this);
 		this.onIncidentDetailsEndDateChange = this.onIncidentDetailsEndDateChange.bind(this);
+		this.onIncidentDetailsNumberOfSessionsChange = this.onIncidentDetailsNumberOfSessionsChange.bind(this);
 		this.onIncidentDetailsprivateNotesChange = this.onIncidentDetailsprivateNotesChange.bind(this);
 		this.onIncidentDetailsPublicNotesChange = this.onIncidentDetailsPublicNotesChange.bind(this);
 	}
@@ -39,6 +41,7 @@ class IncidentDetails extends React.Component {
 		let doctor = (this.props.data.doctor) ? this.props.data.doctor.trim() : undefined;
 		let startDate = (this.props.data.startDate) ? this.props.data.startDate.trim() : undefined;
 		let endDate = (this.props.data.endDate) ? this.props.data.endDate.trim() : undefined;
+		let numberOfSessions = (this.props.data.numberOfSessions !== undefined && this.props.data.endDate) ? this.props.data.numberOfSessions : undefined;
 		let privateNotes = (this.props.data.privateNotes) ? this.props.data.privateNotes.trim() : undefined;
 		let publicNotes = (this.props.data.publicNotes) ? this.props.data.publicNotes.trim() : undefined;
 
@@ -51,6 +54,7 @@ class IncidentDetails extends React.Component {
 			doctor: doctor,
 			startDate: startDate,
 			endDate: endDate,
+			numberOfSessions: numberOfSessions,
 			privateNotes: privateNotes,
 			publicNotes: publicNotes
 		});
@@ -82,6 +86,10 @@ class IncidentDetails extends React.Component {
 
 	onIncidentDetailsEndDateChange(e) {
 		this.props.onIncidentDetailsFieldChange(ENDDATE, e.target.value, this.props.data["_id"]);
+	}
+
+	onIncidentDetailsNumberOfSessionsChange(e) {
+		this.props.onIncidentDetailsFieldChange(NUMBEROFSESSIONS, e.target.value, this.props.data["_id"]);
 	}
 
 	onIncidentDetailsprivateNotesChange(e) {
@@ -130,15 +138,23 @@ class IncidentDetails extends React.Component {
 					<FormGroup controlId="formHorizontal">
 						<Col componentClass={ControlLabel} sm={2}>Data início</Col>
 						<Col sm={10}>
-							<FormControl onChange={ this.onIncidentDetailsStartDateChange } type="date" placeholder="Data início" defaultValue={ this.props.data.startDate } />
+							<FormControl onChange={ this.onIncidentDetailsStartDateChange } type="date" defaultValue={ this.props.data.startDate } />
 						</Col>
 					</FormGroup>
 					<FormGroup controlId="formHorizontal">
 						<Col componentClass={ControlLabel} sm={2}>Data fim</Col>
 						<Col sm={10}>
-							<FormControl onChange={ this.onIncidentDetailsEndDateChange } type="date" placeholder="Data fim" defaultValue={ this.props.data.endDate } />
+							<FormControl onChange={ this.onIncidentDetailsEndDateChange } type="date" defaultValue={ this.props.data.endDate } />
 						</Col>
 					</FormGroup>
+					{(this.props.data.endDate)
+						? (<FormGroup controlId="formHorizontal">
+								<Col componentClass={ControlLabel} sm={2}>Número de sessões</Col>
+								<Col sm={10}>
+									<FormControl onChange={ this.onIncidentDetailsNumberOfSessionsChange } type="number" placeholder="Número de sessões" defaultValue={ this.props.data.numberOfSessions } />
+								</Col>
+							</FormGroup>)
+						: null }
 					<FormGroup controlId="formHorizontal">
 						<Col componentClass={ControlLabel} sm={2}>Notas privadas</Col>
 						<Col sm={10}>
@@ -157,6 +173,11 @@ class IncidentDetails extends React.Component {
 						style={ style.incidentSaveButton }
 						disabled={ !this.props.data.needsSaving } >
 						Guardar
+					</button>
+					<button
+						className="btn btn-primary"
+						style={ style.incidentSaveButton } >
+						Eliminar
 					</button>
 				</Form>
 			</div>

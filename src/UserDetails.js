@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import style from './style';
+import Incident from '../model/pojo/incidentPojo';
 import IncidentList from './IncidentList';
 
 class UserDetails extends React.Component {
@@ -9,10 +10,13 @@ class UserDetails extends React.Component {
 
 		this.state = {
 			user: null,
-			incidents: null
+			incidents: null,
+			tabActiveKey: 1
 		};
 
+		this.onSelectTab = this.onSelectTab.bind(this);
 		this.onIncidentSave = this.onIncidentSave.bind(this);
+		this.onAddNewIncidentClick = this.onAddNewIncidentClick.bind(this);
 		this.onIncidentDetailsFieldChange = this.onIncidentDetailsFieldChange.bind(this);
 	}
 
@@ -31,10 +35,24 @@ class UserDetails extends React.Component {
 			});
 	}
 
+	onAddNewIncidentClick() {
+		var incident = new Incident();
+		incident["_user"] = this.state.user["_id"];
+
+		axios.post(`${this.props.route.incidentUrl}`, incident)
+			.then(res => {
+				var newIncidents = this.state.incidents.concat(res.data);
+				this.setState({
+					incidents: newIncidents,
+					tabActiveKey: newIncidents.length
+				});
+			});
+	}
+
 	onIncidentSave(incident) {
 		axios.put(`${this.props.route.incidentUrl}/${incident["_id"]}`, incident)
 			.then(res => {
-				var incidents = this.state.user.incidents.slice();
+				var incidents = this.state.incidents.slice();
 				for (let i = 0; i < incidents.length; i++) {
 					if (incidents[i]["_id"] === res.data["_id"]) {
 						incidents[i] = res.data;
@@ -47,16 +65,22 @@ class UserDetails extends React.Component {
 
 	onIncidentDetailsFieldChange(incidentProperty, value, incidentId) {
 		var incidents = this.state.incidents.slice();
-		for (let incident of incidents) {
-			if (incident["_id"] === incidentId) {
-				incident[incidentProperty] = value;
-				incident.needsSaving = true;
+		for (let i = 0; i < incidents.length; i++) {
+			if (incidents[i]["_id"] === incidentId) {
+				incidents[i][incidentProperty] = value;
+				incidents[i].needsSaving = true;
 				this.setState({
 					incidents: incidents
 				});
 				break;
 			}
 		}
+	}
+
+	onSelectTab(key) {
+		this.setState({
+			tabActiveKey: key
+		});
 	}
 
 	render() {
@@ -77,7 +101,7 @@ class UserDetails extends React.Component {
 						<dd>{ this.state.user.job }</dd>
 					</dl>
 
-					<IncidentList data={ this.state.incidents } onIncidentSave={ this.onIncidentSave } onIncidentDetailsFieldChange={ this.onIncidentDetailsFieldChange } />
+					<IncidentList data={ this.state.incidents } tabActiveKey={ this.state.tabActiveKey } onSelectTab={ this.onSelectTab } onIncidentSave={ this.onIncidentSave } onIncidentDetailsFieldChange={ this.onIncidentDetailsFieldChange } onAddNewIncidentClick={ this.onAddNewIncidentClick } />
 				</div>
 			);
 		}

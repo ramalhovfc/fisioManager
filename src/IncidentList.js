@@ -16,7 +16,7 @@ class IncidentList extends React.Component {
 		let incidentsComponent;
 		if (incidentElements.length) {
 			incidentsComponent = (
-				<Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
+				<Tabs id="incident-tabs" activeKey={ this.props.tabActiveKey } onSelect={ this.props.onSelectTab }>
 					{ incidentElements }
 				</Tabs>
 			);
@@ -30,6 +30,9 @@ class IncidentList extends React.Component {
 
 		return (
 			<div style={ style.incidentListContainer }>
+				<button	type="button" className="btn btn-primary" style={ style.userAddButton } onClick={ this.props.onAddNewIncidentClick }>
+					Nova ficha
+				</button>
 				{ incidentsComponent }
 			</div>
 		);

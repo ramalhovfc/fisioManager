@@ -174,10 +174,11 @@ router.route('/user').post(function(req, res) {
 	(req.body.doctor) ? incident.doctor = req.body.doctor : null;
 	(req.body.startDate) ? incident.startDate = req.body.startDate : null;
 	(req.body.endDate) ? incident.endDate = req.body.endDate : null;
+	(req.body.numberOfSessions !== undefined && req.body.endDate) ? incident.numberOfSessions = req.body.numberOfSessions : null;
 	(req.body.privateNotes) ? incident.privateNotes = req.body.privateNotes : null;
 	(req.body.publicNotes) ? incident.publicNotes = req.body.publicNotes : null;
 
-	if (req.body.insurance || req.body.insurancePolicy || req.body.pathology || req.body.physiotherapist || req.body.doctor || req.body.startDate || req.body.endDate || req.body.privateNotes || req.body.publicNotes) {
+	if (req.body.insurance || req.body.insurancePolicy || req.body.pathology || req.body.physiotherapist || req.body.doctor || req.body.startDate || req.body.endDate || req.body.numberOfSessions || req.body.privateNotes || req.body.publicNotes) {
 		user.incidents = [ incident ];
 		incident._user = user;
 	}
@@ -306,6 +307,7 @@ router.route('/incident').post(function(req, res) {
 		(req.body.doctor) ? incident.doctor = req.body.doctor : null;
 		(req.body.startDate) ? incident.startDate = req.body.startDate : null;
 		(req.body.endDate) ? incident.endDate = req.body.endDate : null;
+		(req.body.numberOfSessions !== undefined && req.body.endDate) ? incident.numberOfSessions = req.body.numberOfSessions : null;
 		(req.body.privateNotes) ? incident.privateNotes = req.body.privateNotes : null;
 		(req.body.publicNotes) ? incident.publicNotes = req.body.publicNotes : null;
 
@@ -317,7 +319,7 @@ router.route('/incident').post(function(req, res) {
 
 			user.incidents.push(incident);
 			user.save(function (err, obj) {
-				res.json({message: 'Successfully added!'});
+				res.json(incident);
 			});
 		});
 	});
@@ -368,16 +370,17 @@ router.route('/incident/:incidentId').put(function(req, res) {
 		(req.body.doctor) ? incident.doctor = req.body.doctor : null;
 		(req.body.startDate) ? incident.startDate = req.body.startDate : null;
 		(req.body.endDate) ? incident.endDate = req.body.endDate : null;
+		(req.body.numberOfSessions !== undefined && req.body.endDate) ? incident.numberOfSessions = req.body.numberOfSessions : null;
 		(req.body.privateNotes) ? incident.privateNotes = req.body.privateNotes : null;
 		(req.body.publicNotes) ? incident.publicNotes = req.body.publicNotes : null;
 
-		incident.save(function(err, incident) {
+		incident.save(function(err, incidentSaved) {
 			if (err) {
 				res.send(err);
 				return;
 			}
 
-			res.json(incident);
+			res.json(incidentSaved);
 		});
 	});
 });

@@ -2,17 +2,9 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var IncidentSchema = new Schema({
-	_user: { type: Schema.Types.ObjectId, ref: 'User' },
-	insurance: String,
-	insurancePolicy: String,
-	pathology: String,
-	physiotherapist: String,
-	doctor: String,
-	startDate: String,
-	endDate: String,
-	privateNotes: String,
-	publicNotes: String,
-});
+var Incident = require('./pojo/incidentPojo');
+var incident = new Incident({ type: Schema.Types.ObjectId, ref: 'User' }, String, String, String, String, String, String, String, Number, String, String);
+
+var IncidentSchema = new Schema(incident);
 
 module.exports = mongoose.model('Incident', IncidentSchema);
