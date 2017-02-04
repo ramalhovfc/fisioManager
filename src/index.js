@@ -4,6 +4,7 @@ import {Router, Route, browserHistory} from 'react-router';
 import Main from './main';
 import UserBrowser from './UserBrowser';
 import UserDetails from './UserDetails';
+import OpenIncidents from './OpenIncidents';
 import Backup from './Backup';
 import About from './About';
 
@@ -17,6 +18,7 @@ ReactDOM.render(
 		<Route component={Main} >
 			<Route path="/" component={UserBrowser} userFindUrl={ userFindUrl } />
 			<Route path="/user/:user_id" component={ UserDetails } userAndIncidentsFindUrl={ userAndIncidentsFindUrl } incidentUrl={ incidentUrl } />
+			<Route path="/openIncidents" component={ OpenIncidents } />
 			<Route path="/backup" component={ Backup } />
 			<Route path="/about" component={ About } />
 		</Route>

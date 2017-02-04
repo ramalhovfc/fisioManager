@@ -1,8 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router';
 
-// TODO menu fichas abertas
-
 class Main extends React.Component {
 	render() {
 		return (
@@ -15,6 +13,7 @@ class Main extends React.Component {
 						<div id="bs-example-navbar-collapse-1">
 							<ul className="nav navbar-nav">
 								<li><Link to="/" activeClassName="active">Procurar</Link></li>
+								<li><Link to="/openIncidents" activeClassName="active">Fichas abertas</Link></li>
 								<li><Link to="/backup" activeClassName="active">Backup</Link></li>
 								<li><Link to="/about" activeClassName="active">Acerca</Link></li>
 							</ul>
