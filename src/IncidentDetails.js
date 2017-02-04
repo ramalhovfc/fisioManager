@@ -29,6 +29,7 @@ class IncidentDetails extends React.Component {
 		this.onIncidentDetailsNumberOfSessionsChange = this.onIncidentDetailsNumberOfSessionsChange.bind(this);
 		this.onIncidentDetailsprivateNotesChange = this.onIncidentDetailsprivateNotesChange.bind(this);
 		this.onIncidentDetailsPublicNotesChange = this.onIncidentDetailsPublicNotesChange.bind(this);
+		this.onDeleteIncidentClick = this.onDeleteIncidentClick.bind(this);
 	}
 
 	handleSubmit(e) {
@@ -100,6 +101,10 @@ class IncidentDetails extends React.Component {
 		this.props.onIncidentDetailsFieldChange(PUBLICNOTES, e.target.value, this.props.data["_id"]);
 	}
 
+	onDeleteIncidentClick(e) {
+		e.preventDefault();
+		this.props.onDeleteIncidentClick(this.props.data);
+	}
 
 	render() {
 		return (
@@ -176,7 +181,8 @@ class IncidentDetails extends React.Component {
 					</button>
 					<button
 						className="btn btn-primary"
-						style={ style.incidentSaveButton } >
+						style={ style.incidentSaveButton }
+						onClick={ this.onDeleteIncidentClick }>
 						Eliminar
 					</button>
 				</Form>

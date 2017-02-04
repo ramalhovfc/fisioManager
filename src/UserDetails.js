@@ -18,6 +18,7 @@ class UserDetails extends React.Component {
 		this.onIncidentSave = this.onIncidentSave.bind(this);
 		this.onAddNewIncidentClick = this.onAddNewIncidentClick.bind(this);
 		this.onIncidentDetailsFieldChange = this.onIncidentDetailsFieldChange.bind(this);
+		this.onDeleteIncidentClick = this.onDeleteIncidentClick.bind(this);
 	}
 
 	componentWillMount() {
@@ -83,6 +84,23 @@ class UserDetails extends React.Component {
 		});
 	}
 
+	onDeleteIncidentClick(incident) {
+		axios.delete(`${this.props.route.incidentUrl}/${incident["_id"]}`)
+			.then(res => {
+				var incidents = this.state.incidents.slice();
+				for (let i = incidents.length - 1; i >= 0; i--) {
+					if (incidents[i]["_id"] === incident["_id"]) {
+						incidents.splice(i, 1);
+						this.setState({
+							incidents: incidents,
+							tabActiveKey: (this.state.tabActiveKey - 1) || 1
+						});
+						break;
+					}
+				}
+			});
+	}
+
 	render() {
 		if (this.state.user) {
 			return (
@@ -101,7 +119,7 @@ class UserDetails extends React.Component {
 						<dd>{ this.state.user.job }</dd>
 					</dl>
 
-					<IncidentList data={ this.state.incidents } tabActiveKey={ this.state.tabActiveKey } onSelectTab={ this.onSelectTab } onIncidentSave={ this.onIncidentSave } onIncidentDetailsFieldChange={ this.onIncidentDetailsFieldChange } onAddNewIncidentClick={ this.onAddNewIncidentClick } />
+					<IncidentList data={ this.state.incidents } tabActiveKey={ this.state.tabActiveKey } onSelectTab={ this.onSelectTab } onIncidentSave={ this.onIncidentSave } onIncidentDetailsFieldChange={ this.onIncidentDetailsFieldChange } onAddNewIncidentClick={ this.onAddNewIncidentClick } onDeleteIncidentClick={ this.onDeleteIncidentClick } />
 				</div>
 			);
 		}
