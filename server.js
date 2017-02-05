@@ -213,12 +213,12 @@ router.route('/user/:userId').put(function(req, res) {
 			return;
 		}
 
-		(req.body.name) ? user.name = req.body.name : null;
-		(req.body.telephone) ? user.telephone = req.body.telephone : null;
-		(req.body.taxNumber) ? user.taxNumber = req.body.taxNumber : null;
-		(req.body.genre) ? user.genre = req.body.genre : null;
-		(req.body.postalAddress) ? user.postalAddress = req.body.postalAddress : null;
-		(req.body.job) ? user.job = req.body.job : null;
+		user.name = (req.body.name) ? req.body.name : null;
+		user.telephone = (req.body.telephone) ? req.body.telephone : null;
+		user.taxNumber = (req.body.taxNumber) ? req.body.taxNumber : null;
+		user.genre = (req.body.genre) ? req.body.genre : null;
+		user.postalAddress = (req.body.postalAddress) ? req.body.postalAddress : null;
+		user.job = (req.body.job) ? req.body.job : null;
 
 		user.save(function(err) {
 			if (err) {
@@ -363,16 +363,16 @@ router.route('/incident/:incidentId').put(function(req, res) {
 			return;
 		}
 
-		(req.body.insurance) ? incident.insurance = req.body.insurance : null;
-		(req.body.insurancePolicy) ? incident.insurancePolicy = req.body.insurancePolicy : null;
-		(req.body.pathology) ? incident.pathology = req.body.pathology : null;
-		(req.body.physiotherapist) ? incident.physiotherapist = req.body.physiotherapist : null;
-		(req.body.doctor) ? incident.doctor = req.body.doctor : null;
-		(req.body.startDate) ? incident.startDate = req.body.startDate : null;
-		(req.body.endDate) ? incident.endDate = req.body.endDate : null;
-		(req.body.numberOfSessions !== undefined && req.body.endDate) ? incident.numberOfSessions = req.body.numberOfSessions : null;
-		(req.body.privateNotes) ? incident.privateNotes = req.body.privateNotes : null;
-		(req.body.publicNotes) ? incident.publicNotes = req.body.publicNotes : null;
+		incident.insurance = (req.body.insurance) ? req.body.insurance : null;
+		incident.insurancePolicy = (req.body.insurancePolicy) ? req.body.insurancePolicy : null;
+		incident.pathology = (req.body.pathology) ? req.body.pathology : null;
+		incident.physiotherapist = (req.body.physiotherapist) ? req.body.physiotherapist : null;
+		incident.doctor = (req.body.doctor) ? req.body.doctor : null;
+		incident.startDate = (req.body.startDate) ? req.body.startDate : null;
+		incident.endDate = (req.body.endDate) ? req.body.endDate : null;
+		incident.numberOfSessions = (req.body.numberOfSessions !== undefined && req.body.endDate) ? req.body.numberOfSessions : null;
+		incident.privateNotes = (req.body.privateNotes) ? req.body.privateNotes : null;
+		incident.publicNotes = (req.body.publicNotes) ? req.body.publicNotes : null;
 
 		incident.save(function(err, incidentSaved) {
 			if (err) {
@@ -383,6 +383,26 @@ router.route('/incident/:incidentId').put(function(req, res) {
 			res.json(incidentSaved);
 		});
 	});
+});
+
+router.route('/incident/find/open').get(function(req, res) {
+	winston.info('Get request to /incident/find/open');
+	winston.debug(req.params, req.body);
+
+	var opts = {
+		startDate: { $ne: null },
+		endDate: null
+	};
+	Incident.find(opts)
+		.populate('_user')
+		.exec(function (err, results) {
+			if (err) {
+				res.send(err);
+				return;
+			}
+
+			res.json(results);
+		});
 });
 
 //Use our router configuration when we call /api
