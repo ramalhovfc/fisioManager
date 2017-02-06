@@ -14,7 +14,6 @@ class Main extends React.Component {
 							<ul className="nav navbar-nav">
 								<li><Link to="/" activeClassName="active">Procurar</Link></li>
 								<li><Link to="/openIncidents" activeClassName="active">Fichas abertas</Link></li>
-								<li><Link to="/backup" activeClassName="active">Backup</Link></li>
 								<li><Link to="/about" activeClassName="active">Acerca</Link></li>
 							</ul>
 						</div>

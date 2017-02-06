@@ -17,23 +17,13 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
 
-const mongoDBPath = 'C:\\Program Files\\MongoDB';
-const backupFilePath = 'C:\\dev\\fisionManager\\public\\backup.zip';
-var backupUtils = new require('./backupUtils')(mongoDBPath, backupFilePath);
 var User = require('./model/user');
 var Incident = require('./model/incident');
 
 var isAlphabeticOrSpace = require('./validations').isAlphabeticOrSpace;
 var isAlphabeticOrSpaceOrUnderscore = require('./validations').isAlphabeticOrSpaceOrUnderscore;
 
-//and create our instances
-var app = express();
-var router = express.Router();
-
-//set our port to either a predetermined port number if you have set it up, or 3001
-var port = process.env.API_PORT || 3001;
-
-//db config
+// db config
 const mongoUrl = 'mongodb://127.0.0.1:27017/fisio';
 winston.info('Connecting to db', mongoUrl);
 mongoose.connect(mongoUrl);
@@ -41,6 +31,10 @@ mongoose.connect(mongoUrl);
 mongoose.connection.on('error', function (err) {
 	winston.error('Could connect to db', err);
 });
+
+var app = express();
+var router = express.Router();
+var port = process.env.API_PORT || 3001;
 
 //now we should configure the API to use bodyParser and look for JSON data in the request body
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -63,16 +57,6 @@ router.get('/', function(req, res) {
 	winston.debug(req.params, req.body);
 	res.json({ message: 'API Initialized!'});
 });
-
-router.get('/backup', function(req, res) {
-	winston.info('Get request to /backup');
-	winston.debug(req.params, req.body);
-
-	backupUtils.doBackup();
-	// var file = __dirname + '/upload-folder/dramaticpenguin.MOV';
-	res.download(backupFilePath);
-});
-
 
 router.route('/user').get(function(req, res) {
 	winston.info('Get request to /user');
