@@ -79,6 +79,9 @@ const style = {
 		fontSize:'1rem',
 		borderRadius:'3px',
 	},
+	incidentListElementStartDate: {
+		float: 'right'
+	},
 	commentFormPost: {
 		minWidth:'75px',
 		flex:'1',

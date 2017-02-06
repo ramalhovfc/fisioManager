@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import OpenIncidentList from './OpenIncidentList';
 
 class OpenIncidents extends React.Component {
 	constructor() {
@@ -12,6 +13,9 @@ class OpenIncidents extends React.Component {
 	componentWillMount() {
 		axios.get(`${this.props.route.openIncidentsUrl}`)
 			.then(res => {
+				res.data.sort(function(a, b) {
+					return new Date(a.startDate) - new Date(b.startDate);
+				});
 				this.setState({
 					incidents: res.data
 				});
@@ -28,7 +32,7 @@ class OpenIncidents extends React.Component {
 		return (
 			<div>
 				<h4>Fichas abertas</h4>
-				{ this.state.incidents.toString() }
+				<OpenIncidentList data={ this.state.incidents } />
 			</div>
 		);
 	}

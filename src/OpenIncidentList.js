@@ -1,5 +1,6 @@
 import React from 'react';
 import style from './style';
+import OpenIncidentListElement from './OpenIncidentListElement';
 
 class OpenIncidentList extends React.Component {
 	render() {
@@ -11,16 +12,8 @@ class OpenIncidentList extends React.Component {
 
 		if (incidentNodes.length) {
 			return (
-				<div>
-					<div style={ style.commentList }>
-						{ incidentNodes }
-					</div>
-					<button
-						type="button"
-						className="btn btn-primary"
-						style={ style.userAddButton } >
-						Adicionar
-					</button>
+				<div style={ style.commentList }>
+					{ incidentNodes }
 				</div>
 			);
 		} else {

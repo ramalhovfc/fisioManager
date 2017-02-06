@@ -9,6 +9,7 @@ winston.add(winston.transports.File, {
 	timestamp: true,
 	level: 'debug'
 });
+global.winston = winston;
 winston.info('Logger initialized');
 
 var express = require('express');
@@ -16,6 +17,9 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
 
+const mongoDBPath = 'C:\\Program Files\\MongoDB';
+const backupFilePath = 'C:\\dev\\fisionManager\\public\\backup.zip';
+var backupUtils = new require('./backupUtils')(mongoDBPath, backupFilePath);
 var User = require('./model/user');
 var Incident = require('./model/incident');
 
@@ -59,6 +63,16 @@ router.get('/', function(req, res) {
 	winston.debug(req.params, req.body);
 	res.json({ message: 'API Initialized!'});
 });
+
+router.get('/backup', function(req, res) {
+	winston.info('Get request to /backup');
+	winston.debug(req.params, req.body);
+
+	backupUtils.doBackup();
+	// var file = __dirname + '/upload-folder/dramaticpenguin.MOV';
+	res.download(backupFilePath);
+});
+
 
 router.route('/user').get(function(req, res) {
 	winston.info('Get request to /user');

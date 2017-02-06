@@ -7,18 +7,18 @@ import hover from '../node_modules/hover.css/css/hover.css';
 class OpenIncidentListElement extends React.Component {
 	render() {
 		return (
-			<Link to={ "/user/" + this.props.data["_user"] } style={ style.userFoundElementLink }>
+			<Link to={ "/user/" + this.props.data["_user"]["_id"].toString() } style={ style.userFoundElementLink }>
 				<div className="hvr-fade" style={ style.userFoundElement } >
 					<b>Nome:</b> { this.props.data._user.name }
-					{(this.props.data.startDate)
-						? <span> Data início: { this.props.data.taxNumber }</span>
-						: null }
 					{(this.props.data.pathology)
 						? <span><b> Patologia: </b> { this.props.data.pathology } </span>
 						: null}
 					{(this.props.data.physiotherapist)
-						? <span><b> Patologia: </b> { this.props.data.pathology } </span>
+						? <span><b> Fisioterapeuta: </b>{ this.props.data.physiotherapist } </span>
 						: null}
+					{(this.props.data.startDate)
+						? <span style={ style.incidentListElementStartDate }><b> Data início: </b>{ this.props.data.startDate }</span>
+						: null }
 				</div>
 			</Link>
 		);
