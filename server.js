@@ -188,7 +188,7 @@ router.route('/user').post(function(req, res) {
 		}
 
 		if (!user.incidents.length) {
-			res.json({message: 'Successfully added!'});
+			res.json(user);
 		} else {
 			incident.save(function (err, incident) {
 				if (err) {
@@ -196,7 +196,7 @@ router.route('/user').post(function(req, res) {
 					return;
 				}
 
-				res.json({message: 'Successfully added!'});
+				res.json(user);
 			});
 		}
 	});

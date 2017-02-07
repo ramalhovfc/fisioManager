@@ -79,6 +79,12 @@ const style = {
 		fontSize:'1rem',
 		borderRadius:'3px',
 	},
+	userSaveButton: {
+		textTransform:'uppercase',
+		margin:'5px 3px',
+		fontSize:'1rem',
+		borderRadius:'3px',
+	},
 	incidentListElementStartDate: {
 		float: 'right'
 	},

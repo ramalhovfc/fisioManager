@@ -8,7 +8,7 @@ import OpenIncidents from './OpenIncidents';
 import UserAdd from './UserAdd';
 import About from './About';
 
-// const userUrl = 'http://localhost:3001/api/user';
+const userUrl = 'http://localhost:3001/api/user';
 const userFindUrl = 'http://localhost:3001/api/user/find';
 const userAndIncidentsFindUrl = 'http://localhost:3001/api/user_incidents';
 const incidentUrl = 'http://localhost:3001/api/incident';
@@ -19,7 +19,7 @@ ReactDOM.render(
 		<Route component={Main} >
 			<Route path="/" component={UserBrowser} userFindUrl={ userFindUrl } />
 			<Route path="/user/:user_id" component={ UserDetails } userAndIncidentsFindUrl={ userAndIncidentsFindUrl } incidentUrl={ incidentUrl } />
-			<Route path="/user/add/:name" component={ UserAdd } userFindUrl={ userFindUrl } />
+			<Route path="/user/add/:name" component={ UserAdd } userUrl={ userUrl }  />
 			<Route path="/openIncidents" component={ OpenIncidents } openIncidentsUrl={ openIncidentsUrl } />
 			<Route path="/about" component={ About } />
 		</Route>

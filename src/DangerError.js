@@ -1,6 +1,6 @@
 import React from 'react';
 import style from './style';
-class UserBrowserError extends React.Component {
+class DangerError extends React.Component {
 	render() {
 		if (this.props.data) {
 			return (
@@ -12,5 +12,5 @@ class UserBrowserError extends React.Component {
 	}
 }
 
-export default UserBrowserError;
+export default DangerError;
 

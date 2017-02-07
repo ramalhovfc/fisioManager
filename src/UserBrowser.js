@@ -3,7 +3,7 @@ import axios from 'axios';
 
 import UserSearchForm from './UserSearchForm';
 import UserList from './UserList';
-import UserBrowserError from './UserBrowserError';
+import DangerError from './DangerError';
 import style from './style';
 
 class UserBrowser extends React.Component {
@@ -16,22 +16,17 @@ class UserBrowser extends React.Component {
 
 		this.handleUserSubmit = this.handleUserSubmit.bind(this);
 		this.onTooBroadSearch = this.onTooBroadSearch.bind(this);
-		this.onAddUserButtonClick = this.onAddUserButtonClick.bind(this);
 	}
 
 	render() {
 		return (
 			<div>
 				<img src="fisioeste-logo.jpg" alt="Fisioeste" style={ style.mainLogo } />
-				<UserSearchForm onUserSubmit={ this.handleUserSubmit } onTooBroadSearch={ this.onTooBroadSearch } onAddUserButtonClick={ this.onAddUserButtonClick } />
+				<UserSearchForm onUserSubmit={ this.handleUserSubmit } onTooBroadSearch={ this.onTooBroadSearch } />
 				<UserList data={ this.state.users } />
-				<UserBrowserError data={ this.state.userBrowseError } />
+				<DangerError data={ this.state.userBrowseError } />
 			</div>
 		);
-	}
-
-	onAddUserButtonClick() {
-		console.log('adding wip')
 	}
 
 	onTooBroadSearch() {
