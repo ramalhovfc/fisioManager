@@ -12,16 +12,8 @@ class UserList extends React.Component {
 
 		if (userNodes.length) {
 			return (
-				<div>
-					<div style={ style.commentList }>
-						{ userNodes }
-					</div>
-					<button
-						type="button"
-						className="btn btn-primary"
-						style={ style.userAddButton } >
-						Adicionar
-					</button>
+				<div style={ style.commentList }>
+					{ userNodes }
 				</div>
 			);
 		} else {

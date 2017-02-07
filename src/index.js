@@ -5,6 +5,7 @@ import Main from './main';
 import UserBrowser from './UserBrowser';
 import UserDetails from './UserDetails';
 import OpenIncidents from './OpenIncidents';
+import UserAdd from './UserAdd';
 import About from './About';
 
 // const userUrl = 'http://localhost:3001/api/user';
@@ -18,6 +19,7 @@ ReactDOM.render(
 		<Route component={Main} >
 			<Route path="/" component={UserBrowser} userFindUrl={ userFindUrl } />
 			<Route path="/user/:user_id" component={ UserDetails } userAndIncidentsFindUrl={ userAndIncidentsFindUrl } incidentUrl={ incidentUrl } />
+			<Route path="/user/add/:name" component={ UserAdd } userFindUrl={ userFindUrl } />
 			<Route path="/openIncidents" component={ OpenIncidents } openIncidentsUrl={ openIncidentsUrl } />
 			<Route path="/about" component={ About } />
 		</Route>
