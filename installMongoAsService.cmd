@@ -1,0 +1,1 @@
+"C:\Program Files\MongoDB\Server\3.4\bin\mongod.exe" --port 27017 --install --logpath C:\mongod.log

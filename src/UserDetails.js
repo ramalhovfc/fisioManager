@@ -23,15 +23,27 @@ class UserDetails extends React.Component {
 
 	componentWillMount() {
 		let userId = this.props.params.user_id;
-		this.getUserDetails(userId);
+		let incidentId = this.props.location.query.incidentId;
+		this.getUserDetails(userId, incidentId);
 	}
 
-	getUserDetails(userId) {
+	getUserDetails(userId, incidentId) {
 		axios.get(`${this.props.route.userAndIncidentsFindUrl}/${userId}`)
 			.then(res => {
+				let tabToOpen = this.state.tabActiveKey;
+				if (incidentId && res.data.incidents) {
+					for (let i = 0; i < res.data.incidents.length; i++) {
+						if (incidentId === res.data.incidents[i]["_id"]) {
+							tabToOpen = i + 1;
+							break;
+						}
+					}
+				}
+
 				this.setState({
 					user: res.data.user,
-					incidents: res.data.incidents
+					incidents: res.data.incidents,
+					tabActiveKey: tabToOpen
 				});
 			});
 	}

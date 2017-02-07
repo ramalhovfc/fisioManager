@@ -6,8 +6,9 @@ import hover from '../node_modules/hover.css/css/hover.css';
 
 class OpenIncidentListElement extends React.Component {
 	render() {
+		var linkTo = { pathname: '/user/' + this.props.data["_user"]["_id"].toString(), query: { incidentId: this.props.data["_id"] }};
 		return (
-			<Link to={ "/user/" + this.props.data["_user"]["_id"].toString() } style={ style.userFoundElementLink }>
+			<Link to={ linkTo } style={ style.userFoundElementLink }>
 				<div className="hvr-fade" style={ style.userFoundElement } >
 					<b>Nome:</b> { this.props.data._user.name }
 					{(this.props.data.pathology)
