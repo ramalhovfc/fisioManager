@@ -81,13 +81,13 @@ class UserAddForm extends React.Component {
 					<FormGroup controlId="formHorizontal">
 						<Col componentClass={ControlLabel} sm={2}>Telefone</Col>
 						<Col sm={10}>
-							<FormControl onChange={ this.onUserTelephoneChange } type="text" placeholder="Telefone" defaultValue={ this.props.data.telephone } />
+							<FormControl onChange={ this.onUserTelephoneChange } type="number" placeholder="Telefone" defaultValue={ this.props.data.telephone } />
 						</Col>
 					</FormGroup>
 					<FormGroup controlId="formHorizontal">
 						<Col componentClass={ControlLabel} sm={2}>Contribuinte</Col>
 						<Col sm={10}>
-							<FormControl onChange={ this.onUserTaxNumberChange } type="text" placeholder="Contribuinte" defaultValue={ this.props.data.taxNumber } />
+							<FormControl onChange={ this.onUserTaxNumberChange } type="number" placeholder="Contribuinte" defaultValue={ this.props.data.taxNumber } />
 						</Col>
 					</FormGroup>
 					<FormGroup controlId="formHorizontal">
