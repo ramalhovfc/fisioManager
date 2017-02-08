@@ -38,13 +38,14 @@ class UserDetails extends React.Component {
 							break;
 						}
 					}
-					for (let i = 0; i < res.data.incidents.length; i++) {
-						if (res.data.incidents[i].startDate) {
-							res.data.incidents[i].startDate = res.data.incidents[i].startDate.slice(0, 10);
-						}
-						if (res.data.incidents[i].endDate) {
-							res.data.incidents[i].endDate = res.data.incidents[i].endDate.slice(0, 10);
-						}
+				}
+
+				for (let i = 0; i < res.data.incidents.length; i++) {
+					if (res.data.incidents[i].startDate) {
+						res.data.incidents[i].startDate = res.data.incidents[i].startDate.slice(0, 10);
+					}
+					if (res.data.incidents[i].endDate) {
+						res.data.incidents[i].endDate = res.data.incidents[i].endDate.slice(0, 10);
 					}
 				}
 
