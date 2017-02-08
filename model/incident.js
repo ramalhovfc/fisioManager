@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var Incident = require('./pojo/incidentPojo');
-var incident = new Incident({ type: Schema.Types.ObjectId, ref: 'User' }, String, String, String, String, String, String, String, Number, String, String);
+var incident = new Incident({ type: Schema.Types.ObjectId, ref: 'User' }, String, String, String, String, String, Date, Date, Number, String, String);
 
 var IncidentSchema = new Schema(incident);
 

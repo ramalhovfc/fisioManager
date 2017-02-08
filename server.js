@@ -170,8 +170,8 @@ router.route('/user').post(function(req, res) {
 	(req.body.pathology) ? incident.pathology = req.body.pathology : null;
 	(req.body.physiotherapist) ? incident.physiotherapist = req.body.physiotherapist : null;
 	(req.body.doctor) ? incident.doctor = req.body.doctor : null;
-	(req.body.startDate) ? incident.startDate = req.body.startDate : null;
-	(req.body.endDate) ? incident.endDate = req.body.endDate : null;
+	(req.body.startDate) ? incident.startDate = (Date.parse(req.body.startDate) || null) : null;
+	(req.body.endDate) ? incident.endDate = (Date.parse(req.body.endDate) || null) : null;
 	(req.body.numberOfSessions !== undefined && req.body.endDate) ? incident.numberOfSessions = req.body.numberOfSessions : null;
 	(req.body.privateNotes) ? incident.privateNotes = req.body.privateNotes : null;
 	(req.body.publicNotes) ? incident.publicNotes = req.body.publicNotes : null;
@@ -303,8 +303,8 @@ router.route('/incident').post(function(req, res) {
 		(req.body.pathology) ? incident.pathology = req.body.pathology : null;
 		(req.body.physiotherapist) ? incident.physiotherapist = req.body.physiotherapist : null;
 		(req.body.doctor) ? incident.doctor = req.body.doctor : null;
-		(req.body.startDate) ? incident.startDate = req.body.startDate : null;
-		(req.body.endDate) ? incident.endDate = req.body.endDate : null;
+		(req.body.startDate) ? incident.startDate = (Date.parse(req.body.startDate) || null) : null;
+		(req.body.endDate) ? incident.endDate = (Date.parse(req.body.endDate) || null) : null;
 		(req.body.numberOfSessions !== undefined && req.body.endDate) ? incident.numberOfSessions = req.body.numberOfSessions : null;
 		(req.body.privateNotes) ? incident.privateNotes = req.body.privateNotes : null;
 		(req.body.publicNotes) ? incident.publicNotes = req.body.publicNotes : null;
@@ -366,8 +366,8 @@ router.route('/incident/:incidentId').put(function(req, res) {
 		incident.pathology = (req.body.pathology) ? req.body.pathology : null;
 		incident.physiotherapist = (req.body.physiotherapist) ? req.body.physiotherapist : null;
 		incident.doctor = (req.body.doctor) ? req.body.doctor : null;
-		incident.startDate = (req.body.startDate) ? req.body.startDate : null;
-		incident.endDate = (req.body.endDate) ? req.body.endDate : null;
+		incident.startDate = (req.body.startDate) ? (Date.parse(req.body.startDate) || null) : null;
+		incident.endDate = (req.body.endDate) ? (Date.parse(req.body.endDate) || null) : null;
 		incident.numberOfSessions = (req.body.numberOfSessions !== undefined && req.body.endDate) ? req.body.numberOfSessions : null;
 		incident.privateNotes = (req.body.privateNotes) ? req.body.privateNotes : null;
 		incident.publicNotes = (req.body.publicNotes) ? req.body.publicNotes : null;

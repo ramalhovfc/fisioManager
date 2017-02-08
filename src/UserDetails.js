@@ -38,6 +38,15 @@ class UserDetails extends React.Component {
 							break;
 						}
 					}
+
+					for (let i = 0; i < res.data.incidents.length; i++) {
+						if (res.data.incidents[i].startDate) {
+							res.data.incidents[i].startDate = res.data.incidents[i].startDate.slice(0, 10);
+						}
+						if (res.data.incidents[i].endDate) {
+							res.data.incidents[i].endDate = res.data.incidents[i].endDate.slice(0, 10);
+						}
+					}
 				}
 
 				this.setState({
@@ -69,6 +78,12 @@ class UserDetails extends React.Component {
 				for (let i = 0; i < incidents.length; i++) {
 					if (incidents[i]["_id"] === res.data["_id"]) {
 						incidents[i] = res.data;
+						if (incidents[i].startDate) {
+							incidents[i].startDate = incidents[i].startDate.slice(0, 10);
+						}
+						if (incidents[i].endDate) {
+							incidents[i].endDate = incidents[i].endDate.slice(0, 10);
+						}
 						this.setState({ incidents: incidents });
 						break;
 					}

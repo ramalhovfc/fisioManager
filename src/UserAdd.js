@@ -46,7 +46,6 @@ class UserAdd extends React.Component {
 	onUserFieldChange(userProperty, value, userId) {
 		var user = Object.assign({}, this.state.user);
 		user[userProperty] = value;
-		console.log(userProperty, value,user);
 		this.setState({
 			user: user
 		});

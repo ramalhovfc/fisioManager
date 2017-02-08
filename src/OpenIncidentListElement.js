@@ -18,7 +18,7 @@ class OpenIncidentListElement extends React.Component {
 						? <span><b> Fisioterapeuta: </b>{ this.props.data.physiotherapist } </span>
 						: null}
 					{(this.props.data.startDate)
-						? <span style={ style.incidentListElementStartDate }><b> Data início: </b>{ this.props.data.startDate }</span>
+						? <span style={ style.incidentListElementStartDate }><b> Data início: </b>{ this.props.data.startDate.slice(0, 10) }</span>
 						: null }
 				</div>
 			</Link>
