@@ -12,7 +12,8 @@ class Main extends React.Component {
 						</div>
 						<div id="bs-example-navbar-collapse-1">
 							<ul className="nav navbar-nav">
-								<li><Link to="/" activeClassName="active">Procurar</Link></li>
+								<li><Link to="/" activeClassName="active">Utentes</Link></li>
+								<li><Link to="/search" activeClassName="active">Procurar</Link></li>
 								<li><Link to="/openIncidents" activeClassName="active">Fichas abertas</Link></li>
 								<li><Link to="/about" activeClassName="active">Acerca</Link></li>
 							</ul>

@@ -117,9 +117,9 @@ class IncidentDetails extends React.Component {
 						</Col>
 					</FormGroup>
 					<FormGroup controlId="formHorizontal">
-						<Col componentClass={ControlLabel} sm={2}>Apolice</Col>
+						<Col componentClass={ControlLabel} sm={2}>Apólice</Col>
 						<Col sm={10}>
-							<FormControl onChange={ this.onIncidentDetailsInsurancePolicyChange } type="text" placeholder="Apolice" defaultValue={ this.props.data.insurancePolicy } />
+							<FormControl onChange={ this.onIncidentDetailsInsurancePolicyChange } type="text" placeholder="Apólice" defaultValue={ this.props.data.insurancePolicy } />
 						</Col>
 					</FormGroup>
 					<FormGroup controlId="formHorizontal">
