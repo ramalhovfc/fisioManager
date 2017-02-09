@@ -33,7 +33,6 @@ const style = {
 		border:'1px solid #e1e1e1',
 		padding:'0 12px',
 		maxHeight:'70vh',
-		overflow:'scroll'
 	},
 	userFoundElement: {
 		display: 'block',
