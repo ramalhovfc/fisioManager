@@ -230,7 +230,7 @@ router.route('/user/:userId').put(function(req, res) {
 });
 
 router.route('/user/:userId').delete(function(req, res) {
-	winston.info('Delete request to /user_incidents');
+	winston.info('Delete request to /user/:userId');
 	winston.debug(req.params, req.body);
 	Incident.remove({ _user: req.params.userId }, function (err) {
 		if (err) {
@@ -249,32 +249,60 @@ router.route('/user/:userId').delete(function(req, res) {
 	})
 });
 
-router.route('/incident/find/:field/:constraint').get(function(req, res) {
-	winston.info('Get request to /incident/find/:field/:constraint');
+router.route('/incident/search').get(function(req, res) {
+	winston.info('Get request to /incident/search');
 	winston.debug(req.params, req.body);
-	if (!isAlphabeticOrSpace(req.params.constraint)) {
-		res.status(400).send('"Constraint" constains non alphabetic characters');
-		return;
-	}
-	if (!isAlphabeticOrSpaceOrUnderscore(req.params.field)) {
-		res.status(400).send('"Field" constains non alphabetic characters');
-		return;
-	}
-	var opts = {};
-	if (req.params.field === '_user') {
-		// do not search by regex if we are searching by an ObjectId
-		opts[req.params.field] = req.params.constraint;
-	} else {
-		opts[req.params.field] = new RegExp(req.params.constraint, 'i');
-	}
-	Incident.find(opts, function (err, results) {
-		if (err) {
-			res.send(err);
-			return;
-		}
+	winston.debug('req.query', req.query);
+	var search = JSON.parse(req.query["incidentSearch"]);
 
-		res.json(results);
-	});
+	var opts = {};
+	for (let property of Object.keys(search)){
+		if (!search.hasOwnProperty(property)) { continue; }
+
+		if (search[property]) {
+			if (!isAlphabeticOrSpace(search[property])) {
+				res.send([]);
+				return;
+			}
+
+			// TODO go get this from model
+			if (property === '_user') {
+				// do not search by regex if we are searching by an ObjectId
+				opts[property] = search[property];
+			} else {
+				if (property === 'startDateBegin') {
+					opts['startDate'] = Object.assign(opts['startDate'] || {}, {$gte: new Date(search[property])});
+				} else if (property === 'endDateBegin') {
+					opts['endDate'] = Object.assign(opts['endDate'] || {}, {$gte: new Date(search[property])});
+				} else if (property === 'startDateEnd') {
+					opts['startDate'] = Object.assign(opts['startDate'] || {}, {$lte: new Date(search[property])});
+				} else if (property === 'endDateEnd') {
+					opts['endDate'] = Object.assign(opts['endDate'] || {}, {$lte: new Date(search[property])});
+				} else {
+					opts[property] = search[property];
+				}
+			}
+		}
+	}
+	winston.debug('opts["insurance"]', opts["insurance"]);
+	winston.debug('opts["insurancePolicy"]', opts["insurancePolicy"]);
+	winston.debug('opts["doctor"]', opts["doctor"]);
+	winston.debug('opts["pathology"]', opts["pathology"]);
+	winston.debug('opts["physiotherapist"]', opts["physiotherapist"]);
+	winston.debug('opts["startDate"]', opts["startDate"]);
+	winston.debug('opts["endDate"]', opts["endDate"]);
+	winston.debug('opts["numberOfSessions"]', opts["numberOfSessions"]);
+
+	Incident.find(opts)
+		.populate('_user')
+		.exec(function (err, results) {
+			if (err) {
+				res.send(err);
+				return;
+			}
+
+			res.json(results);
+		});
 });
 
 router.route('/incident').post(function(req, res) {
@@ -383,8 +411,8 @@ router.route('/incident/:incidentId').put(function(req, res) {
 	});
 });
 
-router.route('/incident/find/open').get(function(req, res) {
-	winston.info('Get request to /incident/find/open');
+router.route('/incident/open').get(function(req, res) {
+	winston.info('Get request to /incident/open');
 	winston.debug(req.params, req.body);
 
 	var opts = {

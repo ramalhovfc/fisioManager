@@ -13,7 +13,8 @@ const userUrl = 'http://localhost:3001/api/user';
 const userFindUrl = 'http://localhost:3001/api/user/find';
 const userAndIncidentsFindUrl = 'http://localhost:3001/api/user_incidents';
 const incidentUrl = 'http://localhost:3001/api/incident';
-const openIncidentsUrl = 'http://localhost:3001/api/incident/find/open';
+const incidentSearchUrl = 'http://localhost:3001/api/incident/search';
+const openIncidentsUrl = 'http://localhost:3001/api/incident/open';
 
 ReactDOM.render(
 	<Router history={browserHistory}>
@@ -21,7 +22,7 @@ ReactDOM.render(
 			<Route path="/" component={UserBrowser} userFindUrl={ userFindUrl } />
 			<Route path="/user/:user_id" component={ UserDetails } userAndIncidentsFindUrl={ userAndIncidentsFindUrl } incidentUrl={ incidentUrl } />
 			<Route path="/user/add/:name" component={ UserAdd } userUrl={ userUrl }  />
-			<Route path="/search" component={ Search } />
+			<Route path="/search" component={ Search } incidentSearchUrl={ incidentSearchUrl } />
 			<Route path="/openIncidents" component={ OpenIncidents } openIncidentsUrl={ openIncidentsUrl } />
 			<Route path="/about" component={ About } />
 		</Route>
