@@ -1,16 +1,19 @@
 import React from 'react';
 import axios from 'axios';
 import SearchTabs from './SearchTabs';
-import OpenIncidentList from './OpenIncidentList';
+import IncidentSearchResults from './IncidentSearchResults';
+import UserSearchResults from './UserSearchResults';
 
 class Search extends React.Component {
 	constructor() {
 		super();
 		this.state = {
-			incidents: []
+			incidents: [],
+			users: []
 		};
 
 		this.onIncidentSearch = this.onIncidentSearch.bind(this);
+		this.onUserSearch = this.onUserSearch.bind(this);
 	}
 
 	onIncidentSearch(incidentSearch) {
@@ -36,12 +39,36 @@ class Search extends React.Component {
 			});
 	}
 
+	onUserSearch(userSearch) {
+		var isEmptySearch = true;
+		for (var prop in userSearch) {
+			if (!userSearch.hasOwnProperty(prop)) { continue; }
+			if (userSearch[prop] !== undefined) {
+				isEmptySearch = false;
+				break;
+			}
+		}
+		if (isEmptySearch) {
+			if (!confirm("Uma pesquisa sem restrições pode ser demorada. Pretende continuar?")) {
+				return;
+			}
+		}
+
+		axios.get(`${this.props.route.userSearchUrl}`, {params: {userSearch}})
+			.then(res => {
+				this.setState({
+					users: res.data
+				});
+			});
+	}
+
 	render() {
 		return (
 			<div>
 				<h4>Procurar</h4>
-				<SearchTabs onIncidentSearch={ this.onIncidentSearch } />
-				<OpenIncidentList data={ this.state.incidents } />
+				<SearchTabs onUserSearch={ this.onUserSearch } onIncidentSearch={ this.onIncidentSearch } />
+				<IncidentSearchResults data={ this.state.incidents } />
+				<UserSearchResults data={ this.state.users } />
 			</div>
 		);
 	}

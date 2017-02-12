@@ -22,7 +22,7 @@ class UserSearchForm extends React.Component {
 			this.props.onTooBroadSearch();
 			return;
 		}
-		this.props.onUserSubmit({ field: 'name', constraint: name });
+		this.props.onUserSubmit({ 'name': name });
 	}
 
 	onEnter(e) {
@@ -39,7 +39,7 @@ class UserSearchForm extends React.Component {
 			<form style={ style.commentForm } onSubmit={ this.onEnter } >
 				<input
 					type="text"
-					placeholder="Inserir pelo menos 3 caracteres..."
+					placeholder="Introduzir nome (mínimo 3 caracteres)"
 					style={ style.commentFormText}
 					value={ this.state.text }
 					onChange={ this.onInputChange } />

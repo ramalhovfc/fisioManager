@@ -90,10 +90,14 @@ class UserAddForm extends React.Component {
 							<FormControl onChange={ this.onUserTaxNumberChange } type="number" placeholder="Contribuinte" defaultValue={ this.props.data.taxNumber } />
 						</Col>
 					</FormGroup>
-					<FormGroup controlId="formHorizontal">
+					<FormGroup controlId="formControlsSelect">
 						<Col componentClass={ControlLabel} sm={2}>Género</Col>
 						<Col sm={10}>
-							<FormControl onChange={ this.onUserGenreChange } type="text" placeholder="Género" defaultValue={ this.props.data.genre } />
+							<FormControl componentClass="select" onChange={ this.onUserGenreChange } defaultValue={ this.props.data.genre }>
+								<option value=""></option>
+								<option value="Masculino">Masculino</option>
+								<option value="Feminino">Feminino</option>
+							</FormControl>
 						</Col>
 					</FormGroup>
 					<FormGroup controlId="formHorizontal">

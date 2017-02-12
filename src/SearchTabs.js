@@ -8,11 +8,11 @@ class SearchTabs extends React.Component {
 		return (
 			<div>
 				<Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
-					<Tab eventKey={1} title="Fichas">
-						<SearchIncidentForm onIncidentSearch={ this.props.onIncidentSearch } />
+					<Tab eventKey={1} title="Utentes" >
+						<SearchUserForm onUserSearch={ this.props.onUserSearch } />
 					</Tab>
-					<Tab eventKey={2} title="Utentes" disabled>
-						<SearchUserForm />
+					<Tab eventKey={2} title="Fichas">
+						<SearchIncidentForm onIncidentSearch={ this.props.onIncidentSearch } />
 					</Tab>
 				</Tabs>
 			</div>

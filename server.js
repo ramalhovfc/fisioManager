@@ -71,7 +71,7 @@ router.route('/user').get(function(req, res) {
 	});
 });
 
-router.route('/user/:userId').get(function(req, res) {
+router.route('/user/searchId/:userId').get(function(req, res) {
 	winston.info('Get request to /user/:userId');
 	winston.debug(req.params, req.body);
 	User.findById(req.params.userId, function(err, results) {
@@ -84,19 +84,40 @@ router.route('/user/:userId').get(function(req, res) {
 	});
 });
 
-router.route('/user/find/:field/:constraint').get(function(req, res) {
-	winston.info('Get request to /user/find/:field/:constraint');
+router.route('/user/search').get(function(req, res) {
+	winston.info('Get request to /user/search');
 	winston.debug(req.params, req.body);
-	if (!isAlphabeticOrSpace(req.params.constraint)) {
-		res.status(400).send('"Constraint" constains non alphabetic characters');
-		return;
-	}
-	if (!isAlphabeticOrSpace(req.params.field)) {
-		res.status(400).send('"Field" constains non alphabetic characters');
-		return;
-	}
+	winston.debug('req.query', req.query);
+	var search = JSON.parse(req.query["userSearch"]);
+
 	var opts = {};
-	opts[req.params.field] = new RegExp(req.params.constraint, 'i');
+	for (let property of Object.keys(search)){
+		if (!search.hasOwnProperty(property)) { continue; }
+
+		if (search[property]) {
+			if (!isAlphabeticOrSpace(search[property])) {
+				res.send([]);
+				return;
+			}
+
+			if (property === 'name') {
+				opts['name'] = new RegExp(search['name'], 'i');
+			} else if (property === 'postalAddress') {
+				opts['postalAddress'] = new RegExp(search['postalAddress'], 'i');
+			} else if (property === 'job') {
+				opts['job'] = new RegExp(search['job'], 'i');
+			} else {
+				opts[property] = search[property];
+			}
+		}
+	}
+	winston.debug('opts["name"]', opts["name"]);
+	winston.debug('opts["telephone"]', opts["telephone"]);
+	winston.debug('opts["taxNumber"]', opts["taxNumber"]);
+	winston.debug('opts["genre"]', opts["genre"]);
+	winston.debug('opts["postalAddress"]', opts["postalAddress"]);
+	winston.debug('opts["job"]', opts["job"]);
+
 	User.find(opts, function (err, results) {
 		if (err) {
 			res.send(err);
@@ -104,8 +125,9 @@ router.route('/user/find/:field/:constraint').get(function(req, res) {
 		}
 
 		res.json(results);
-	});
+	})
 });
+
 
 router.route('/user_incidents').get(function(req, res) {
 	winston.info('Get request to /user_incidents');

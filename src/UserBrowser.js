@@ -36,8 +36,8 @@ class UserBrowser extends React.Component {
 		});
 	}
 
-	handleUserSubmit(search) {
-		axios.get(`${this.props.route.userFindUrl}/${search.field}/${search.constraint}`)
+	handleUserSubmit(userSearch) {
+		axios.get(`${this.props.route.userSearchUrl}`, {params: {userSearch}})
 			.catch((error) => {
 				this.setState({
 					users: [],
