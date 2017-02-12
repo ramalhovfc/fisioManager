@@ -19,9 +19,13 @@ mongoose.Promise = require('bluebird');
 
 var User = require('./model/user');
 var Incident = require('./model/incident');
+var Doctor = require('./model/doctor');
+var Insurance = require('./model/insurance');
+var Job = require('./model/job');
+var Pathology = require('./model/pathology');
+var Physiotherapist = require('./model/physiotherapist');
 
 var isAlphabeticOrSpace = require('./validations').isAlphabeticOrSpace;
-var isAlphabeticOrSpaceOrUnderscore = require('./validations').isAlphabeticOrSpaceOrUnderscore;
 
 // db config
 const mongoUrl = 'mongodb://127.0.0.1:27017/fisio';
@@ -111,6 +115,7 @@ router.route('/user/search').get(function(req, res) {
 			}
 		}
 	}
+
 	winston.debug('opts["name"]', opts["name"]);
 	winston.debug('opts["telephone"]', opts["telephone"]);
 	winston.debug('opts["taxNumber"]', opts["taxNumber"]);
@@ -451,6 +456,120 @@ router.route('/incident/open').get(function(req, res) {
 
 			res.json(results);
 		});
+});
+
+router.route('/lookups').get(function(req, res) {
+	winston.info('Get request to /lookups');
+	winston.debug(req.params, req.body);
+	winston.debug('req.query', req.query);
+	var search = JSON.parse(req.query["search"]);
+
+	var lookups = {};
+	for (let property of Object.keys(search)) {
+		if (!search.hasOwnProperty(property)) {	continue; }
+
+		if (property === 'doctor' && search[property]) {
+			Doctor.find(function (err, results) {
+				if (err) {
+					lookups[property] = [];
+					return;
+				}
+				lookups[property] = results;
+			});
+		} else if (property === 'insurance' && search[property]) {
+			Insurance.find(function (err, results) {
+				if (err) {
+					lookups[property] = [];
+					return;
+				}
+				lookups[property] = results;
+			});
+		} else if (property === 'job' && search[property]) {
+			Job.find(function (err, results) {
+				if (err) {
+					lookups[property] = [];
+					return;
+				}
+				lookups[property] = results;
+			});
+		} else if (property === 'pathology' && search[property]) {
+			Pathology.find(function (err, results) {
+				if (err) {
+					lookups[property] = results;
+					return;
+				}
+				lookups[property] = results;
+			});
+		} else if (property === 'physiotherapist' && search[property]) {
+			Physiotherapist.find(function (err, results) {
+				if (err) {
+					lookups[property] = results;
+					return;
+				}
+				lookups[property] = results;
+			});
+		} else {
+			// dont care
+		}
+	}
+	res.send(lookups);
+});
+
+router.route('/lookups').post(function(req, res) {
+	winston.info('Post request to /lookups');
+	winston.debug(req.params, req.body);
+
+	var lookupsSaved = {};
+	var lookupData = req.body;
+
+	for (let property of Object.keys(lookupData)) {
+		if (!lookupData.hasOwnProperty(property)) {	continue; }
+
+		if (property === 'doctor' && lookupData[property]) {
+			var doctor = new Doctor(lookupData[property]);
+			doctor.save(function(err, doctorSaved) {
+				if (err) {
+					return;
+				}
+				lookupsSaved[property] = doctorSaved;
+			});
+		} else if (property === 'insurance' && lookupData[property]) {
+			var insurance = new Insurance(lookupData[property]);
+			Insurance.save(function (err, insuranceSaved) {
+				if (err) {
+					return;
+				}
+				lookupsSaved[property] = insuranceSaved;
+			});
+		} else if (property === 'job' && lookupData[property]) {
+			var job = new Job(lookupData[property]);
+			job.save(function (err, jobSaved) {
+				if (err) {
+					return;
+				}
+				lookupsSaved[property] = jobSaved;
+			});
+		} else if (property === 'pathology' && lookupData[property]) {
+			var pathology = new Pathology(lookupData[property]);
+			pathology.save(function (err, pathologySaved) {
+				if (err) {
+					return;
+				}
+				lookupsSaved[property] = pathologySaved;
+			});
+		} else if (property === 'physiotherapist' && lookupData[property]) {
+			var physiotherapist = new Physiotherapist(lookupData[property]);
+			physiotherapist.save(function (err, physiotherapistSaved) {
+				if (err) {
+					return;
+				}
+				lookupsSaved[property] = physiotherapistSaved;
+			});
+		} else {
+			// dont care
+		}
+	}
+	res.send(lookupsSaved);
 });
 
 //Use our router configuration when we call /api

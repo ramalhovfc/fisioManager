@@ -39,7 +39,7 @@ class UserSearchForm extends React.Component {
 			<form style={ style.commentForm } onSubmit={ this.onEnter } >
 				<input
 					type="text"
-					placeholder="Introduzir nome (mínimo 3 caracteres)"
+					placeholder="Introduzir nome do utente (mínimo 3 caracteres)"
 					style={ style.commentFormText}
 					value={ this.state.text }
 					onChange={ this.onInputChange } />
