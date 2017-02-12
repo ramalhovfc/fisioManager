@@ -462,7 +462,7 @@ router.route('/lookups').get(function(req, res) {
 	winston.info('Get request to /lookups');
 	winston.debug(req.params, req.body);
 	winston.debug('req.query', req.query);
-	var search = JSON.parse(req.query["search"]);
+	var search = JSON.parse(req.query["lookupsToGet"]);
 
 	var lookups = {};
 	for (let property of Object.keys(search)) {
@@ -526,44 +526,59 @@ router.route('/lookups').post(function(req, res) {
 		if (!lookupData.hasOwnProperty(property)) {	continue; }
 
 		if (property === 'doctor' && lookupData[property]) {
-			var doctor = new Doctor(lookupData[property]);
-			doctor.save(function(err, doctorSaved) {
-				if (err) {
-					return;
+			Doctor.findOne({'doctor': lookupData[property]}, function(err, obj) {
+				if (!obj) {
+					var doctor = new Doctor();
+					doctor.doctor = lookupData[property];
+					doctor.save(function(err, doctorSaved) {
+						if (err) { return; }
+						lookupsSaved[property] = doctorSaved;
+					});
 				}
-				lookupsSaved[property] = doctorSaved;
 			});
 		} else if (property === 'insurance' && lookupData[property]) {
-			var insurance = new Insurance(lookupData[property]);
-			Insurance.save(function (err, insuranceSaved) {
-				if (err) {
-					return;
+			Insurance.findOne({'insurance': lookupData[property]}, function(err, obj) {
+				if (!obj) {
+					var insurance = new Insurance();
+					insurance.insurance = lookupData[property];
+					insurance.save(function(err, insuranceSaved) {
+						if (err) { return; }
+						lookupsSaved[property] = insuranceSaved;
+					});
 				}
-				lookupsSaved[property] = insuranceSaved;
 			});
 		} else if (property === 'job' && lookupData[property]) {
-			var job = new Job(lookupData[property]);
-			job.save(function (err, jobSaved) {
-				if (err) {
-					return;
+			Job.findOne({'job': lookupData[property]}, function(err, obj) {
+				if (!obj) {
+					var job = new Job();
+					job.job = lookupData[property];
+					job.save(function(err, jobSaved) {
+						if (err) { return; }
+						lookupsSaved[property] = jobSaved;
+					});
 				}
-				lookupsSaved[property] = jobSaved;
 			});
 		} else if (property === 'pathology' && lookupData[property]) {
-			var pathology = new Pathology(lookupData[property]);
-			pathology.save(function (err, pathologySaved) {
-				if (err) {
-					return;
+			Pathology.findOne({'pathology': lookupData[property]}, function(err, obj) {
+				if (!obj) {
+					var pathology = new Pathology();
+					pathology.pathology = lookupData[property];
+					pathology.save(function(err, pathologySaved) {
+						if (err) { return; }
+						lookupsSaved[property] = pathologySaved;
+					});
 				}
-				lookupsSaved[property] = pathologySaved;
 			});
 		} else if (property === 'physiotherapist' && lookupData[property]) {
-			var physiotherapist = new Physiotherapist(lookupData[property]);
-			physiotherapist.save(function (err, physiotherapistSaved) {
-				if (err) {
-					return;
+			Physiotherapist.findOne({'physiotherapist': lookupData[property]}, function(err, obj) {
+				if (!obj) {
+					var physiotherapist = new Physiotherapist();
+					physiotherapist.physiotherapist = lookupData[property];
+					physiotherapist.save(function(err, physiotherapistSaved) {
+						if (err) { return; }
+						lookupsSaved[property] = physiotherapistSaved;
+					});
 				}
-				lookupsSaved[property] = physiotherapistSaved;
 			});
 		} else {
 			// dont care

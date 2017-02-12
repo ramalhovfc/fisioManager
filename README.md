@@ -1,4 +1,4 @@
-<h3>A fisio manager app using mongo, expresss, react and node
+<h3> A fisio manager app using mongo, expresss, react and node.</h3>
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 

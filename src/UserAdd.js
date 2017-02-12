@@ -6,12 +6,22 @@ import User from '../model/pojo/userPojo';
 import UserAddForm from './UserAddForm';
 import DangerError from './DangerError';
 
+const LOOKUPS_NEEDED = {
+	'doctor': true,
+	'incident': true,
+	'insurance': true,
+	'job': true,
+	'pathology': true,
+	'physiotherapist': true
+};
+
 class UserAdd extends React.Component {
 	constructor() {
 		super();
 		this.state = {
 			user: null,
-			userAddError: null
+			userAddError: null,
+			lookups: []
 		};
 
 		this.onUserSave = this.onUserSave.bind(this);
@@ -25,7 +35,23 @@ class UserAdd extends React.Component {
 		user.needsSaving = true;
 		this.setState({
 			user: user
-		})
+		});
+		this.getLookups(LOOKUPS_NEEDED);
+	}
+
+	getLookups(lookupsToGet) {
+		axios.get(`${this.props.route.lookupsUrl}`, {params: {lookupsToGet}})
+			.catch((error) => {
+				this.setState({
+					userAddError: (error.response && error.response.data) || 'Ocorreu um erro ao obter lookups'
+				});
+				return Promise.reject();
+			})
+			.then(res => {
+				this.setState({
+					lookups: res.data
+				});
+			});
 	}
 
 	onUserSave(user) {
@@ -40,6 +66,8 @@ class UserAdd extends React.Component {
 				this.setState({
 					userAddError: null
 				});
+
+				axios.post(`${this.props.route.lookupsUrl}`, user);
 				browserHistory.push('/user/' + res.data["_id"]);
 			});
 	}
@@ -59,7 +87,7 @@ class UserAdd extends React.Component {
 	render() {
 		return (
 			<div>
-				<UserAddForm data={ this.state.user } onUserSave={ this.onUserSave } onUserFieldChange={ this.onUserFieldChange } onIncidentFieldChange={ this.onIncidentFieldChange } />
+				<UserAddForm data={{'user': this.state.user, 'lookups': this.state.lookups }} onUserSave={ this.onUserSave } onUserFieldChange={ this.onUserFieldChange } onIncidentFieldChange={ this.onIncidentFieldChange } />
 				<DangerError data={ this.state.userAddError } />
 			</div>
 		);

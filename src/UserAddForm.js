@@ -1,5 +1,6 @@
 import React from 'react';
 import {Form, FormGroup, FormControl, Col, ControlLabel} from 'react-bootstrap';
+import {Typeahead} from 'react-bootstrap-typeahead';
 import style from './style';
 
 // TODO move theese to model
@@ -66,11 +67,11 @@ class UserAddForm extends React.Component {
 	}
 
 	onUserJobChange(e) {
-		this.props.onUserFieldChange(JOB, e.target.value);
+		this.props.onUserFieldChange(JOB, e[0].customOption ? e[0].label : e[0]);
 	}
 
 	onIncidentDetailsInsuranceChange(e) {
-		this.props.onIncidentFieldChange(INSURANCE, e.target.value);
+		this.props.onIncidentFieldChange(INSURANCE, e[0].customOption ? e[0].label : e[0]);
 	}
 
 	onIncidentDetailsInsurancePolicyChange(e) {
@@ -86,7 +87,7 @@ class UserAddForm extends React.Component {
 	}
 
 	onIncidentDetailsDoctorChange(e) {
-		this.props.onIncidentFieldChange(DOCTOR, e.target.value);
+		this.props.onIncidentFieldChange(DOCTOR, e[0].customOption ? e[0].label : e[0]);
 	}
 
 	onIncidentDetailsStartDateChange(e) {
@@ -113,25 +114,25 @@ class UserAddForm extends React.Component {
 		e.preventDefault();
 
 		// user props
-		let _id = this.props.data["_id"] && this.props.data["_id"].slice();
-		let name = (this.props.data.name) ? this.props.data.name.trim() : undefined;
-		let telephone = (this.props.data.telephone) ? this.props.data.telephone.trim() : undefined;
-		let taxNumber = (this.props.data.taxNumber) ? this.props.data.taxNumber.trim() : undefined;
-		let genre = (this.props.data.genre) ? this.props.data.genre.trim() : undefined;
-		let postalAddress = (this.props.data.postalAddress) ? this.props.data.postalAddress.trim() : undefined;
-		let job = (this.props.data.job) ? this.props.data.job.trim() : undefined;
+		let _id = this.props.data.user["_id"] && this.props.data.user["_id"].slice();
+		let name = (this.props.data.user.name) ? this.props.data.user.name.trim() : undefined;
+		let telephone = (this.props.data.user.telephone) ? this.props.data.user.telephone.trim() : undefined;
+		let taxNumber = (this.props.data.user.taxNumber) ? this.props.data.user.taxNumber.trim() : undefined;
+		let genre = (this.props.data.user.genre) ? this.props.data.user.genre.trim() : undefined;
+		let postalAddress = (this.props.data.user.postalAddress) ? this.props.data.user.postalAddress.trim() : undefined;
+		let job = (this.props.data.user.job) ? this.props.data.user.job.trim() : undefined;
 
 		// incident props
-		let insurance = (this.props.data.insurance) ? this.props.data.insurance.trim() : undefined;
-		let insurancePolicy = (this.props.data.insurancePolicy) ? this.props.data.insurancePolicy.trim() : undefined;
-		let pathology = (this.props.data.pathology) ? this.props.data.pathology.trim() : undefined;
-		let physiotherapist = (this.props.data.physiotherapist) ? this.props.data.physiotherapist.trim() : undefined;
-		let doctor = (this.props.data.doctor) ? this.props.data.doctor.trim() : undefined;
-		let startDate = (this.props.data.startDate) ? this.props.data.startDate.trim() : undefined;
-		let endDate = (this.props.data.endDate) ? this.props.data.endDate.trim() : undefined;
-		let numberOfSessions = (this.props.data.numberOfSessions !== undefined && this.props.data.endDate) ? this.props.data.numberOfSessions : undefined;
-		let privateNotes = (this.props.data.privateNotes) ? this.props.data.privateNotes.trim() : undefined;
-		let publicNotes = (this.props.data.publicNotes) ? this.props.data.publicNotes.trim() : undefined;
+		let insurance = (this.props.data.user.insurance) ? this.props.data.user.insurance.trim() : undefined;
+		let insurancePolicy = (this.props.data.user.insurancePolicy) ? this.props.data.user.insurancePolicy.trim() : undefined;
+		let pathology = (this.props.data.user.pathology) ? this.props.data.user.pathology.trim() : undefined;
+		let physiotherapist = (this.props.data.user.physiotherapist) ? this.props.data.user.physiotherapist.trim() : undefined;
+		let doctor = (this.props.data.user.doctor) ? this.props.data.user.doctor.trim() : undefined;
+		let startDate = (this.props.data.user.startDate) ? this.props.data.user.startDate.trim() : undefined;
+		let endDate = (this.props.data.user.endDate) ? this.props.data.user.endDate.trim() : undefined;
+		let numberOfSessions = (this.props.data.user.numberOfSessions !== undefined && this.props.data.user.endDate) ? this.props.data.user.numberOfSessions : undefined;
+		let privateNotes = (this.props.data.user.privateNotes) ? this.props.data.user.privateNotes.trim() : undefined;
+		let publicNotes = (this.props.data.user.publicNotes) ? this.props.data.user.publicNotes.trim() : undefined;
 
 		this.props.onUserSave({
 			_id: _id,
@@ -162,25 +163,25 @@ class UserAddForm extends React.Component {
 					<FormGroup controlId="formHorizontal">
 						<Col componentClass={ControlLabel} sm={2}>Nome</Col>
 						<Col sm={10}>
-							<FormControl onChange={ this.onUserNameChange } type="text" placeholder="Nome" defaultValue={ this.props.data.name } />
+							<FormControl onChange={ this.onUserNameChange } type="text" placeholder="Nome" defaultValue={ this.props.data.user.name } />
 						</Col>
 					</FormGroup>
 					<FormGroup controlId="formHorizontal">
 						<Col componentClass={ControlLabel} sm={2}>Telefone</Col>
 						<Col sm={10}>
-							<FormControl onChange={ this.onUserTelephoneChange } type="number" placeholder="Telefone" defaultValue={ this.props.data.telephone } />
+							<FormControl onChange={ this.onUserTelephoneChange } type="number" placeholder="Telefone" defaultValue={ this.props.data.user.telephone } />
 						</Col>
 					</FormGroup>
 					<FormGroup controlId="formHorizontal" >
 						<Col componentClass={ControlLabel} sm={2}>Contribuinte</Col>
 						<Col sm={10}>
-							<FormControl onChange={ this.onUserTaxNumberChange } type="number" placeholder="Contribuinte" defaultValue={ this.props.data.taxNumber } />
+							<FormControl onChange={ this.onUserTaxNumberChange } type="number" placeholder="Contribuinte" defaultValue={ this.props.data.user.taxNumber } />
 						</Col>
 					</FormGroup>
 					<FormGroup controlId="formControlsSelect">
 						<Col componentClass={ControlLabel} sm={2}>Género</Col>
 						<Col sm={10}>
-							<FormControl componentClass="select" onChange={ this.onUserGenreChange } defaultValue={ this.props.data.genre }>
+							<FormControl componentClass="select" onChange={ this.onUserGenreChange } defaultValue={ this.props.data.user.genre }>
 								<option value=""></option>
 								<option value="Masculino">Masculino</option>
 								<option value="Feminino">Feminino</option>
@@ -190,86 +191,85 @@ class UserAddForm extends React.Component {
 					<FormGroup controlId="formHorizontal">
 						<Col componentClass={ControlLabel} sm={2}>Morada</Col>
 						<Col sm={10}>
-							<FormControl onChange={ this.onUserPostalAddressChange } type="text" placeholder="Morada" defaultValue={ this.props.data.postalAddress } />
+							<FormControl onChange={ this.onUserPostalAddressChange } type="text" placeholder="Morada" defaultValue={ this.props.data.user.postalAddress } />
 						</Col>
 					</FormGroup>
 					<FormGroup controlId="formHorizontal">
 						<Col componentClass={ControlLabel} sm={2}>Profissão</Col>
 						<Col sm={10}>
-							<FormControl onChange={ this.onUserJobChange } type="text" placeholder="Profissão" defaultValue={ this.props.data.job } />
+							<Typeahead onChange={ this.onUserJobChange } options={["eng", "info", "doct"]} placeholder="Profissão" allowNew={ true } defaultValue={ this.props.data.user.job } newSelectionPrefix={'Novo:'} paginationText={'Mostrar mais...'} emptyLabel={'Sem resultados'} />
 						</Col>
 					</FormGroup>
 					<br />
+
 					<h3>Ficha</h3>
-
-
 					<FormGroup controlId="formHorizontal">
 						<Col componentClass={ControlLabel} sm={2}>Seguro</Col>
 						<Col sm={10}>
-							<FormControl onChange={ this.onIncidentDetailsInsuranceChange } type="text" placeholder="Seguro" defaultValue={ this.props.data.insurance } />
+							<Typeahead onChange={ this.onIncidentDetailsInsuranceChange } options={["eng", "info", "doct"]} placeholder="Seguro" allowNew={ true } defaultValue={ this.props.data.user.insurance } newSelectionPrefix={'Novo:'} paginationText={'Mostrar mais...'} emptyLabel={'Sem resultados'} />
 						</Col>
 					</FormGroup>
 					<FormGroup controlId="formHorizontal">
 						<Col componentClass={ControlLabel} sm={2}>Apólice</Col>
 						<Col sm={10}>
-							<FormControl onChange={ this.onIncidentDetailsInsurancePolicyChange } type="text" placeholder="Apólice" defaultValue={ this.props.data.insurancePolicy } />
+							<FormControl onChange={ this.onIncidentDetailsInsurancePolicyChange } type="text" placeholder="Apólice" defaultValue={ this.props.data.user.insurancePolicy } />
 						</Col>
 					</FormGroup>
 					<FormGroup controlId="formHorizontal">
 						<Col componentClass={ControlLabel} sm={2}>Patologia</Col>
 						<Col sm={10}>
-							<FormControl onChange={ this.onIncidentDetailsPathologyChange } type="text" placeholder="Patologia" defaultValue={ this.props.data.pathology } />
+							<FormControl onChange={ this.onIncidentDetailsPathologyChange } type="text" placeholder="Patologia" defaultValue={ this.props.data.user.pathology } />
 						</Col>
 					</FormGroup>
 					<FormGroup controlId="formHorizontal">
 						<Col componentClass={ControlLabel} sm={2}>Fisioterapeuta</Col>
 						<Col sm={10}>
-							<FormControl onChange={ this.onIncidentDetailsPhysiotherapistChange } type="text" placeholder="Fisioterapeuta" defaultValue={ this.props.data.physiotherapist } />
+							<FormControl onChange={ this.onIncidentDetailsPhysiotherapistChange } type="text" placeholder="Fisioterapeuta" defaultValue={ this.props.data.user.physiotherapist } />
 						</Col>
 					</FormGroup>
 					<FormGroup controlId="formHorizontal">
 						<Col componentClass={ControlLabel} sm={2}>Médico</Col>
 						<Col sm={10}>
-							<FormControl onChange={ this.onIncidentDetailsDoctorChange } type="text" placeholder="Médico" defaultValue={ this.props.data.doctor } />
+							<Typeahead onChange={ this.onIncidentDetailsDoctorChange } options={["eng", "info", "doct"]} placeholder="Médico" allowNew={ true } defaultValue={ this.props.data.user.doctor } newSelectionPrefix={'Novo:'} paginationText={'Mostrar mais...'} emptyLabel={'Sem resultados'} />
 						</Col>
 					</FormGroup>
 					<FormGroup controlId="formHorizontal">
 						<Col componentClass={ControlLabel} sm={2}>Data início</Col>
 						<Col sm={10}>
-							<FormControl onChange={ this.onIncidentDetailsStartDateChange } type="date" defaultValue={ this.props.data.startDate } />
+							<FormControl onChange={ this.onIncidentDetailsStartDateChange } type="date" defaultValue={ this.props.data.user.startDate } />
 						</Col>
 					</FormGroup>
 					<FormGroup controlId="formHorizontal">
 						<Col componentClass={ControlLabel} sm={2}>Data fim</Col>
 						<Col sm={10}>
-							<FormControl onChange={ this.onIncidentDetailsEndDateChange } type="date" defaultValue={ this.props.data.endDate } />
+							<FormControl onChange={ this.onIncidentDetailsEndDateChange } type="date" defaultValue={ this.props.data.user.endDate } />
 						</Col>
 					</FormGroup>
-					{(this.props.data.endDate)
+					{(this.props.data.user.endDate)
 						? (<FormGroup controlId="formHorizontal">
 						<Col componentClass={ControlLabel} sm={2}>Número de sessões</Col>
 						<Col sm={10}>
-							<FormControl onChange={ this.onIncidentDetailsNumberOfSessionsChange } type="number" placeholder="Número de sessões" defaultValue={ this.props.data.numberOfSessions } />
+							<FormControl onChange={ this.onIncidentDetailsNumberOfSessionsChange } type="number" placeholder="Número de sessões" defaultValue={ this.props.data.user.numberOfSessions } />
 						</Col>
 					</FormGroup>)
 						: null }
 					<FormGroup controlId="formHorizontal">
 						<Col componentClass={ControlLabel} sm={2}>Notas privadas</Col>
 						<Col sm={10}>
-							<FormControl onChange={ this.onIncidentDetailsprivateNotesChange } componentClass="textarea" type="date" placeholder="Notas privadas" defaultValue={ this.props.data.privateNotes } />
+							<FormControl onChange={ this.onIncidentDetailsprivateNotesChange } componentClass="textarea" type="date" placeholder="Notas privadas" defaultValue={ this.props.data.user.privateNotes } />
 						</Col>
 					</FormGroup>
 					<FormGroup controlId="formHorizontal">
 						<Col componentClass={ControlLabel} sm={2}>Observações</Col>
 						<Col sm={10}>
-							<FormControl onChange={ this.onIncidentDetailsPublicNotesChange } componentClass="textarea" type="date" placeholder="Observações" defaultValue={ this.props.data.publicNotes } />
+							<FormControl onChange={ this.onIncidentDetailsPublicNotesChange } componentClass="textarea" type="date" placeholder="Observações" defaultValue={ this.props.data.user.publicNotes } />
 						</Col>
 					</FormGroup>
 					<button
 						type="submit"
 						className="btn btn-primary"
 						style={ style.userSaveButton }
-						disabled={ !this.props.data.needsSaving } >
+						disabled={ !this.props.data.user.needsSaving } >
 						Guardar
 					</button>
 				</Form>
