@@ -16,6 +16,7 @@ class UserAdd extends React.Component {
 
 		this.onUserSave = this.onUserSave.bind(this);
 		this.onUserFieldChange = this.onUserFieldChange.bind(this);
+		this.onIncidentFieldChange = this.onIncidentFieldChange.bind(this);
 	}
 
 	componentWillMount() {
@@ -31,7 +32,7 @@ class UserAdd extends React.Component {
 		axios.post(`${this.props.route.userUrl}`, user)
 			.catch((error) => {
 				this.setState({
-					userAddError: error.response.data
+					userAddError: (error.response && error.response.data) || 'Ocorreu um erro'
 				});
 				return Promise.reject();
 			})
@@ -43,7 +44,7 @@ class UserAdd extends React.Component {
 			});
 	}
 
-	onUserFieldChange(userProperty, value, userId) {
+	onUserFieldChange(userProperty, value) {
 		var user = Object.assign({}, this.state.user);
 		user[userProperty] = value;
 		this.setState({
@@ -51,11 +52,14 @@ class UserAdd extends React.Component {
 		});
 	}
 
+	onIncidentFieldChange(incidentProperty, value) {
+		this.onUserFieldChange(incidentProperty, value);
+	}
+
 	render() {
 		return (
 			<div>
-				<h3>Utente</h3>
-				<UserAddForm data={ this.state.user } onUserSave={ this.onUserSave } onUserFieldChange={ this.onUserFieldChange } />
+				<UserAddForm data={ this.state.user } onUserSave={ this.onUserSave } onUserFieldChange={ this.onUserFieldChange } onIncidentFieldChange={ this.onIncidentFieldChange } />
 				<DangerError data={ this.state.userAddError } />
 			</div>
 		);

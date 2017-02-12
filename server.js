@@ -200,7 +200,7 @@ router.route('/user').post(function(req, res) {
 
 	if (req.body.insurance || req.body.insurancePolicy || req.body.pathology || req.body.physiotherapist || req.body.doctor || req.body.startDate || req.body.endDate || req.body.numberOfSessions || req.body.privateNotes || req.body.publicNotes) {
 		user.incidents = [ incident ];
-		incident._user = user;
+		incident._user = user.toObject();
 	}
 
 	user.save(function(err, user) {
