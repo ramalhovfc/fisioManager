@@ -21,7 +21,7 @@ class UserAdd extends React.Component {
 		this.state = {
 			user: null,
 			userAddError: null,
-			lookups: []
+			lookups: {}
 		};
 
 		this.onUserSave = this.onUserSave.bind(this);

@@ -67,11 +67,11 @@ class UserAddForm extends React.Component {
 	}
 
 	onUserJobChange(e) {
-		this.props.onUserFieldChange(JOB, e[0].customOption ? e[0].label : e[0]);
+		this.props.onUserFieldChange(JOB, e[0].customOption ? e[0].job : e[0]);
 	}
 
 	onIncidentDetailsInsuranceChange(e) {
-		this.props.onIncidentFieldChange(INSURANCE, e[0].customOption ? e[0].label : e[0]);
+		this.props.onIncidentFieldChange(INSURANCE, e[0].customOption ? e[0].insurance : e[0]);
 	}
 
 	onIncidentDetailsInsurancePolicyChange(e) {
@@ -79,15 +79,15 @@ class UserAddForm extends React.Component {
 	}
 
 	onIncidentDetailsPathologyChange(e) {
-		this.props.onIncidentFieldChange(PATHOLOGY, e.target.value);
+		this.props.onIncidentFieldChange(PATHOLOGY, e[0].customOption ? e[0].pathology : e[0]);
 	}
 
 	onIncidentDetailsPhysiotherapistChange(e) {
-		this.props.onIncidentFieldChange(PHYSIOTHERAPIST, e.target.value);
+		this.props.onIncidentFieldChange(PHYSIOTHERAPIST, e[0].customOption ? e[0].physiotherapist : e[0]);
 	}
 
 	onIncidentDetailsDoctorChange(e) {
-		this.props.onIncidentFieldChange(DOCTOR, e[0].customOption ? e[0].label : e[0]);
+		this.props.onIncidentFieldChange(DOCTOR, e[0].customOption ? e[0].doctor : e[0]);
 	}
 
 	onIncidentDetailsStartDateChange(e) {
@@ -120,14 +120,19 @@ class UserAddForm extends React.Component {
 		let taxNumber = (this.props.data.user.taxNumber) ? this.props.data.user.taxNumber.trim() : undefined;
 		let genre = (this.props.data.user.genre) ? this.props.data.user.genre.trim() : undefined;
 		let postalAddress = (this.props.data.user.postalAddress) ? this.props.data.user.postalAddress.trim() : undefined;
-		let job = (this.props.data.user.job) ? this.props.data.user.job.trim() : undefined;
+		let job = this.props.data.user.job && this.props.data.user.job.job;
+		job = (job) ? job.trim() : undefined;
 
 		// incident props
-		let insurance = (this.props.data.user.insurance) ? this.props.data.user.insurance.trim() : undefined;
+		let insurance = this.props.data.user.insurance && this.props.data.user.insurance.insurance;
+		insurance = (insurance) ? insurance.trim() : undefined;
 		let insurancePolicy = (this.props.data.user.insurancePolicy) ? this.props.data.user.insurancePolicy.trim() : undefined;
-		let pathology = (this.props.data.user.pathology) ? this.props.data.user.pathology.trim() : undefined;
-		let physiotherapist = (this.props.data.user.physiotherapist) ? this.props.data.user.physiotherapist.trim() : undefined;
-		let doctor = (this.props.data.user.doctor) ? this.props.data.user.doctor.trim() : undefined;
+		let pathology = this.props.data.user.pathology && this.props.data.user.pathology.pathology;
+		pathology = (pathology) ? pathology.trim() : undefined;
+		let physiotherapist = this.props.data.user.physiotherapist && this.props.data.user.physiotherapist.physiotherapist;
+		physiotherapist = (physiotherapist) ? physiotherapist.trim() : undefined;
+		let doctor = this.props.data.user.doctor && this.props.data.user.doctor.doctor;
+		doctor = (doctor) ? doctor.trim() : undefined;
 		let startDate = (this.props.data.user.startDate) ? this.props.data.user.startDate.trim() : undefined;
 		let endDate = (this.props.data.user.endDate) ? this.props.data.user.endDate.trim() : undefined;
 		let numberOfSessions = (this.props.data.user.numberOfSessions !== undefined && this.props.data.user.endDate) ? this.props.data.user.numberOfSessions : undefined;
@@ -197,16 +202,15 @@ class UserAddForm extends React.Component {
 					<FormGroup controlId="formHorizontal">
 						<Col componentClass={ControlLabel} sm={2}>Profissão</Col>
 						<Col sm={10}>
-							<Typeahead onChange={ this.onUserJobChange } options={["eng", "info", "doct"]} placeholder="Profissão" allowNew={ true } defaultValue={ this.props.data.user.job } newSelectionPrefix={'Novo:'} paginationText={'Mostrar mais...'} emptyLabel={'Sem resultados'} />
+							<Typeahead onChange={ this.onUserJobChange } options={ this.props.data.lookups.job || [] } labelKey={'job'} placeholder="Profissão" allowNew={ true } defaultValue={ this.props.data.user.job } newSelectionPrefix={'Novo: '} paginationText={'Mostrar mais...'} emptyLabel={'Sem resultados'} />
 						</Col>
 					</FormGroup>
 					<br />
-
 					<h3>Ficha</h3>
 					<FormGroup controlId="formHorizontal">
 						<Col componentClass={ControlLabel} sm={2}>Seguro</Col>
 						<Col sm={10}>
-							<Typeahead onChange={ this.onIncidentDetailsInsuranceChange } options={["eng", "info", "doct"]} placeholder="Seguro" allowNew={ true } defaultValue={ this.props.data.user.insurance } newSelectionPrefix={'Novo:'} paginationText={'Mostrar mais...'} emptyLabel={'Sem resultados'} />
+							<Typeahead onChange={ this.onIncidentDetailsInsuranceChange } options={ this.props.data.lookups.insurance || [] } labelKey={'insurance'} placeholder="Seguro" allowNew={ true } defaultValue={ this.props.data.user.insurance } newSelectionPrefix={'Novo: '} paginationText={'Mostrar mais...'} emptyLabel={'Sem resultados'} />
 						</Col>
 					</FormGroup>
 					<FormGroup controlId="formHorizontal">
@@ -218,19 +222,19 @@ class UserAddForm extends React.Component {
 					<FormGroup controlId="formHorizontal">
 						<Col componentClass={ControlLabel} sm={2}>Patologia</Col>
 						<Col sm={10}>
-							<FormControl onChange={ this.onIncidentDetailsPathologyChange } type="text" placeholder="Patologia" defaultValue={ this.props.data.user.pathology } />
+							<Typeahead onChange={ this.onIncidentDetailsPathologyChange } options={ this.props.data.lookups.pathology || [] } labelKey={'pathology'} placeholder="Patologia" allowNew={ true } defaultValue={ this.props.data.user.pathology } newSelectionPrefix={'Novo: '} paginationText={'Mostrar mais...'} emptyLabel={'Sem resultados'} />
 						</Col>
 					</FormGroup>
 					<FormGroup controlId="formHorizontal">
 						<Col componentClass={ControlLabel} sm={2}>Fisioterapeuta</Col>
 						<Col sm={10}>
-							<FormControl onChange={ this.onIncidentDetailsPhysiotherapistChange } type="text" placeholder="Fisioterapeuta" defaultValue={ this.props.data.user.physiotherapist } />
+							<Typeahead onChange={ this.onIncidentDetailsPhysiotherapistChange } options={ this.props.data.lookups.physiotherapist || [] } labelKey={'physiotherapist'} placeholder="Fisioterapeuta" allowNew={ true } defaultValue={ this.props.data.user.physiotherapist } newSelectionPrefix={'Novo: '} paginationText={'Mostrar mais...'} emptyLabel={'Sem resultados'} />
 						</Col>
 					</FormGroup>
 					<FormGroup controlId="formHorizontal">
 						<Col componentClass={ControlLabel} sm={2}>Médico</Col>
 						<Col sm={10}>
-							<Typeahead onChange={ this.onIncidentDetailsDoctorChange } options={["eng", "info", "doct"]} placeholder="Médico" allowNew={ true } defaultValue={ this.props.data.user.doctor } newSelectionPrefix={'Novo:'} paginationText={'Mostrar mais...'} emptyLabel={'Sem resultados'} />
+							<Typeahead onChange={ this.onIncidentDetailsDoctorChange } options={ this.props.data.lookups.doctor || [] } labelKey={'doctor'} placeholder="Médico" allowNew={ true } defaultValue={ this.props.data.user.doctor } newSelectionPrefix={'Novo: '} paginationText={'Mostrar mais...'} emptyLabel={'Sem resultados'} />
 						</Col>
 					</FormGroup>
 					<FormGroup controlId="formHorizontal">

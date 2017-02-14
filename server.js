@@ -465,54 +465,68 @@ router.route('/lookups').get(function(req, res) {
 	var search = JSON.parse(req.query["lookupsToGet"]);
 
 	var lookups = {};
+	var lookupsLeft = Object.keys(search).length;
 	for (let property of Object.keys(search)) {
-		if (!search.hasOwnProperty(property)) {	continue; }
+		if (!search.hasOwnProperty(property)) { lookupsLeft--; continue; }
 
-		if (property === 'doctor' && search[property]) {
-			Doctor.find(function (err, results) {
-				if (err) {
-					lookups[property] = [];
-					return;
-				}
-				lookups[property] = results;
-			});
-		} else if (property === 'insurance' && search[property]) {
-			Insurance.find(function (err, results) {
-				if (err) {
-					lookups[property] = [];
-					return;
-				}
-				lookups[property] = results;
-			});
-		} else if (property === 'job' && search[property]) {
-			Job.find(function (err, results) {
-				if (err) {
-					lookups[property] = [];
-					return;
-				}
-				lookups[property] = results;
-			});
-		} else if (property === 'pathology' && search[property]) {
-			Pathology.find(function (err, results) {
-				if (err) {
+		if (search[property]) {
+			if (property === 'doctor') {
+				Doctor.find(function (err, results) {
+					lookupsLeft--;
+					if (err) {
+						lookups[property] = [];
+						return;
+					}
 					lookups[property] = results;
-					return;
-				}
-				lookups[property] = results;
-			});
-		} else if (property === 'physiotherapist' && search[property]) {
-			Physiotherapist.find(function (err, results) {
-				if (err) {
+					if (!lookupsLeft) { res.send(lookups); }
+				});
+			} else if (property === 'insurance') {
+				Insurance.find(function (err, results) {
+					lookupsLeft--;
+					if (err) {
+						lookups[property] = [];
+						return;
+					}
 					lookups[property] = results;
-					return;
-				}
-				lookups[property] = results;
-			});
+					if (!lookupsLeft) { res.send(lookups); }
+				});
+			} else if (property === 'job') {
+				Job.find(function (err, results) {
+					lookupsLeft--;
+					if (err) {
+						lookups[property] = [];
+						return;
+					}
+					lookups[property] = results;
+					if (!lookupsLeft) { res.send(lookups); }
+				});
+			} else if (property === 'pathology') {
+				Pathology.find(function (err, results) {
+					lookupsLeft--;
+					if (err) {
+						lookups[property] = [];
+						return;
+					}
+					lookups[property] = results;
+					if (!lookupsLeft) { res.send(lookups); }
+				});
+			} else if (property === 'physiotherapist') {
+				Physiotherapist.find(function (err, results) {
+					lookupsLeft--;
+					if (err) {
+						lookups[property] = [];
+						return;
+					}
+					lookups[property] = results;
+					if (!lookupsLeft) { res.send(lookups); }
+				});
+			} else {
+				lookupsLeft--;
+			}
 		} else {
-			// dont care
+			lookupsLeft--;
 		}
 	}
-	res.send(lookups);
 });
 
 router.route('/lookups').post(function(req, res) {
