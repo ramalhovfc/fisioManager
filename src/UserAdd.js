@@ -8,7 +8,6 @@ import DangerError from './DangerError';
 
 const LOOKUPS_NEEDED = {
 	'doctor': true,
-	'incident': true,
 	'insurance': true,
 	'job': true,
 	'pathology': true,

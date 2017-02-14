@@ -21,7 +21,7 @@ ReactDOM.render(
 	<Router history={browserHistory}>
 		<Route component={Main} >
 			<Route path="/" component={UserBrowser} userSearchUrl={ userSearchUrl } />
-			<Route path="/user/:user_id" component={ UserDetails } userAndIncidentsFindUrl={ userAndIncidentsFindUrl } incidentUrl={ incidentUrl } />
+			<Route path="/user/:user_id" component={ UserDetails } userAndIncidentsFindUrl={ userAndIncidentsFindUrl } incidentUrl={ incidentUrl } lookupsUrl={ lookupsUrl } />
 			<Route path="/user/add/:name" component={ UserAdd } userUrl={ userUrl } lookupsUrl={ lookupsUrl } />
 			<Route path="/search" component={ Search } userSearchUrl={ userSearchUrl } incidentSearchUrl={ incidentSearchUrl } />
 			<Route path="/openIncidents" component={ OpenIncidents } openIncidentsUrl={ openIncidentsUrl } />

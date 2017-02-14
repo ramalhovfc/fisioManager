@@ -6,10 +6,10 @@ import {isIncidentClosed} from '../model/utils/incidentUtils';
 
 class IncidentList extends React.Component {
 	render() {
-		let incidentElements = this.props.data.map((incident, index) => {
+		let incidentElements = this.props.data.incidents.map((incident, index) => {
 			return (
 				<Tab key={ incident['_id'] } eventKey={ index + 1 } title={ "Ficha " + (index + 1) }>
-					<IncidentDetails data={ incident } onIncidentSave={ this.props.onIncidentSave } onIncidentDetailsFieldChange={ this.props.onIncidentDetailsFieldChange } onDeleteIncidentClick={ this.props.onDeleteIncidentClick } />
+					<IncidentDetails data={{ incident: incident, lookups: this.props.data.lookups }} onIncidentSave={ this.props.onIncidentSave } onIncidentDetailsFieldChange={ this.props.onIncidentDetailsFieldChange } onDeleteIncidentClick={ this.props.onDeleteIncidentClick } />
 				</Tab>
 			)
 		});
@@ -30,8 +30,8 @@ class IncidentList extends React.Component {
 		}
 
 		var addingDisabled = false;
-		for (let i = 0; i < this.props.data.length; i++) {
-			if (!isIncidentClosed(this.props.data[i]) || this.props.data[i].needsSaving) {
+		for (let i = 0; i < this.props.data.incidents.length; i++) {
+			if (!isIncidentClosed(this.props.data.incidents[i]) || this.props.data.incidents[i].needsSaving) {
 				addingDisabled = true;
 				break;
 			}

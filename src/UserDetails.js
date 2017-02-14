@@ -4,6 +4,13 @@ import style from './style';
 import Incident from '../model/pojo/incidentPojo';
 import IncidentList from './IncidentList';
 
+const LOOKUPS_NEEDED = {
+	'doctor': true,
+	'insurance': true,
+	'pathology': true,
+	'physiotherapist': true
+};
+
 class UserDetails extends React.Component {
 	constructor() {
 		super();
@@ -11,7 +18,8 @@ class UserDetails extends React.Component {
 		this.state = {
 			user: null,
 			incidents: null,
-			tabActiveKey: 1
+			tabActiveKey: 1,
+			lookups: []
 		};
 
 		this.onSelectTab = this.onSelectTab.bind(this);
@@ -24,37 +32,49 @@ class UserDetails extends React.Component {
 	componentWillMount() {
 		let userId = this.props.params.user_id;
 		let incidentId = this.props.location.query.incidentId;
-		this.getUserDetails(userId, incidentId);
-	}
 
-	getUserDetails(userId, incidentId) {
-		axios.get(`${this.props.route.userAndIncidentsFindUrl}/${userId}`)
-			.then(res => {
+		axios.all([this.getLookups(LOOKUPS_NEEDED), this.getUserDetails(userId, incidentId)])
+			.catch((error) => {
+				// this.setState({
+				// 	userAddError: (error.response && error.response.data) || 'Ocorreu um erro ao obter lookups'
+				// });
+				return Promise.reject();
+			})
+			.then(axios.spread((lookups, userDetails) => {
 				let tabToOpen = this.state.tabActiveKey;
-				if (incidentId && res.data.incidents) {
-					for (let i = 0; i < res.data.incidents.length; i++) {
-						if (incidentId === res.data.incidents[i]["_id"]) {
+				if (incidentId && userDetails.data.incidents) {
+					for (let i = 0; i < userDetails.data.incidents.length; i++) {
+						if (incidentId === userDetails.data.incidents[i]["_id"]) {
 							tabToOpen = i + 1;
 							break;
 						}
 					}
 				}
 
-				for (let i = 0; i < res.data.incidents.length; i++) {
-					if (res.data.incidents[i].startDate) {
-						res.data.incidents[i].startDate = res.data.incidents[i].startDate.slice(0, 10);
+				for (let i = 0; i < userDetails.data.incidents.length; i++) {
+					if (userDetails.data.incidents[i].startDate) {
+						userDetails.data.incidents[i].startDate = userDetails.data.incidents[i].startDate.slice(0, 10);
 					}
-					if (res.data.incidents[i].endDate) {
-						res.data.incidents[i].endDate = res.data.incidents[i].endDate.slice(0, 10);
+					if (userDetails.data.incidents[i].endDate) {
+						userDetails.data.incidents[i].endDate = userDetails.data.incidents[i].endDate.slice(0, 10);
 					}
 				}
 
 				this.setState({
-					user: res.data.user,
-					incidents: res.data.incidents,
+					lookups: lookups.data,
+					user: userDetails.data.user,
+					incidents: userDetails.data.incidents,
 					tabActiveKey: tabToOpen
 				});
-			});
+			}));
+	}
+
+	getLookups(lookupsToGet) {
+		return axios.get(`${this.props.route.lookupsUrl}`, {params: {lookupsToGet}});
+	}
+
+	getUserDetails(userId, incidentId) {
+		return axios.get(`${this.props.route.userAndIncidentsFindUrl}/${userId}`);
 	}
 
 	onAddNewIncidentClick() {
@@ -146,7 +166,7 @@ class UserDetails extends React.Component {
 						<dd>{ this.state.user.job }</dd>
 					</dl>
 
-					<IncidentList data={ this.state.incidents } tabActiveKey={ this.state.tabActiveKey } onSelectTab={ this.onSelectTab } onIncidentSave={ this.onIncidentSave } onIncidentDetailsFieldChange={ this.onIncidentDetailsFieldChange } onAddNewIncidentClick={ this.onAddNewIncidentClick } onDeleteIncidentClick={ this.onDeleteIncidentClick } />
+					<IncidentList data={{incidents: this.state.incidents, lookups: this.state.lookups }} tabActiveKey={ this.state.tabActiveKey } onSelectTab={ this.onSelectTab } onIncidentSave={ this.onIncidentSave } onIncidentDetailsFieldChange={ this.onIncidentDetailsFieldChange } onAddNewIncidentClick={ this.onAddNewIncidentClick } onDeleteIncidentClick={ this.onDeleteIncidentClick } />
 				</div>
 			);
 		}
