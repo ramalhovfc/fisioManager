@@ -108,6 +108,8 @@ class UserDetails extends React.Component {
 						break;
 					}
 				}
+
+				axios.post(`${this.props.route.lookupsUrl}`, incident);
 			});
 	}
 

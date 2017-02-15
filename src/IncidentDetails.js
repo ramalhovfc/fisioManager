@@ -36,15 +36,27 @@ class IncidentDetails extends React.Component {
 	handleSubmit(e) {
 		e.preventDefault();
 		let _id = this.props.data.incident["_id"].slice();
-		let insurance = this.props.data.incident.insurance && this.props.data.incident.insurance.insurance;
-		insurance = (insurance) ? insurance.trim() : undefined;
+		let insurance;
+		if (this.props.data.incident.insurance) {
+			insurance = this.props.data.incident.insurance.insurance || this.props.data.incident.insurance;
+			insurance = (insurance) ? insurance.trim() : undefined;
+		}
 		let insurancePolicy = (this.props.data.incident.insurancePolicy) ? this.props.data.incident.insurancePolicy.trim() : undefined;
-		let pathology = this.props.data.incident.pathology && this.props.data.incident.pathology.pathology;
-		pathology = (pathology) ? pathology.trim() : undefined;
-		let physiotherapist = this.props.data.incident.physiotherapist && this.props.data.incident.physiotherapist.physiotherapist;
-		physiotherapist = (physiotherapist) ? physiotherapist.trim() : undefined;
-		let doctor = this.props.data.incident.doctor && this.props.data.incident.doctor.doctor;
-		doctor = (doctor) ? doctor.trim() : undefined;
+		let pathology;
+		if (this.props.data.incident.pathology) {
+			pathology = this.props.data.incident.pathology.pathology || this.props.data.incident.pathology;
+			pathology = (pathology) ? pathology.trim() : undefined;
+		}
+		let physiotherapist;
+		if (this.props.data.incident.physiotherapist) {
+			physiotherapist = this.props.data.incident.physiotherapist.physiotherapist || this.props.data.incident.physiotherapist;
+			physiotherapist = (physiotherapist) ? physiotherapist.trim() : undefined;
+		}
+		let doctor;
+		if (this.props.data.incident.doctor) {
+			doctor = this.props.data.incident.doctor.doctor || this.props.data.incident.doctor;
+			doctor = (doctor) ? doctor.trim() : undefined;
+		}
 		let startDate = (this.props.data.incident.startDate) ? this.props.data.incident.startDate.trim() : undefined;
 		let endDate = (this.props.data.incident.endDate) ? this.props.data.incident.endDate.trim() : undefined;
 		let numberOfSessions = (this.props.data.incident.numberOfSessions !== undefined && this.props.data.incident.endDate) ? this.props.data.incident.numberOfSessions : undefined;
@@ -67,7 +79,13 @@ class IncidentDetails extends React.Component {
 	}
 
 	onIncidentDetailsInsuranceChange(e) {
-		this.props.onIncidentDetailsFieldChange(INSURANCE, e[0].customOption ? e[0].insurance : e[0], this.props.data.incident["_id"]);
+		let value;
+		if (e && e.length) {
+			value = e[0].customOption ? e[0].insurance : e[0];
+		} else {
+			value = undefined;
+		}
+		this.props.onIncidentDetailsFieldChange(INSURANCE, value, this.props.data.incident["_id"]);
 	}
 
 	onIncidentDetailsInsurancePolicyChange(e) {
@@ -75,15 +93,33 @@ class IncidentDetails extends React.Component {
 	}
 
 	onIncidentDetailsPathologyChange(e) {
-		this.props.onIncidentDetailsFieldChange(PATHOLOGY, e[0].customOption ? e[0].pathology : e[0], this.props.data.incident["_id"]);
+		let value;
+		if (e && e.length) {
+			value = e[0].customOption ? e[0].pathology : e[0];
+		} else {
+			value = undefined;
+		}
+		this.props.onIncidentDetailsFieldChange(PATHOLOGY, value, this.props.data.incident["_id"]);
 	}
 
 	onIncidentDetailsPhysiotherapistChange(e) {
-		this.props.onIncidentDetailsFieldChange(PHYSIOTHERAPIST, e[0].customOption ? e[0].physiotherapist : e[0], this.props.data.incident["_id"]);
+		let value;
+		if (e && e.length) {
+			value = e[0].customOption ? e[0].physiotherapist : e[0];
+		} else {
+			value = undefined;
+		}
+		this.props.onIncidentDetailsFieldChange(PHYSIOTHERAPIST, value, this.props.data.incident["_id"]);
 	}
 
 	onIncidentDetailsDoctorChange(e) {
-		this.props.onIncidentDetailsFieldChange(DOCTOR, e[0].customOption ? e[0].doctor : e[0], this.props.data.incident["_id"]);
+		let value;
+		if (e && e.length) {
+			value = e[0].customOption ? e[0].doctor : e[0];
+		} else {
+			value = undefined;
+		}
+		this.props.onIncidentDetailsFieldChange(DOCTOR, value, this.props.data.incident["_id"]);
 	}
 
 	onIncidentDetailsStartDateChange(e) {

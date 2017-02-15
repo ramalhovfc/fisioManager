@@ -120,19 +120,35 @@ class UserAddForm extends React.Component {
 		let taxNumber = (this.props.data.user.taxNumber) ? this.props.data.user.taxNumber.trim() : undefined;
 		let genre = (this.props.data.user.genre) ? this.props.data.user.genre.trim() : undefined;
 		let postalAddress = (this.props.data.user.postalAddress) ? this.props.data.user.postalAddress.trim() : undefined;
-		let job = this.props.data.user.job && this.props.data.user.job.job;
-		job = (job) ? job.trim() : undefined;
+		let job;
+		if (this.props.data.user.job) {
+			job = this.props.data.user.job.job || this.props.data.user.job;
+			job = (job) ? job.trim() : undefined;
+		}
 
 		// incident props
-		let insurance = this.props.data.user.insurance && this.props.data.user.insurance.insurance;
-		insurance = (insurance) ? insurance.trim() : undefined;
+		let insurance;
+		if (this.props.data.user.insurance) {
+			insurance = this.props.data.user.insurance.insurance || this.props.data.user.insurance;
+			insurance = (insurance) ? insurance.trim() : undefined;
+		}
+
 		let insurancePolicy = (this.props.data.user.insurancePolicy) ? this.props.data.user.insurancePolicy.trim() : undefined;
-		let pathology = this.props.data.user.pathology && this.props.data.user.pathology.pathology;
-		pathology = (pathology) ? pathology.trim() : undefined;
-		let physiotherapist = this.props.data.user.physiotherapist && this.props.data.user.physiotherapist.physiotherapist;
-		physiotherapist = (physiotherapist) ? physiotherapist.trim() : undefined;
-		let doctor = this.props.data.user.doctor && this.props.data.user.doctor.doctor;
-		doctor = (doctor) ? doctor.trim() : undefined;
+		let pathology;
+		if (this.props.data.user.pathology) {
+			pathology = this.props.data.user.pathology.pathology || this.props.data.user.pathology;
+			pathology = (pathology) ? pathology.trim() : undefined;
+		}
+		let physiotherapist;
+		if (this.props.data.user.physiotherapist) {
+			physiotherapist = this.props.data.user.physiotherapist.physiotherapist || this.props.data.user.physiotherapist;
+			physiotherapist = (physiotherapist) ? physiotherapist.trim() : undefined;
+		}
+		let doctor;
+		if (this.props.data.user.doctor) {
+			doctor = this.props.data.user.doctor.doctor || this.props.data.user.doctor;
+			doctor = (doctor) ? doctor.trim() : undefined;
+		}
 		let startDate = (this.props.data.user.startDate) ? this.props.data.user.startDate.trim() : undefined;
 		let endDate = (this.props.data.user.endDate) ? this.props.data.user.endDate.trim() : undefined;
 		let numberOfSessions = (this.props.data.user.numberOfSessions !== undefined && this.props.data.user.endDate) ? this.props.data.user.numberOfSessions : undefined;
