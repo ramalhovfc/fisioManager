@@ -1,5 +1,6 @@
 import React from 'react';
 import {Form, FormGroup, FormControl, Col, ControlLabel} from 'react-bootstrap';
+import {Typeahead} from 'react-bootstrap-typeahead';
 import style from './style';
 
 const NAME = 'name';
@@ -33,7 +34,11 @@ class SearchUserForm extends React.Component {
 		let taxNumber = (this.state.userSearch.taxNumber) ? this.state.userSearch.taxNumber.trim() : undefined;
 		let genre = (this.state.userSearch.genre) ? this.state.userSearch.genre.trim() : undefined;
 		let postalAddress = (this.state.userSearch.postalAddress) ? this.state.userSearch.postalAddress.trim() : undefined;
-		let job = (this.state.userSearch.job) ? this.state.userSearch.job : undefined;
+		let job;
+		if (this.state.userSearch.job) {
+			job = this.state.userSearch.job.job || this.state.userSearch.job;
+			job = (job) ? job.trim() : undefined;
+		}
 
 		this.props.onUserSearch({
 			name: name,
@@ -66,7 +71,13 @@ class SearchUserForm extends React.Component {
 	}
 
 	onUserJobChange(e) {
-		this.onUserFieldChange(JOB, e.target.value);
+		let value;
+		if (e && e.length) {
+			value = e[0].customOption ? e[0].insurance : e[0];
+		} else {
+			value = undefined;
+		}
+		this.onUserFieldChange(JOB, value);
 	}
 
 	onUserFieldChange(field, value) {
@@ -119,7 +130,7 @@ class SearchUserForm extends React.Component {
 					<FormGroup controlId="formHorizontal">
 						<Col componentClass={ControlLabel} sm={2}>Profissão</Col>
 						<Col sm={10}>
-							<FormControl onChange={ this.onUserJobChange } placeholder="Profissão" />
+							<Typeahead onChange={ this.onUserJobChange } options={ this.props.data.lookups.job || [] } labelKey={'job'} placeholder="Profissão" allowNew={ true } newSelectionPrefix={''} paginationText={'Mostrar mais...'} emptyLabel={'Sem resultados'} />
 						</Col>
 					</FormGroup>
 					<button

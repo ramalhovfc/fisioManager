@@ -4,16 +4,45 @@ import SearchTabs from './SearchTabs';
 import IncidentSearchResults from './IncidentSearchResults';
 import UserSearchResults from './UserSearchResults';
 
+const LOOKUPS_NEEDED = {
+	'doctor': true,
+	'insurance': true,
+	'job': true,
+	'pathology': true,
+	'physiotherapist': true
+};
+
 class Search extends React.Component {
 	constructor() {
 		super();
 		this.state = {
 			incidents: [],
-			users: []
+			users: [],
+			lookus: []
 		};
 
 		this.onIncidentSearch = this.onIncidentSearch.bind(this);
 		this.onUserSearch = this.onUserSearch.bind(this);
+	}
+
+	componentWillMount() {
+		this.getLookups(LOOKUPS_NEEDED);
+	}
+
+	getLookups(lookupsToGet) {
+		axios.get(`${this.props.route.lookupsUrl}`, {params: {lookupsToGet}})
+			.catch((error) => {
+				this.setState({
+					userAddError: (error.response && error.response.data) || 'Ocorreu um erro ao obter lookups'
+				});
+				return Promise.reject();
+			})
+			.then(res => {
+				console.log(res.data);
+				this.setState({
+					lookups: res.data
+				});
+			});
 	}
 
 	onIncidentSearch(incidentSearch) {
@@ -34,7 +63,8 @@ class Search extends React.Component {
 		axios.get(`${this.props.route.incidentSearchUrl}`, {params: {incidentSearch}})
 			.then(res => {
 				this.setState({
-					incidents: res.data
+					incidents: res.data,
+					users: []
 				});
 			});
 	}
@@ -57,7 +87,8 @@ class Search extends React.Component {
 		axios.get(`${this.props.route.userSearchUrl}`, {params: {userSearch}})
 			.then(res => {
 				this.setState({
-					users: res.data
+					users: res.data,
+					incidents: []
 				});
 			});
 	}
@@ -66,7 +97,7 @@ class Search extends React.Component {
 		return (
 			<div>
 				<h4>Procurar</h4>
-				<SearchTabs onUserSearch={ this.onUserSearch } onIncidentSearch={ this.onIncidentSearch } />
+				<SearchTabs data={{ lookups: this.state.lookups || [] }} onUserSearch={ this.onUserSearch } onIncidentSearch={ this.onIncidentSearch } />
 				<IncidentSearchResults data={ this.state.incidents } />
 				<UserSearchResults data={ this.state.users } />
 			</div>

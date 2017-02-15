@@ -9,10 +9,10 @@ class SearchTabs extends React.Component {
 			<div>
 				<Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
 					<Tab eventKey={1} title="Utentes" >
-						<SearchUserForm onUserSearch={ this.props.onUserSearch } />
+						<SearchUserForm data={{ lookups: this.props.data.lookups }} onUserSearch={ this.props.onUserSearch } />
 					</Tab>
 					<Tab eventKey={2} title="Fichas">
-						<SearchIncidentForm onIncidentSearch={ this.props.onIncidentSearch } />
+						<SearchIncidentForm data={{ lookups: this.props.data.lookups }} onIncidentSearch={ this.props.onIncidentSearch } />
 					</Tab>
 				</Tabs>
 			</div>
