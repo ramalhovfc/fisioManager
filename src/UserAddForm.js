@@ -274,9 +274,9 @@ class UserAddForm extends React.Component {
 					</FormGroup>)
 						: null }
 					<FormGroup controlId="formHorizontal">
-						<Col componentClass={ControlLabel} sm={2}>Notas privadas</Col>
+						<Col componentClass={ControlLabel} sm={2}>Avaliação</Col>
 						<Col sm={10}>
-							<FormControl onChange={ this.onIncidentDetailsprivateNotesChange } componentClass="textarea" type="date" placeholder="Notas privadas" defaultValue={ this.props.data.user.privateNotes } />
+							<FormControl onChange={ this.onIncidentDetailsprivateNotesChange } componentClass="textarea" type="date" placeholder="Avaliação" defaultValue={ this.props.data.user.privateNotes } />
 						</Col>
 					</FormGroup>
 					<FormGroup controlId="formHorizontal">

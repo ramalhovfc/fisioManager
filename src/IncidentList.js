@@ -9,7 +9,7 @@ class IncidentList extends React.Component {
 		let incidentElements = this.props.data.incidents.map((incident, index) => {
 			return (
 				<Tab key={ incident['_id'] } eventKey={ index + 1 } title={ "Ficha " + (index + 1) }>
-					<IncidentDetails data={{ incident: incident, lookups: this.props.data.lookups }} onIncidentSave={ this.props.onIncidentSave } onIncidentDetailsFieldChange={ this.props.onIncidentDetailsFieldChange } onDeleteIncidentClick={ this.props.onDeleteIncidentClick } />
+					<IncidentDetails data={{ incident: incident, lookups: this.props.data.lookups }} onIncidentSave={ this.props.onIncidentSave } onIncidentDetailsFieldChange={ this.props.onIncidentDetailsFieldChange } onDeleteIncidentClick={ this.props.onDeleteIncidentClick } onPrintIncidentClick={ this.props.onPrintIncidentClick } />
 				</Tab>
 			)
 		});

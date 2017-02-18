@@ -1,4 +1,5 @@
 import React from 'react';
+import {browserHistory} from 'react-router';
 import axios from 'axios';
 import style from './style';
 import Incident from '../model/pojo/incidentPojo';
@@ -150,6 +151,10 @@ class UserDetails extends React.Component {
 			});
 	}
 
+	onPrintIncidentClick(incidentId) {
+		browserHistory.push('/print/' + incidentId);
+	}
+
 	render() {
 		if (this.state.user) {
 			return (
@@ -168,7 +173,7 @@ class UserDetails extends React.Component {
 						<dd>{ this.state.user.job }</dd>
 					</dl>
 
-					<IncidentList data={{incidents: this.state.incidents, lookups: this.state.lookups }} tabActiveKey={ this.state.tabActiveKey } onSelectTab={ this.onSelectTab } onIncidentSave={ this.onIncidentSave } onIncidentDetailsFieldChange={ this.onIncidentDetailsFieldChange } onAddNewIncidentClick={ this.onAddNewIncidentClick } onDeleteIncidentClick={ this.onDeleteIncidentClick } />
+					<IncidentList data={{incidents: this.state.incidents, lookups: this.state.lookups }} tabActiveKey={ this.state.tabActiveKey } onSelectTab={ this.onSelectTab } onIncidentSave={ this.onIncidentSave } onIncidentDetailsFieldChange={ this.onIncidentDetailsFieldChange } onAddNewIncidentClick={ this.onAddNewIncidentClick } onDeleteIncidentClick={ this.onDeleteIncidentClick } onPrintIncidentClick={ this.onPrintIncidentClick } />
 				</div>
 			);
 		}

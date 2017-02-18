@@ -282,54 +282,69 @@ router.route('/incident/search').get(function(req, res) {
 	winston.debug('req.query', req.query);
 	var search = JSON.parse(req.query["incidentSearch"]);
 
-	var opts = {};
-	for (let property of Object.keys(search)){
-		if (!search.hasOwnProperty(property)) { continue; }
+	if ('_id' in search) {
+		Incident.findById(search['_id'])
+			.populate('_user')
+			.exec(function(err, incident) {
+				if (err) {
+					res.send(err);
+					return;
+				}
 
-		if (search[property]) {
-			if (!isAlphabeticOrSpace(search[property])) {
-				res.send([]);
-				return;
+				res.send(incident);
+			});
+	} else {
+		var opts = {};
+		for (let property of Object.keys(search)) {
+			if (!search.hasOwnProperty(property)) {
+				continue;
 			}
 
-			// TODO go get this from model
-			if (property === '_user') {
-				// do not search by regex if we are searching by an ObjectId
-				opts[property] = search[property];
-			} else {
-				if (property === 'startDateBegin') {
-					opts['startDate'] = Object.assign(opts['startDate'] || {}, {$gte: new Date(search[property])});
-				} else if (property === 'endDateBegin') {
-					opts['endDate'] = Object.assign(opts['endDate'] || {}, {$gte: new Date(search[property])});
-				} else if (property === 'startDateEnd') {
-					opts['startDate'] = Object.assign(opts['startDate'] || {}, {$lte: new Date(search[property])});
-				} else if (property === 'endDateEnd') {
-					opts['endDate'] = Object.assign(opts['endDate'] || {}, {$lte: new Date(search[property])});
-				} else {
+			if (search[property]) {
+				if (!isAlphabeticOrSpace(search[property])) {
+					res.send([]);
+					return;
+				}
+
+				// TODO go get this from model
+				if (property === '_user' || property === 'id') {
+					// do not search by regex if we are searching by an ObjectId
 					opts[property] = search[property];
+				} else {
+					if (property === 'startDateBegin') {
+						opts['startDate'] = Object.assign(opts['startDate'] || {}, {$gte: new Date(search[property])});
+					} else if (property === 'endDateBegin') {
+						opts['endDate'] = Object.assign(opts['endDate'] || {}, {$gte: new Date(search[property])});
+					} else if (property === 'startDateEnd') {
+						opts['startDate'] = Object.assign(opts['startDate'] || {}, {$lte: new Date(search[property])});
+					} else if (property === 'endDateEnd') {
+						opts['endDate'] = Object.assign(opts['endDate'] || {}, {$lte: new Date(search[property])});
+					} else {
+						opts[property] = search[property];
+					}
 				}
 			}
 		}
+		winston.debug('opts["insurance"]', opts["insurance"]);
+		winston.debug('opts["insurancePolicy"]', opts["insurancePolicy"]);
+		winston.debug('opts["doctor"]', opts["doctor"]);
+		winston.debug('opts["pathology"]', opts["pathology"]);
+		winston.debug('opts["physiotherapist"]', opts["physiotherapist"]);
+		winston.debug('opts["startDate"]', opts["startDate"]);
+		winston.debug('opts["endDate"]', opts["endDate"]);
+		winston.debug('opts["numberOfSessions"]', opts["numberOfSessions"]);
+
+		Incident.find(opts)
+			.populate('_user')
+			.exec(function (err, results) {
+				if (err) {
+					res.send(err);
+					return;
+				}
+
+				res.json(results);
+			});
 	}
-	winston.debug('opts["insurance"]', opts["insurance"]);
-	winston.debug('opts["insurancePolicy"]', opts["insurancePolicy"]);
-	winston.debug('opts["doctor"]', opts["doctor"]);
-	winston.debug('opts["pathology"]', opts["pathology"]);
-	winston.debug('opts["physiotherapist"]', opts["physiotherapist"]);
-	winston.debug('opts["startDate"]', opts["startDate"]);
-	winston.debug('opts["endDate"]', opts["endDate"]);
-	winston.debug('opts["numberOfSessions"]', opts["numberOfSessions"]);
-
-	Incident.find(opts)
-		.populate('_user')
-		.exec(function (err, results) {
-			if (err) {
-				res.send(err);
-				return;
-			}
-
-			res.json(results);
-		});
 });
 
 router.route('/incident').post(function(req, res) {

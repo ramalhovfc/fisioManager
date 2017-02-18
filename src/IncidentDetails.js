@@ -31,6 +31,7 @@ class IncidentDetails extends React.Component {
 		this.onIncidentDetailsprivateNotesChange = this.onIncidentDetailsprivateNotesChange.bind(this);
 		this.onIncidentDetailsPublicNotesChange = this.onIncidentDetailsPublicNotesChange.bind(this);
 		this.onDeleteIncidentClick = this.onDeleteIncidentClick.bind(this);
+		this.onPrintIncidentClick = this.onPrintIncidentClick.bind(this);
 	}
 
 	handleSubmit(e) {
@@ -150,6 +151,15 @@ class IncidentDetails extends React.Component {
 		}
 	}
 
+	onPrintIncidentClick(e) {
+		e.preventDefault();
+		if (!this.props.data.incident["_id"]) {
+			alert("A ficha não está gravada");
+		} else {
+			this.props.onPrintIncidentClick(this.props.data.incident["_id"]);
+		}
+	}
+
 	render() {
 		return (
 			<div style={ style.incidentDetailsContainer }>
@@ -205,9 +215,9 @@ class IncidentDetails extends React.Component {
 							</FormGroup>)
 						: null }
 					<FormGroup controlId="formHorizontal">
-						<Col componentClass={ControlLabel} sm={2}>Notas privadas</Col>
+						<Col componentClass={ControlLabel} sm={2}>Avaliação</Col>
 						<Col sm={10}>
-							<FormControl onChange={ this.onIncidentDetailsprivateNotesChange } componentClass="textarea" type="date" placeholder="Notas privadas" defaultValue={ this.props.data.incident.privateNotes } />
+							<FormControl onChange={ this.onIncidentDetailsprivateNotesChange } componentClass="textarea" type="date" placeholder="Avaliação" defaultValue={ this.props.data.incident.privateNotes } />
 						</Col>
 					</FormGroup>
 					<FormGroup controlId="formHorizontal">
@@ -228,6 +238,14 @@ class IncidentDetails extends React.Component {
 						style={ style.incidentSaveButton }
 						onClick={ this.onDeleteIncidentClick }>
 						Eliminar
+					</button>
+					<button
+						className="btn btn-primary"
+						title={ (this.props.data.incident.needsSaving || !this.props.data.incident.endDate) ? "A ficha não está gravada ou não está fechada." : "" }
+						style={ style.incidentSaveButton }
+						onClick={ this.onPrintIncidentClick }
+						disabled={ this.props.data.incident.needsSaving || !this.props.data.incident.endDate }>
+						Imprimir
 					</button>
 				</Form>
 			</div>

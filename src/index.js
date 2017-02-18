@@ -7,6 +7,7 @@ import UserDetails from './UserDetails';
 import Search from './Search';
 import OpenIncidents from './OpenIncidents';
 import UserAdd from './UserAdd';
+import IncidentPrint from './IncidentPrint';
 import About from './About';
 
 const userUrl = 'http://localhost:3001/api/user';
@@ -25,6 +26,7 @@ ReactDOM.render(
 			<Route path="/user/add/:name" component={ UserAdd } userUrl={ userUrl } lookupsUrl={ lookupsUrl } />
 			<Route path="/search" component={ Search } userSearchUrl={ userSearchUrl } incidentSearchUrl={ incidentSearchUrl } lookupsUrl={ lookupsUrl } />
 			<Route path="/openIncidents" component={ OpenIncidents } openIncidentsUrl={ openIncidentsUrl } />
+			<Route path="/print/:incident_id" component={ IncidentPrint } incidentSearchUrl={ incidentSearchUrl } lookupsUrl={ lookupsUrl }/>
 			<Route path="/about" component={ About } />
 		</Route>
 	</Router>,

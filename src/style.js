@@ -5,6 +5,13 @@ const style = {
 		display: 'block',
 		margin: '0 auto'
 	},
+	printLogo: {
+		width: '40%',
+		height: '40%',
+		display: 'block',
+		marginTop: '50px',
+		marginBottom: '50px',
+	},
 	userDetailsContainer: {
 		margin: '10px',
 	},
