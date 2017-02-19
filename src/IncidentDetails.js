@@ -144,9 +144,9 @@ class IncidentDetails extends React.Component {
 	}
 
 	onDeleteIncidentClick(e) {
+		e.preventDefault();
 		var r = confirm("Tem a certeza que pretende eliminar?");
 		if (r === true) {
-			e.preventDefault();
 			this.props.onDeleteIncidentClick(this.props.data.incident);
 		}
 	}

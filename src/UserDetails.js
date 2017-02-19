@@ -28,6 +28,7 @@ class UserDetails extends React.Component {
 		this.onAddNewIncidentClick = this.onAddNewIncidentClick.bind(this);
 		this.onIncidentDetailsFieldChange = this.onIncidentDetailsFieldChange.bind(this);
 		this.onDeleteIncidentClick = this.onDeleteIncidentClick.bind(this);
+		this.onUserDetailsClick = this.onUserDetailsClick.bind(this);
 	}
 
 	componentWillMount() {
@@ -155,23 +156,44 @@ class UserDetails extends React.Component {
 		browserHistory.push('/print/' + incidentId);
 	}
 
+	onUserDetailsClick(e) {
+		e.preventDefault();
+		var allIncidentsAreSaved = true;
+		for (var incident of this.state.incidents) {
+			if (incident.needsSaving) {
+				allIncidentsAreSaved = false;
+			}
+		}
+
+		if (!allIncidentsAreSaved) {
+			var r = confirm("Existem fichas não gravadas. Tem a certeza que pretende continuar?");
+			if (r === true) {
+				browserHistory.push('/user/edit/' + this.state.user['_id']);
+			}
+		} else {
+			browserHistory.push('/user/edit/' + this.state.user['_id']);
+		}
+	}
+
 	render() {
 		if (this.state.user) {
 			return (
 				<div style={ style.userDetailsContainer }>
-					<h2 style={ style.usernameInUserDetails }>{ this.state.user.name }</h2>
-					<dl className="dl-horizontal">
-						<dt>Telefone</dt>
-						<dd>{ this.state.user.telephone }</dd>
-						<dt>Contribuinte</dt>
-						<dd>{ this.state.user.taxNumber }</dd>
-						<dt>Sexo</dt>
-						<dd>{ this.state.user.genre }</dd>
-						<dt>Morada</dt>
-						<dd>{ this.state.user.postalAddress }</dd>
-						<dt>Profissão</dt>
-						<dd>{ this.state.user.job }</dd>
-					</dl>
+					<div className="userDetailsHeader" onClick={ this.onUserDetailsClick }>
+						<h2 style={ style.usernameInUserDetails }>{ this.state.user.name }</h2>
+						<dl className="dl-horizontal">
+							<dt>Telefone</dt>
+							<dd>{ this.state.user.telephone }</dd>
+							<dt>Contribuinte</dt>
+							<dd>{ this.state.user.taxNumber }</dd>
+							<dt>Sexo</dt>
+							<dd>{ this.state.user.genre }</dd>
+							<dt>Morada</dt>
+							<dd>{ this.state.user.postalAddress }</dd>
+							<dt>Profissão</dt>
+							<dd>{ this.state.user.job }</dd>
+						</dl>
+					</div>
 
 					<IncidentList data={{incidents: this.state.incidents, lookups: this.state.lookups }} tabActiveKey={ this.state.tabActiveKey } onSelectTab={ this.onSelectTab } onIncidentSave={ this.onIncidentSave } onIncidentDetailsFieldChange={ this.onIncidentDetailsFieldChange } onAddNewIncidentClick={ this.onAddNewIncidentClick } onDeleteIncidentClick={ this.onDeleteIncidentClick } onPrintIncidentClick={ this.onPrintIncidentClick } />
 				</div>

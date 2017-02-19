@@ -76,7 +76,7 @@ router.route('/user').get(function(req, res) {
 });
 
 router.route('/user/searchId/:userId').get(function(req, res) {
-	winston.info('Get request to /user/:userId');
+	winston.info('Get request to /user/searchId/:userId');
 	winston.debug(req.params, req.body);
 	User.findById(req.params.userId, function(err, results) {
 		if (err) {
@@ -95,7 +95,7 @@ router.route('/user/search').get(function(req, res) {
 	var search = JSON.parse(req.query["userSearch"]);
 
 	var opts = {};
-	for (let property of Object.keys(search)){
+	for (let property of Object.keys(search)) {
 		if (!search.hasOwnProperty(property)) { continue; }
 
 		if (search[property]) {

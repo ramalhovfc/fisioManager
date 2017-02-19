@@ -1,3 +1,8 @@
 a.active{
     color: #244DB9 !important;
 }
+div.userDetailsHeader:hover{
+    color:#fff;
+    background-color:#337ab7;
+    max-width: 700px;
+}
