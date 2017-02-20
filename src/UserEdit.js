@@ -35,22 +35,26 @@ class UserEdit extends React.Component {
 			.then(axios.spread((lookups, userDetails) => {
 				this.setState({
 					lookups: lookups.data,
-					user: userDetails.data.user,
+					user: userDetails.data,
 					error: ''
 				});
 			}));
 	}
 
-	getUserDetails(userId, incidentId) {
-		return axios.get(`${this.props.route.userUrl}/${userId}`);
+	getUserDetails(userId) {
+		var userSearch = {
+			_id: userId
+		};
+		return axios.get(`${this.props.route.userSearchUrl}`, {params: {userSearch}});
 	}
 
 	getLookups(lookupsToGet) {
-		axios.get(`${this.props.route.lookupsUrl}`, {params: {lookupsToGet}});
+		return axios.get(`${this.props.route.lookupsUrl}`, {params: {lookupsToGet}});
 	}
 
 	onUserSave(user) {
-		axios.put(`${this.props.route.userUrl}`, user)
+		console.log(user);
+		axios.put(`${this.props.route.userUrl}/${user["_id"]}`, user)
 			.catch((error) => {
 				this.setState({
 					error: (error.response && error.response.data) || 'Ocorreu um erro'
@@ -70,6 +74,7 @@ class UserEdit extends React.Component {
 	onUserFieldChange(userProperty, value) {
 		var user = Object.assign({}, this.state.user);
 		user[userProperty] = value;
+		user.needsSaving = true;
 		this.setState({
 			user: user
 		});

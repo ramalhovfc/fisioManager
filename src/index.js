@@ -25,7 +25,7 @@ ReactDOM.render(
 			<Route path="/" component={UserBrowser} userSearchUrl={ userSearchUrl } />
 			<Route path="/user/:user_id" component={ UserDetails } userAndIncidentsFindUrl={ userAndIncidentsFindUrl } incidentUrl={ incidentUrl } lookupsUrl={ lookupsUrl } />
 			<Route path="/user/add/:name" component={ UserAdd } userUrl={ userUrl } lookupsUrl={ lookupsUrl } />
-			<Route path="/user/edit/:user_id" component={ UserEdit } userUrl={ userUrl } lookupsUrl={ lookupsUrl } />
+			<Route path="/user/edit/:user_id" component={ UserEdit } userUrl={ userUrl } userSearchUrl={ userSearchUrl } lookupsUrl={ lookupsUrl } />
 
 			<Route path="/search" component={ Search } userSearchUrl={ userSearchUrl } incidentSearchUrl={ incidentSearchUrl } lookupsUrl={ lookupsUrl } />
 			<Route path="/openIncidents" component={ OpenIncidents } openIncidentsUrl={ openIncidentsUrl } />

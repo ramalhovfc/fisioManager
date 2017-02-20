@@ -66,7 +66,13 @@ class UserAddForm extends React.Component {
 	}
 
 	onUserJobChange(e) {
-		this.props.onUserFieldChange(JOB, e[0].customOption ? e[0].job : e[0]);
+		let value;
+		if (e && e.length) {
+			value = e[0].customOption ? e[0].job : e[0];
+		} else {
+			value = undefined;
+		}
+		this.props.onUserFieldChange(JOB, value);
 	}
 
 	onIncidentDetailsInsuranceChange(e) {
@@ -177,6 +183,7 @@ class UserAddForm extends React.Component {
 
 	render() {
 		if (this.props.data && this.props.data.user) {
+			console.log('this.props.data.user.job',this.props.data.user.job);
 			return (
 				<div style={ style.incidentDetailsContainer }>
 					<h3>Utente</h3>
@@ -227,7 +234,7 @@ class UserAddForm extends React.Component {
 								<Typeahead onChange={ this.onUserJobChange }
 								           options={ this.props.data.lookups.job || [] } labelKey={'job'}
 								           placeholder="Profissão" allowNew={ true }
-								           defaultValue={ this.props.data.user.job } newSelectionPrefix={'Novo: '}
+								           defaultSelected={[ this.props.data.user.job ]} newSelectionPrefix={'Novo: '}
 								           paginationText={'Mostrar mais...'} emptyLabel={'Sem resultados'}/>
 							</Col>
 						</FormGroup>

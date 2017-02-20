@@ -94,43 +94,56 @@ router.route('/user/search').get(function(req, res) {
 	winston.debug('req.query', req.query);
 	var search = JSON.parse(req.query["userSearch"]);
 
-	var opts = {};
-	for (let property of Object.keys(search)) {
-		if (!search.hasOwnProperty(property)) { continue; }
-
-		if (search[property]) {
-			if (!isAlphabeticOrSpace(search[property])) {
-				res.send([]);
+	if ('_id' in search) {
+		User.findById(search['_id'], function(err, results) {
+			if (err) {
+				res.send(err);
 				return;
 			}
 
-			if (property === 'name') {
-				opts['name'] = new RegExp(search['name'], 'i');
-			} else if (property === 'postalAddress') {
-				opts['postalAddress'] = new RegExp(search['postalAddress'], 'i');
-			} else if (property === 'job') {
-				opts['job'] = new RegExp(search['job'], 'i');
-			} else {
-				opts[property] = search[property];
+			res.json(results);
+		});
+	} else {
+		var opts = {};
+		for (let property of Object.keys(search)) {
+			if (!search.hasOwnProperty(property)) {
+				continue;
+			}
+
+			if (search[property]) {
+				if (!isAlphabeticOrSpace(search[property])) {
+					res.send([]);
+					return;
+				}
+
+				if (property === 'name') {
+					opts['name'] = new RegExp(search['name'], 'i');
+				} else if (property === 'postalAddress') {
+					opts['postalAddress'] = new RegExp(search['postalAddress'], 'i');
+				} else if (property === 'job') {
+					opts['job'] = new RegExp(search['job'], 'i');
+				} else {
+					opts[property] = search[property];
+				}
 			}
 		}
+
+		winston.debug('opts["name"]', opts["name"]);
+		winston.debug('opts["telephone"]', opts["telephone"]);
+		winston.debug('opts["taxNumber"]', opts["taxNumber"]);
+		winston.debug('opts["genre"]', opts["genre"]);
+		winston.debug('opts["postalAddress"]', opts["postalAddress"]);
+		winston.debug('opts["job"]', opts["job"]);
+
+		User.find(opts, function (err, results) {
+			if (err) {
+				res.send(err);
+				return;
+			}
+
+			res.json(results);
+		})
 	}
-
-	winston.debug('opts["name"]', opts["name"]);
-	winston.debug('opts["telephone"]', opts["telephone"]);
-	winston.debug('opts["taxNumber"]', opts["taxNumber"]);
-	winston.debug('opts["genre"]', opts["genre"]);
-	winston.debug('opts["postalAddress"]', opts["postalAddress"]);
-	winston.debug('opts["job"]', opts["job"]);
-
-	User.find(opts, function (err, results) {
-		if (err) {
-			res.send(err);
-			return;
-		}
-
-		res.json(results);
-	})
 });
 
 
@@ -245,13 +258,13 @@ router.route('/user/:userId').put(function(req, res) {
 		user.postalAddress = (req.body.postalAddress) ? req.body.postalAddress : null;
 		user.job = (req.body.job) ? req.body.job : null;
 
-		user.save(function(err) {
+		user.save(function(err, userSaved) {
 			if (err) {
 				res.send(err);
 				return;
 			}
 
-			res.json({ message: 'User has been updated' });
+			res.json(userSaved);
 		});
 	});
 });
