@@ -76,7 +76,13 @@ class UserAddForm extends React.Component {
 	}
 
 	onIncidentDetailsInsuranceChange(e) {
-		this.props.onIncidentFieldChange(INSURANCE, e[0].customOption ? e[0].insurance : e[0]);
+		let value;
+		if (e && e.length) {
+			value = e[0].customOption ? e[0].insurance : e[0];
+		} else {
+			value = undefined;
+		}
+		this.props.onIncidentFieldChange(INSURANCE, value);
 	}
 
 	onIncidentDetailsInsurancePolicyChange(e) {
@@ -84,15 +90,33 @@ class UserAddForm extends React.Component {
 	}
 
 	onIncidentDetailsPathologyChange(e) {
-		this.props.onIncidentFieldChange(PATHOLOGY, e[0].customOption ? e[0].pathology : e[0]);
+		let value;
+		if (e && e.length) {
+			value = e[0].customOption ? e[0].pathology : e[0];
+		} else {
+			value = undefined;
+		}
+		this.props.onIncidentFieldChange(PATHOLOGY, value);
 	}
 
 	onIncidentDetailsPhysiotherapistChange(e) {
-		this.props.onIncidentFieldChange(PHYSIOTHERAPIST, e[0].customOption ? e[0].physiotherapist : e[0]);
+		let value;
+		if (e && e.length) {
+			value = e[0].customOption ? e[0].physiotherapist : e[0];
+		} else {
+			value = undefined;
+		}
+		this.props.onIncidentFieldChange(PHYSIOTHERAPIST, value);
 	}
 
 	onIncidentDetailsDoctorChange(e) {
-		this.props.onIncidentFieldChange(DOCTOR, e[0].customOption ? e[0].doctor : e[0]);
+		let value;
+		if (e && e.length) {
+			value = e[0].customOption ? e[0].doctor : e[0];
+		} else {
+			value = undefined;
+		}
+		this.props.onIncidentFieldChange(DOCTOR, value);
 	}
 
 	onIncidentDetailsStartDateChange(e) {

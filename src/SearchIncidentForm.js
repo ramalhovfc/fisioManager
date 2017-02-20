@@ -1,5 +1,6 @@
 import React from 'react';
 import {Form, FormGroup, FormControl, Col, ControlLabel} from 'react-bootstrap';
+import {Typeahead} from 'react-bootstrap-typeahead';
 import style from './style';
 
 // TODO move theese from here
@@ -37,11 +38,28 @@ class SearchIncidentForm extends React.Component {
 
 	handleSubmit(e) {
 		e.preventDefault();
-		let insurance = (this.state.incidentSearch.insurance) ? this.state.incidentSearch.insurance.trim() : undefined;
+
+		let insurance;
+		if (this.state.incidentSearch.insurance) {
+			insurance = this.state.incidentSearch.insurance.insurance || this.state.incidentSearch.insurance;
+			insurance = (insurance) ? insurance.trim() : undefined;
+		}
 		let insurancePolicy = (this.state.incidentSearch.insurancePolicy) ? this.state.incidentSearch.insurancePolicy.trim() : undefined;
-		let pathology = (this.state.incidentSearch.pathology) ? this.state.incidentSearch.pathology.trim() : undefined;
-		let physiotherapist = (this.state.incidentSearch.physiotherapist) ? this.state.incidentSearch.physiotherapist.trim() : undefined;
-		let doctor = (this.state.incidentSearch.doctor) ? this.state.incidentSearch.doctor.trim() : undefined;
+		let pathology;
+		if (this.state.incidentSearch.pathology) {
+			pathology = this.state.incidentSearch.pathology.pathology || this.state.incidentSearch.pathology;
+			pathology = (pathology) ? pathology.trim() : undefined;
+		}
+		let physiotherapist;
+		if (this.state.incidentSearch.physiotherapist) {
+			physiotherapist = this.state.incidentSearch.physiotherapist.physiotherapist || this.state.incidentSearch.physiotherapist;
+			physiotherapist = (physiotherapist) ? physiotherapist.trim() : undefined;
+		}
+		let doctor;
+		if (this.state.incidentSearch.doctor) {
+			doctor = this.state.incidentSearch.doctor.doctor || this.state.incidentSearch.doctor;
+			doctor = (doctor) ? doctor.trim() : undefined;
+		}
 		let startDateBegin = (this.state.incidentSearch.startDateBegin) ? this.state.incidentSearch.startDateBegin.trim() : undefined;
 		let startDateEnd = (this.state.incidentSearch.startDateEnd) ? this.state.incidentSearch.startDateEnd.trim() : undefined;
 		let endDateBegin = (this.state.incidentSearch.endDateBegin) ? this.state.incidentSearch.endDateBegin.trim() : undefined;
@@ -63,7 +81,13 @@ class SearchIncidentForm extends React.Component {
 	}
 
 	onIncidentDetailsInsuranceChange(e) {
-		this.onIncidentDetailsFieldChange(INSURANCE, e.target.value);
+		let value;
+		if (e && e.length) {
+			value = e[0].customOption ? e[0].insurance : e[0];
+		} else {
+			value = undefined;
+		}
+		this.onIncidentDetailsFieldChange(INSURANCE, value);
 	}
 
 	onIncidentDetailsInsurancePolicyChange(e) {
@@ -71,15 +95,33 @@ class SearchIncidentForm extends React.Component {
 	}
 
 	onIncidentDetailsPathologyChange(e) {
-		this.onIncidentDetailsFieldChange(PATHOLOGY, e.target.value);
+		let value;
+		if (e && e.length) {
+			value = e[0].customOption ? e[0].pathology : e[0];
+		} else {
+			value = undefined;
+		}
+		this.onIncidentDetailsFieldChange(PATHOLOGY, value);
 	}
 
 	onIncidentDetailsPhysiotherapistChange(e) {
-		this.onIncidentDetailsFieldChange(PHYSIOTHERAPIST, e.target.value);
+		let value;
+		if (e && e.length) {
+			value = e[0].customOption ? e[0].physiotherapist : e[0];
+		} else {
+			value = undefined;
+		}
+		this.onIncidentDetailsFieldChange(PHYSIOTHERAPIST, value);
 	}
 
 	onIncidentDetailsDoctorChange(e) {
-		this.onIncidentDetailsFieldChange(DOCTOR, e.target.value);
+		let value;
+		if (e && e.length) {
+			value = e[0].customOption ? e[0].doctor : e[0];
+		} else {
+			value = undefined;
+		}
+		this.onIncidentDetailsFieldChange(DOCTOR, value);
 	}
 
 	onIncidentDetailsStartDateBeginChange(e) {
@@ -118,7 +160,7 @@ class SearchIncidentForm extends React.Component {
 					<FormGroup controlId="formHorizontal">
 						<Col componentClass={ControlLabel} sm={2}>Seguro</Col>
 						<Col sm={10}>
-							<FormControl onChange={ this.onIncidentDetailsInsuranceChange } type="text" placeholder="Seguro" />
+							<Typeahead onChange={ this.onIncidentDetailsInsuranceChange } options={ this.props.data.lookups.insurance || [] } labelKey={'insurance'} placeholder="Seguro" paginationText={'Mostrar mais...'} emptyLabel={'Sem resultados'} allowNew={ true } newSelectionPrefix={''} />
 						</Col>
 					</FormGroup>
 					<FormGroup controlId="formHorizontal">
@@ -130,19 +172,19 @@ class SearchIncidentForm extends React.Component {
 					<FormGroup controlId="formHorizontal">
 						<Col componentClass={ControlLabel} sm={2}>Patologia</Col>
 						<Col sm={10}>
-							<FormControl onChange={ this.onIncidentDetailsPathologyChange } type="text" placeholder="Patologia" />
+							<Typeahead onChange={ this.onIncidentDetailsPathologyChange } options={ this.props.data.lookups.pathology || [] } labelKey={'pathology'} placeholder="Patologia" paginationText={'Mostrar mais...'} emptyLabel={'Sem resultados'} allowNew={ true } newSelectionPrefix={''} />
 						</Col>
 					</FormGroup>
 					<FormGroup controlId="formHorizontal">
 						<Col componentClass={ControlLabel} sm={2}>Fisioterapeuta</Col>
 						<Col sm={10}>
-							<FormControl onChange={ this.onIncidentDetailsPhysiotherapistChange } type="text" placeholder="Fisioterapeuta" />
+							<Typeahead onChange={ this.onIncidentDetailsPhysiotherapistChange } options={ this.props.data.lookups.physiotherapist || [] } labelKey={'physiotherapist'} placeholder="Fisioterapeuta" paginationText={'Mostrar mais...'} emptyLabel={'Sem resultados'} allowNew={ true } newSelectionPrefix={''} />
 						</Col>
 					</FormGroup>
 					<FormGroup controlId="formHorizontal">
 						<Col componentClass={ControlLabel} sm={2}>Médico</Col>
 						<Col sm={10}>
-							<FormControl onChange={ this.onIncidentDetailsDoctorChange } type="text" placeholder="Médico" />
+							<Typeahead onChange={ this.onIncidentDetailsDoctorChange } options={ this.props.data.lookups.doctor || [] } labelKey={'doctor'} placeholder="Médico" paginationText={'Mostrar mais...'} emptyLabel={'Sem resultados'} allowNew={ true } newSelectionPrefix={''} />
 						</Col>
 					</FormGroup>
 					<FormGroup controlId="formHorizontal" >

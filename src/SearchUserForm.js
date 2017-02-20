@@ -14,8 +14,7 @@ class SearchUserForm extends React.Component {
 	constructor() {
 		super();
 		this.state = {
-			userSearch: {},
-			searchDisabled: true
+			userSearch: {}
 		};
 
 		this.handleSubmit = this.handleSubmit.bind(this);
@@ -73,7 +72,7 @@ class SearchUserForm extends React.Component {
 	onUserJobChange(e) {
 		let value;
 		if (e && e.length) {
-			value = e[0].customOption ? e[0].insurance : e[0];
+			value = e[0].customOption ? e[0].job : e[0];
 		} else {
 			value = undefined;
 		}
@@ -84,7 +83,6 @@ class SearchUserForm extends React.Component {
 		let userSearch = Object.assign({}, this.state.userSearch);
 		userSearch[field] = value;
 		this.setState({
-			searchDisabled: false,
 			userSearch: userSearch
 		});
 	}
@@ -130,14 +128,13 @@ class SearchUserForm extends React.Component {
 					<FormGroup controlId="formHorizontal">
 						<Col componentClass={ControlLabel} sm={2}>Profissão</Col>
 						<Col sm={10}>
-							<Typeahead onChange={ this.onUserJobChange } options={ this.props.data.lookups.job || [] } labelKey={'job'} placeholder="Profissão" allowNew={ true } newSelectionPrefix={''} paginationText={'Mostrar mais...'} emptyLabel={'Sem resultados'} />
+							<Typeahead onChange={ this.onUserJobChange } options={ this.props.data.lookups.job || [] } labelKey={'job'} placeholder="Profissão" paginationText={'Mostrar mais...'} emptyLabel={'Sem resultados'} allowNew={ true } newSelectionPrefix={''} />
 						</Col>
 					</FormGroup>
 					<button
 						type="submit"
 						className="btn btn-primary"
-						style={ style.incidentSaveButton }
-						disabled={ this.state.searchDisabled } >
+						style={ style.incidentSaveButton } >
 						Pesquisar
 					</button>
 				</Form>

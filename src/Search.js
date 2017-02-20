@@ -1,8 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 import SearchTabs from './SearchTabs';
-import IncidentSearchResults from './IncidentSearchResults';
-import UserSearchResults from './UserSearchResults';
 
 const LOOKUPS_NEEDED = {
 	'doctor': true,
@@ -63,8 +61,7 @@ class Search extends React.Component {
 		axios.get(`${this.props.route.incidentSearchUrl}`, {params: {incidentSearch}})
 			.then(res => {
 				this.setState({
-					incidents: res.data,
-					users: []
+					incidents: res.data
 				});
 			});
 	}
@@ -87,8 +84,7 @@ class Search extends React.Component {
 		axios.get(`${this.props.route.userSearchUrl}`, {params: {userSearch}})
 			.then(res => {
 				this.setState({
-					users: res.data,
-					incidents: []
+					users: res.data
 				});
 			});
 	}
@@ -97,9 +93,7 @@ class Search extends React.Component {
 		return (
 			<div>
 				<h4>Procurar</h4>
-				<SearchTabs data={{ lookups: this.state.lookups || [] }} onUserSearch={ this.onUserSearch } onIncidentSearch={ this.onIncidentSearch } />
-				<IncidentSearchResults data={ this.state.incidents } />
-				<UserSearchResults data={ this.state.users } />
+				<SearchTabs data={{ lookups: this.state.lookups || [], users: this.state.users, incidents: this.state.incidents}} onUserSearch={ this.onUserSearch } onIncidentSearch={ this.onIncidentSearch } />
 			</div>
 		);
 	}
