@@ -183,11 +183,10 @@ class UserAddForm extends React.Component {
 
 	render() {
 		if (this.props.data && this.props.data.user) {
-			console.log('this.props.data.user.job',this.props.data.user.job);
 			return (
 				<div style={ style.incidentDetailsContainer }>
 					<h3>Utente</h3>
-					<Form horizontal onSubmit={ this.onFormSubmit }>
+					<Form horizontal onSubmit={ this.onFormSubmit } autoComplete="false">
 						<FormGroup controlId="formHorizontal">
 							<Col componentClass={ControlLabel} sm={2}>Nome</Col>
 							<Col sm={10}>

@@ -53,7 +53,6 @@ class UserEdit extends React.Component {
 	}
 
 	onUserSave(user) {
-		console.log(user);
 		axios.put(`${this.props.route.userUrl}/${user["_id"]}`, user)
 			.catch((error) => {
 				this.setState({

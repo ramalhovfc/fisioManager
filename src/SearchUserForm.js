@@ -92,7 +92,7 @@ class SearchUserForm extends React.Component {
 	render() {
 		return (
 			<div style={ style.incidentDetailsContainer }>
-				<Form horizontal onSubmit={ this.handleSubmit }>
+				<Form horizontal onSubmit={ this.handleSubmit } autoComplete="false">
 					<FormGroup controlId="formHorizontal">
 						<Col componentClass={ControlLabel} sm={2}>Nome</Col>
 						<Col sm={10}>
