@@ -36,7 +36,6 @@ class Search extends React.Component {
 				return Promise.reject();
 			})
 			.then(res => {
-				console.log(res.data);
 				this.setState({
 					lookups: res.data
 				});
