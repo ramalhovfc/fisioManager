@@ -210,19 +210,18 @@ class UserAddForm extends React.Component {
 			return (
 				<div style={ style.incidentDetailsContainer }>
 					<h3>Utente</h3>
-					<Form horizontal onSubmit={ this.onFormSubmit } autoComplete="false">
+					<Form horizontal onSubmit={ this.onFormSubmit } >
 						<FormGroup controlId="formHorizontal">
 							<Col componentClass={ControlLabel} sm={2}>Nome</Col>
 							<Col sm={10}>
-								<FormControl onChange={ this.onUserNameChange } type="text" placeholder="Nome"
-								             defaultValue={ this.props.data.user.name }/>
+								<FormControl onChange={ this.onUserNameChange } type="text" placeholder="Nome" defaultValue={ this.props.data.user.name } autoComplete="false" />
 							</Col>
 						</FormGroup>
 						<FormGroup controlId="formHorizontal">
 							<Col componentClass={ControlLabel} sm={2}>Telefone</Col>
 							<Col sm={10}>
 								<FormControl onChange={ this.onUserTelephoneChange } type="number"
-								             placeholder="Telefone" defaultValue={ this.props.data.user.telephone }/>
+								             placeholder="Telefone" defaultValue={ this.props.data.user.telephone } autoComplete="false" />
 							</Col>
 						</FormGroup>
 						<FormGroup controlId="formHorizontal">
@@ -230,7 +229,7 @@ class UserAddForm extends React.Component {
 							<Col sm={10}>
 								<FormControl onChange={ this.onUserTaxNumberChange } type="number"
 								             placeholder="Contribuinte"
-								             defaultValue={ this.props.data.user.taxNumber }/>
+								             defaultValue={ this.props.data.user.taxNumber } autoComplete="false"/>
 							</Col>
 						</FormGroup>
 						<FormGroup controlId="formControlsSelect">
@@ -248,7 +247,7 @@ class UserAddForm extends React.Component {
 							<Col componentClass={ControlLabel} sm={2}>Morada</Col>
 							<Col sm={10}>
 								<FormControl onChange={ this.onUserPostalAddressChange } type="text"
-								             placeholder="Morada" defaultValue={ this.props.data.user.postalAddress }/>
+								             placeholder="Morada" defaultValue={ this.props.data.user.postalAddress } autoComplete="false"/>
 							</Col>
 						</FormGroup>
 						<FormGroup controlId="formHorizontal">
@@ -281,7 +280,7 @@ class UserAddForm extends React.Component {
 									<Col sm={10}>
 										<FormControl onChange={ this.onIncidentDetailsInsurancePolicyChange }
 										             type="text" placeholder="Apólice"
-										             defaultValue={ this.props.data.user.insurancePolicy }/>
+										             defaultValue={ this.props.data.user.insurancePolicy } autoComplete="false"/>
 									</Col>
 								</FormGroup>
 								<FormGroup controlId="formHorizontal">
@@ -336,9 +335,7 @@ class UserAddForm extends React.Component {
 									? (<FormGroup controlId="formHorizontal">
 									<Col componentClass={ControlLabel} sm={2}>Número de sessões</Col>
 									<Col sm={10}>
-										<FormControl onChange={ this.onIncidentDetailsNumberOfSessionsChange }
-										             type="number" placeholder="Número de sessões"
-										             defaultValue={ this.props.data.user.numberOfSessions }/>
+										<FormControl onChange={ this.onIncidentDetailsNumberOfSessionsChange } type="number" placeholder="Número de sessões" defaultValue={ this.props.data.user.numberOfSessions } autoComplete="false"/>
 									</Col>
 								</FormGroup>)
 									: null }

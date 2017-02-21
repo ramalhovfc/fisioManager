@@ -36,13 +36,14 @@ class UserSearchForm extends React.Component {
 
 	render() {
 		return (
-			<form style={ style.commentForm } onSubmit={ this.onEnter } autoComplete="false">
+			<form style={ style.commentForm } onSubmit={ this.onEnter } >
 				<input
 					type="text"
 					placeholder="Introduzir nome (mínimo 3 caracteres)"
 					style={ style.commentFormText}
 					value={ this.state.text }
-					onChange={ this.onInputChange } />
+					onChange={ this.onInputChange }
+					autoComplete="false" />
 				{ (this.state.name.length >= MIN_QUERY_LENGTH)
 					? (<button
 						type="button"

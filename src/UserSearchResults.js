@@ -18,7 +18,9 @@ class UserSearchResults extends React.Component {
 			);
 		} else {
 			return (
-				null
+				<div>
+					Sem resultados
+				</div>
 			);
 		}
 	}

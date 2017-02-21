@@ -111,17 +111,14 @@ router.route('/user/search').get(function(req, res) {
 			}
 
 			if (search[property]) {
-				if (!isAlphabeticOrSpace(search[property])) {
-					res.send([]);
-					return;
-				}
-
 				if (property === 'name') {
+					if (!isAlphabeticOrSpace(search[property])) {
+						res.send([]);
+						return;
+					}
 					opts['name'] = new RegExp(search['name'], 'i');
 				} else if (property === 'postalAddress') {
 					opts['postalAddress'] = new RegExp(search['postalAddress'], 'i');
-				} else if (property === 'job') {
-					opts['job'] = new RegExp(search['job'], 'i');
 				} else {
 					opts[property] = search[property];
 				}
@@ -314,11 +311,6 @@ router.route('/incident/search').get(function(req, res) {
 			}
 
 			if (search[property]) {
-				if (!isAlphabeticOrSpace(search[property])) {
-					res.send([]);
-					return;
-				}
-
 				// TODO go get this from model
 				if (property === '_user' || property === 'id') {
 					// do not search by regex if we are searching by an ObjectId

@@ -19,8 +19,7 @@ class SearchIncidentForm extends React.Component {
 	constructor() {
 		super();
 		this.state = {
-			incidentSearch: {},
-			searchDisabled: true
+			incidentSearch: {}
 		};
 
 		this.handleSubmit = this.handleSubmit.bind(this);
@@ -148,7 +147,6 @@ class SearchIncidentForm extends React.Component {
 		let incidentSearch = Object.assign({}, this.state.incidentSearch);
 		incidentSearch[field] = value;
 		this.setState({
-			searchDisabled: false,
 			incidentSearch: incidentSearch
 		});
 	}
@@ -156,7 +154,7 @@ class SearchIncidentForm extends React.Component {
 	render() {
 		return (
 			<div style={ style.incidentDetailsContainer }>
-				<Form horizontal onSubmit={ this.handleSubmit } autoComplete="false">
+				<Form horizontal onSubmit={ this.handleSubmit } >
 					<FormGroup controlId="formHorizontal">
 						<Col componentClass={ControlLabel} sm={2}>Seguro</Col>
 						<Col sm={10}>
@@ -166,7 +164,7 @@ class SearchIncidentForm extends React.Component {
 					<FormGroup controlId="formHorizontal">
 						<Col componentClass={ControlLabel} sm={2}>Apólice</Col>
 						<Col sm={10}>
-							<FormControl onChange={ this.onIncidentDetailsInsurancePolicyChange } type="text" placeholder="Apólice" />
+							<FormControl onChange={ this.onIncidentDetailsInsurancePolicyChange } type="text" placeholder="Apólice" autoComplete="false" />
 						</Col>
 					</FormGroup>
 					<FormGroup controlId="formHorizontal">
@@ -216,14 +214,13 @@ class SearchIncidentForm extends React.Component {
 					<FormGroup controlId="formHorizontal">
 						<Col componentClass={ControlLabel} sm={2}>Número de sessões</Col>
 						<Col sm={10}>
-							<FormControl onChange={ this.onIncidentDetailsNumberOfSessionsChange } type="number" placeholder="Número de sessões" />
+							<FormControl onChange={ this.onIncidentDetailsNumberOfSessionsChange } type="number" placeholder="Número de sessões" autoComplete="false" />
 						</Col>
 					</FormGroup>
 					<button
 						type="submit"
 						className="btn btn-primary"
-						style={ style.incidentSaveButton }
-						disabled={ this.state.searchDisabled } >
+						style={ style.incidentSaveButton } >
 						Pesquisar
 					</button>
 				</Form>

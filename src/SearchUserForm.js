@@ -90,23 +90,23 @@ class SearchUserForm extends React.Component {
 	render() {
 		return (
 			<div style={ style.incidentDetailsContainer }>
-				<Form horizontal onSubmit={ this.handleSubmit } autoComplete="false">
+				<Form horizontal onSubmit={ this.handleSubmit } >
 					<FormGroup controlId="formHorizontal">
 						<Col componentClass={ControlLabel} sm={2}>Nome</Col>
 						<Col sm={10}>
-							<FormControl onChange={ this.onUserNameChange } type="text" placeholder="Nome" />
+							<FormControl onChange={ this.onUserNameChange } type="text" placeholder="Nome" autoComplete="false" />
 						</Col>
 					</FormGroup>
 					<FormGroup controlId="formHorizontal">
 						<Col componentClass={ControlLabel} sm={2}>Telefone</Col>
 						<Col sm={10}>
-							<FormControl onChange={ this.onUserTelephoneChange } type="number" placeholder="Telefone" />
+							<FormControl onChange={ this.onUserTelephoneChange } type="number" placeholder="Telefone" autoComplete="false" />
 						</Col>
 					</FormGroup>
 					<FormGroup controlId="formHorizontal">
 						<Col componentClass={ControlLabel} sm={2}>Contribuinte</Col>
 						<Col sm={10}>
-							<FormControl onChange={ this.onUserTaxNumberChange } type="number" placeholder="Contribuinte" />
+							<FormControl onChange={ this.onUserTaxNumberChange } type="number" placeholder="Contribuinte" autoComplete="false" />
 						</Col>
 					</FormGroup>
 					<FormGroup controlId="formControlsSelect">
@@ -122,7 +122,7 @@ class SearchUserForm extends React.Component {
 					<FormGroup controlId="formHorizontal">
 						<Col componentClass={ControlLabel} sm={2}>Morada</Col>
 						<Col sm={10}>
-							<FormControl onChange={ this.onUserPostalAddressChange } type="text" placeholder="Morada" />
+							<FormControl onChange={ this.onUserPostalAddressChange } type="text" placeholder="Morada" autoComplete="false" />
 						</Col>
 					</FormGroup>
 					<FormGroup controlId="formHorizontal">

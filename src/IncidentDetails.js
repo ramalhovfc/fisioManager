@@ -163,7 +163,7 @@ class IncidentDetails extends React.Component {
 	render() {
 		return (
 			<div style={ style.incidentDetailsContainer }>
-				<Form horizontal onSubmit={ this.handleSubmit } autoComplete="false">
+				<Form horizontal onSubmit={ this.handleSubmit } >
 					<FormGroup controlId="formHorizontal">
 						<Col componentClass={ControlLabel} sm={2}>Seguro</Col>
 						<Col sm={10}>
@@ -173,7 +173,7 @@ class IncidentDetails extends React.Component {
 					<FormGroup controlId="formHorizontal">
 						<Col componentClass={ControlLabel} sm={2}>Apólice</Col>
 						<Col sm={10}>
-							<FormControl onChange={ this.onIncidentDetailsInsurancePolicyChange } type="text" placeholder="Apólice" defaultValue={ this.props.data.incident.insurancePolicy } />
+							<FormControl onChange={ this.onIncidentDetailsInsurancePolicyChange } type="text" placeholder="Apólice" defaultValue={ this.props.data.incident.insurancePolicy } autoComplete="false" />
 						</Col>
 					</FormGroup>
 					<FormGroup controlId="formHorizontal">
@@ -210,20 +210,20 @@ class IncidentDetails extends React.Component {
 						? (<FormGroup controlId="formHorizontal">
 								<Col componentClass={ControlLabel} sm={2}>Número de sessões</Col>
 								<Col sm={10}>
-									<FormControl onChange={ this.onIncidentDetailsNumberOfSessionsChange } type="number" placeholder="Número de sessões" defaultValue={ this.props.data.incident.numberOfSessions } />
+									<FormControl onChange={ this.onIncidentDetailsNumberOfSessionsChange } type="number" placeholder="Número de sessões" defaultValue={ this.props.data.incident.numberOfSessions } autoComplete="false"/>
 								</Col>
 							</FormGroup>)
 						: null }
 					<FormGroup controlId="formHorizontal">
 						<Col componentClass={ControlLabel} sm={2}>Avaliação</Col>
 						<Col sm={10}>
-							<FormControl onChange={ this.onIncidentDetailsprivateNotesChange } componentClass="textarea" type="date" placeholder="Avaliação" defaultValue={ this.props.data.incident.privateNotes } />
+							<FormControl onChange={ this.onIncidentDetailsprivateNotesChange } componentClass="textarea" type="date" placeholder="Avaliação" defaultValue={ this.props.data.incident.privateNotes } autoComplete="false" />
 						</Col>
 					</FormGroup>
 					<FormGroup controlId="formHorizontal">
 						<Col componentClass={ControlLabel} sm={2}>Observações</Col>
 						<Col sm={10}>
-							<FormControl onChange={ this.onIncidentDetailsPublicNotesChange } componentClass="textarea" type="date" placeholder="Observações" defaultValue={ this.props.data.incident.publicNotes } />
+							<FormControl onChange={ this.onIncidentDetailsPublicNotesChange } componentClass="textarea" type="date" placeholder="Observações" defaultValue={ this.props.data.incident.publicNotes } autoComplete="false" />
 						</Col>
 					</FormGroup>
 					<button
