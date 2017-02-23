@@ -210,7 +210,7 @@ class IncidentDetails extends React.Component {
 						? (<FormGroup controlId="formHorizontal">
 								<Col componentClass={ControlLabel} sm={2}>Número de sessões</Col>
 								<Col sm={10}>
-									<FormControl onChange={ this.onIncidentDetailsNumberOfSessionsChange } type="number" placeholder="Número de sessões" defaultValue={ this.props.data.incident.numberOfSessions } autoComplete="false"/>
+									<FormControl onChange={ this.onIncidentDetailsNumberOfSessionsChange } placeholder="Número de sessões" defaultValue={ this.props.data.incident.numberOfSessions } autoComplete="false"/>
 								</Col>
 							</FormGroup>)
 						: null }
