@@ -19,6 +19,7 @@ class UserEdit extends React.Component {
 		};
 
 		this.onUserSave = this.onUserSave.bind(this);
+		this.onUserDelete = this.onUserDelete.bind(this);
 		this.onUserFieldChange = this.onUserFieldChange.bind(this);
 	}
 
@@ -79,10 +80,23 @@ class UserEdit extends React.Component {
 		});
 	}
 
+	onUserDelete(userId) {
+		axios.delete(`${this.props.route.userUrl}/${userId}`)
+			.catch((error) => {
+				this.setState({
+					error: (error.response && error.response.data) || 'Ocorreu um erro'
+				});
+				return Promise.reject();
+			})
+			.then(res => {
+				browserHistory.push('/');
+			});
+	}
+
 	render() {
 		return (
 			<div>
-				<UserAddForm data={{'user': this.state.user, 'lookups': this.state.lookups }} onUserSave={ this.onUserSave } onUserFieldChange={ this.onUserFieldChange } hideIncident={ true } />
+				<UserAddForm data={{'user': this.state.user, 'lookups': this.state.lookups }} onUserSave={ this.onUserSave } onUserFieldChange={ this.onUserFieldChange } onUserDelete={ this.onUserDelete } hideIncident={ true } canDelete={ true } />
 				<DangerError data={ this.state.error } />
 			</div>
 		);

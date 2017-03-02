@@ -26,6 +26,7 @@ class UserAddForm extends React.Component {
 	constructor() {
 		super();
 
+		this.onDeleteButtonClick = this.onDeleteButtonClick.bind(this);
 		this.onFormSubmit = this.onFormSubmit.bind(this);
 		this.onUserNameChange = this.onUserNameChange.bind(this);
 		this.onUserTelephoneChange = this.onUserTelephoneChange.bind(this);
@@ -137,6 +138,15 @@ class UserAddForm extends React.Component {
 
 	onIncidentDetailsPublicNotesChange(e) {
 		this.props.onIncidentFieldChange(PUBLICNOTES, e.target.value);
+	}
+
+	onDeleteButtonClick(e) {
+		e.preventDefault();
+
+		var r = confirm("Tem a certeza que pretende eliminar?");
+		if (r === true) {
+			this.props.onUserDelete(this.props.data.user["_id"]);
+		}
 	}
 
 	onFormSubmit(e) {
@@ -364,6 +374,14 @@ class UserAddForm extends React.Component {
 							disabled={ !this.props.data.user.needsSaving }>
 							Guardar
 						</button>
+						{ this.props.canDelete ? (
+							<button
+								onClick={ this.onDeleteButtonClick }
+								className="btn btn-primary"
+								style={ style.userSaveButton } >
+								Eliminar
+							</button>
+						) : null }
 					</Form>
 				</div>
 			);
