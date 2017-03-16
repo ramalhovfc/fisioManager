@@ -30,11 +30,31 @@ var isAlphabeticOrSpace = require('./validations').isAlphabeticOrSpace;
 // db config
 const mongoUrl = 'mongodb://127.0.0.1:27017/fisio';
 winston.info('Connecting to db', mongoUrl);
-mongoose.connect(mongoUrl);
+
+var mongooseConnect = function () {
+	mongoose.connect(mongoUrl);
+};
+
+var mongooseConnectedBefore = false;
+mongoose.connection.on('connected', function() {
+	mongooseConnectedBefore = true;
+	winston.info("Mongoose connected");
+});
 
 mongoose.connection.on('error', function (err) {
 	winston.error('Could connect to db', err);
 });
+
+mongoose.connection.on('disconnected', function () {
+	winston.info('Mongoose disconnected');
+	// Fix reconnection if failed on first try, check:
+	// http://stackoverflow.com/questions/16226472/mongoose-autoreconnect-option
+	if (!mongooseConnectedBefore) {
+		setTimeout(mongooseConnect, 5000);
+	}
+});
+
+mongooseConnect();
 
 var app = express();
 var router = express.Router();

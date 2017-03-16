@@ -14,6 +14,8 @@ const style = {
 	},
 	userDetailsContainer: {
 		margin: '10px',
+		maxWidth: '600px',
+		fontSize: 16,
 	},
 	incidentListContainer: {
 		marginTop: '40px',
