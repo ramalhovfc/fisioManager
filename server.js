@@ -79,7 +79,7 @@ app.use(function(req, res, next) {
 router.get('/', function(req, res) {
 	winston.info('Get request to /');
 	winston.debug(req.params, req.body);
-	res.json({ message: 'API Initialized!'});
+	res.json({ message: 'API Initialized!', connected: mongoose.connection.readyState === 1 });
 });
 
 router.route('/user').get(function(req, res) {

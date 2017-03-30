@@ -17,6 +17,11 @@ const style = {
 		maxWidth: '600px',
 		fontSize: 16,
 	},
+	userDetailsPrintContainer: {
+		margin: '10px',
+		maxWidth: '600px',
+		fontSize: 20,
+	},
 	incidentListContainer: {
 		marginTop: '40px',
 	},

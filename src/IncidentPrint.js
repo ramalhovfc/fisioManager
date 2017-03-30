@@ -49,7 +49,7 @@ class IncidentPrint extends React.Component {
 			return (
 				<div>
 					<img src="fisioeste-logo.jpg" alt="Fisioeste" style={ style.printLogo } />
-					<div style={ style.userDetailsContainer }>
+					<div style={ style.userDetailsPrintContainer }>
 						<h2 style={ style.usernameInUserDetails }>{ this.state.incident['_user'].name }</h2>
 						<dl className="dl-horizontal">
 							<dt>Telefone</dt>

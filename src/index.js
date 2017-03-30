@@ -11,6 +11,7 @@ import IncidentPrint from './IncidentPrint';
 import UserEdit from './UserEdit';
 import About from './About';
 
+const healthUrl = 'http://localhost:3001/api/';
 const userUrl = 'http://localhost:3001/api/user';
 const userSearchUrl = 'http://localhost:3001/api/user/search';
 const userAndIncidentsFindUrl = 'http://localhost:3001/api/user_incidents';
@@ -22,7 +23,7 @@ const lookupsUrl = 'http://localhost:3001/api/lookups';
 ReactDOM.render(
 	<Router history={browserHistory}>
 		<Route component={Main} >
-			<Route path="/" component={UserBrowser} userSearchUrl={ userSearchUrl } />
+			<Route path="/" component={UserBrowser} userSearchUrl={ userSearchUrl } healthUrl={ healthUrl } />
 			<Route path="/user/:user_id" component={ UserDetails } userAndIncidentsFindUrl={ userAndIncidentsFindUrl } incidentUrl={ incidentUrl } lookupsUrl={ lookupsUrl } />
 			<Route path="/user/add/:name" component={ UserAdd } userUrl={ userUrl } lookupsUrl={ lookupsUrl } />
 			<Route path="/user/edit/:user_id" component={ UserEdit } userUrl={ userUrl } userSearchUrl={ userSearchUrl } lookupsUrl={ lookupsUrl } />
