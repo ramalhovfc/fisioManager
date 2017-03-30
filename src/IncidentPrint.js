@@ -53,32 +53,32 @@ class IncidentPrint extends React.Component {
 						<h2 style={ style.usernameInUserDetails }>{ this.state.incident['_user'].name }</h2>
 						<dl className="dl-horizontal">
 							<dt>Telefone</dt>
-							<dd>{ this.state.incident['_user'].telephone }</dd>
+							<dd>{ this.state.incident['_user'].telephone ? this.state.incident['_user'].telephone : '-' }</dd>
 							<dt>Contribuinte</dt>
-							<dd>{ this.state.incident['_user'].taxNumber }</dd>
+							<dd>{ this.state.incident['_user'].taxNumber ? this.state.incident['_user'].taxNumber : '-' }</dd>
 							<dt>Sexo</dt>
-							<dd>{ this.state.incident['_user'].genre }</dd>
+							<dd>{ this.state.incident['_user'].genre ? this.state.incident['_user'].genre : '-' }</dd>
 							<dt>Morada</dt>
-							<dd>{ this.state.incident['_user'].postalAddress }</dd>
+							<dd>{ this.state.incident['_user'].postalAddress ? this.state.incident['_user'].postalAddress : '-' }</dd>
 							<dt>Profissão</dt>
-							<dd>{ this.state.incident['_user'].job }</dd>
+							<dd>{ this.state.incident['_user'].job ? this.state.incident['_user'].job : '-' }</dd>
 							<br/>
 							<dt>Seguro</dt>
-							<dd>{ this.state.incident.insurance }</dd>
+							<dd>{ this.state.incident.insurance ? this.state.incident.insurance : '-' }</dd>
 							<dt>Apólice</dt>
-							<dd>{ this.state.incident.insurancePolicy }</dd>
+							<dd>{ this.state.incident.insurancePolicy ? this.state.incident.insurancePolicy : '-' }</dd>
 							<dt>Fisioterapeuta</dt>
-							<dd>{ this.state.incident.physiotherapist }</dd>
+							<dd>{ this.state.incident.physiotherapist ? this.state.incident.physiotherapist : '-' }</dd>
 							<dt>Médico</dt>
-							<dd>{ this.state.incident.doctor }</dd>
+							<dd>{ this.state.incident.doctor ? this.state.incident.doctor : '-' }</dd>
 							<dt>Número sessões</dt>
-							<dd>{ this.state.incident.numberOfSessions }</dd>
+							<dd>{ this.state.incident.numberOfSessions ? this.state.incident.numberOfSessions : '-' }</dd>
 							<dt>Data início</dt>
-							<dd>{ this.state.incident.startDate }</dd>
+							<dd>{ this.state.incident.startDate ? this.state.incident.startDate : '-' }</dd>
 							<dt>Data fim</dt>
-							<dd>{ this.state.incident.endDate }</dd>
+							<dd>{ this.state.incident.endDate ? this.state.incident.endDate : '-' }</dd>
 							<dt>Observações</dt>
-							<dd>{ this.state.incident.publicNotes }</dd>
+							<dd>{ this.state.incident.publicNotes ? this.state.incident.publicNotes : '-' }</dd>
 						</dl>
 					</div>
 				</div>

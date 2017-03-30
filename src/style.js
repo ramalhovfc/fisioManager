@@ -13,9 +13,7 @@ const style = {
 		marginBottom: '50px',
 	},
 	userDetailsContainer: {
-		margin: '10px',
-		maxWidth: '600px',
-		fontSize: 16,
+		margin: '10px'
 	},
 	userDetailsPrintContainer: {
 		margin: '10px',
