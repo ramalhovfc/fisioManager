@@ -1,2 +1,1 @@
-forever stopall
-forever start server.js
+forever -a start server.js
