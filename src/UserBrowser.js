@@ -23,7 +23,7 @@ class UserBrowser extends React.Component {
 			.catch((error) => {
 				this.setState({
 					users: [],
-					userBrowseError: 'O servidor não está a ser executado. Prima Ctrl+Alt+F e volte a abrir a página.'
+					userBrowseError: 'O servidor não está a ser executado'
 				});
 				return Promise.reject();
 			})
