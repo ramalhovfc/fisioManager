@@ -137,6 +137,8 @@ router.route('/user/search').get(function(req, res) {
 						return;
 					}
 					opts['name'] = new RegExp(search['name'], 'i');
+				} else if (property === 'telephone') {
+					opts['telephone'] = new RegExp(search['telephone'], 'i');
 				} else if (property === 'postalAddress') {
 					opts['postalAddress'] = new RegExp(search['postalAddress'], 'i');
 				} else {

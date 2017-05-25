@@ -16,13 +16,19 @@ class UserSearchForm extends React.Component {
 	}
 
 	onInputChange(e) {
-		let name = e.target.value.trim();
-		this.setState({ name: name });
-		if (!name || name.length < MIN_QUERY_LENGTH) {
+		let value = e.target.value.trim();
+		this.setState({ name: value });
+		if (!value || value.length < MIN_QUERY_LENGTH) {
 			this.props.onTooBroadSearch();
 			return;
 		}
-		this.props.onUserSubmit({ 'name': name });
+
+		if (!isNaN(value)) {
+			// all numbers, do a phone number search
+			this.props.onUserSubmit({ 'telephone': value });
+		} else {
+			this.props.onUserSubmit({ 'name': value });
+		}
 	}
 
 	onEnter(e) {
@@ -39,7 +45,7 @@ class UserSearchForm extends React.Component {
 			<form style={ style.commentForm } onSubmit={ this.onEnter } >
 				<input
 					type="text"
-					placeholder="Introduzir nome (mínimo 3 caracteres)"
+					placeholder="Introduzir nome ou telefone (mínimo 3 caracteres)"
 					style={ style.commentFormText}
 					value={ this.state.text }
 					onChange={ this.onInputChange }
